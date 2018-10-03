@@ -1,6 +1,6 @@
 October 3, 2018
 
-# Our Questions:
+# Answered Questions:
 Will data need to be stored that is not numbers? I.e. pictures, PDFs
 -Only text. Char, int, double, etc(see the iCARE template)
 
