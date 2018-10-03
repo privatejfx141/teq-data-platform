@@ -2,7 +2,6 @@ October 3, 2018
 
 # Answered Questions:
 Will data need to be stored that is not numbers? I.e. pictures, PDFs
-
 -Only text. Char, int, double, etc(see the iCARE template)
 
 In what ways would you like to analyse the data? i.e. generate graphs
