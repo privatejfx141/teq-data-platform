@@ -1,5 +1,6 @@
 October 3, 2018
-#Our Questions:
+
+# Our Questions:
 Will data need to be stored that is not numbers? I.e. pictures, PDFs
 -Only text. Char, int, double, etc(see the iCARE template)
 
@@ -15,7 +16,7 @@ What other formats would you like to import data from?
 Who will be generating/importing data, staff or customers?
 - The secretaries from the organizations will input the data. The client fills a form(usually similar to iCARE) that will be inputted directly by a human to the program.
 
-#Other stuff
+# Other stuff
 - Anonymity means that each organization can see the specifics of their data but not other organizations. They can see generalized data of other organizations (ie no client identifiers, such as name and address). Only general data like age and approximate location will be stored in the system. In case of a data breach, they don't want the information that can identify a client to be leaked. This is one of the reasons why the organizations are hesitant of giving their data. Assume that the system won't know who is who.
 - Immigrants do not use the program.
 - Report formats are up to you. You can generate it however you want. An example they give was a report of the type of people that use their services. Why people come or do not come to your organization? Trends such as age, sex, etc.
@@ -24,7 +25,7 @@ Who will be generating/importing data, staff or customers?
 - Report is aggregated. It should not give an individual clients information but give a general statistic.
 - Organizations, UTSC and CCS are the only users of the system currently. UTSC should have more information than the CCS but it should still be anonymous(ie generalized data). Our system should anonymize the data before putting it into the database (they were not very specific).
 
-#Unanswered questions
+# Unanswered questions
 How are users given IDs? Are they guaranteed to be unique?
 In the event of conflicting data, is there a case where the resolution is obvious and we can automate? Or should we always defer to human intervention
 Are your staff familiar with any query languages?
