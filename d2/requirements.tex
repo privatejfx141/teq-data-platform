@@ -1,0 +1,113 @@
+\documentclass[]{scrartcl}
+
+\usepackage{enumitem}
+
+%opening
+\title{Deliverable 2: Project Requirements}
+\author{Anton Kaminsky \and Jeffrey Li \and Christian Sarran \and Kelvin Duong \and Zifan Gao}
+
+\begin{document}
+\maketitle
+\section{Personas}
+\subsection{Organization user: Marge Sampson}
+\begin{itemize}
+	\item 45 years old, female
+	\item Caucasian-Canadian
+	\item College-level education
+	\item Married, 2 kids
+	\item Counsellor at Cliffcrest Employment Services, a TEQ-supported organization that provides employment services to immigrants
+	\item Been working at the organization for around 5 years
+	\item Can type fast and is a people person
+	\item Helps immigrants find and secure jobs in their new home
+	\item Registers new clients and runs regular sessions with them
+	\item Collects client data and uploads it to the TEQ data platform for analysis
+	\item Not very good with technology, struggles with using Excel, thinks technology is too complicated these days
+	\item Has a Windows 7 desktop
+	\item Works in a cubicle in an office environment
+	\item Speaks only English
+\end{itemize}
+
+\subsection{TEQ LIP project low level user: Carlos Rojas}
+\begin{itemize}
+	\item 34 years old, male
+	\item Has a college education in management
+	\item Works as a coordinator at Immigrant Services Association of Nova Scotia
+	\item Manages day-to-day tasks at the organization
+	\item Uploads data gathered by ISANS to the TEQ data platform
+	\item Generates basic reports with pre existing queries and distributes them up the chain
+	\item Is comfortable with technology
+	\item Isn't very creative, but is very good at menial repetitive tasks
+	\item Works in a shared office, does most of his work on a PC
+	\item Knows how to use MS Office suite of products
+	\item Has a difficulty learning new software, but gets good given some time
+\end{itemize}
+
+\subsection{TEQ LIP project mid level user: Ritu Ganju}
+\begin{itemize}
+	\item 40 years old, female
+	\item Strategist at Immigrant Women’s Health Centre
+	\item Has a BBA
+	\item Works with data gathered by her organization to improve the services offered, and add more services that are in high demand
+	\item Generates reports to present her findings to upper management
+	\item Relatively comfortable with technology
+	\item Knows some advanced Excel features, has used it before for analysis purposes
+	\item Has never programmed but is good with numbers
+\end{itemize}
+
+\subsection{TEQ LIP project high level user: Parker Kim}
+\begin{itemize}
+	\item 22 years old, male
+	\item University student, Statistics and Business double major
+	\item 2nd generation Korean-Canadian, parents immigrated to Canada
+	\item Very kind person with a genuine desire to help new arrivals
+	\item Speaks English and Korean fluently, knows some French
+	\item Works part time as an analyst for the TEQ LIP project
+	\item Responsible for gaining insight from partnering agencies' data and generating reports for use by TEQ
+	\item Very good at using his knowledge of stats and CS to squeeze out as much as possible from datasets
+	\item Power user, tech-savvy 
+	\item Experience with SQL, database management
+	\item Quick thinker, good at math and stats
+\end{itemize}
+
+\subsection{UTSC project staff: Jerome K. Williams}
+\begin{itemize}
+	\item 24 years old, male
+	\item African-Canadian
+	\item Speaks only English
+	\item 4th year Management co-op student at UTSC
+	\item Doing his co-op work term at TEQ
+	\item Contributes to analysis of data from TEQ supported orgs
+	\item Maintains TEQ data platform infrastructure and sometimes makes small adaptations
+	\item Uses computers for personal use
+	\item Knows how to use Microsoft Office, Excel, Word and PowerPoint
+	\item Knows how to use current technology, but not good at coding
+	\item Open to learning new technology and programs
+	\item Uses Windows 10 laptop
+\end{itemize}
+
+\section{User Stories}
+\begin{enumerate}[label=\textbf{U\arabic*.}]
+	\item As Marge (counsellor), I want to bulk upload multiple filled Excel templates to the TEQ data platform so that they can be analysed and used to improve immigrant services.
+	
+	\item As Marge (counsellor), I want to upload different types of templates at the same time so that I can minimize the time I spend uploading data.
+	
+	\item As Marge (counsellor), I want to be notified of any errors in the data that I am uploading so that I can quickly fix them to prevent incorrect conclusions.
+	
+	\item As Carlos (coordinator), I want to see all the pre-set queries that I can use, and some helpful info about each query so that I know what it does and what I can use it for.
+	
+	\item As Carlos (coordinator), I want to generate basic reports from ISANS data using pre-set queries so that ISANS and TEQ can view trends and improve their services.
+	
+	\item As Ritu (strategist), I want to create new queries that can be saved as pre-sets so that less experienced staff can still gain insight from data and generate reports. 
+	
+	\item As Ritu, (strategist), I want to query data based on a list of customizable variables so that I can tailor my queries to the dataset.
+	
+	\item As Parker (analyst), I want direct access to the data without any abstractions so that I can do my analysis without the limitations and distractions imposed by pre-configured methods.
+	
+	\item As Parker (analyst), I want to compare the data gathered by the organizations with Census data on immigrants so that I can see trends in demographics, predict services that will be in high demand and help organizations meet unmet needs.
+	
+	\item As Parker (analyst), I want to examine the ``life cycle'' of a client in an organization so that I can track the progress of clients and better understand the reasons why some clients stop coming.
+	
+	\item As Jerome (co-op), I want to add new fields and their possible values to templates uploaded by the organisations, and make those fields available for analysis so that more data is available, improving the quality of insights.
+\end{enumerate}
+
+\end{document}
