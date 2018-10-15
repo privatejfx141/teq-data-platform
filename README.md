@@ -9,3 +9,6 @@ The file `questions.md` contains questions we asked the clients, and their answe
 
 ## Deliverable 1
 In the folder `d1` you can find the work we did for deliverable 1. You will find the report PDF along with its LaTeX source, and all photos that the team took. You will also find our team agreement PDF along with its LaTeX source.
+
+## Deliverable 2
+In the folder `d2` you can find the work we did for deliverable 2. You will find the rough drafts of our user stories and personas in the files `user-stories.md` and `personas.md`. The final draft of our user stories and personas can be found in the file `requirements.pdf` along with its LaTeX source.
