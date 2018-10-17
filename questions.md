@@ -16,6 +16,9 @@ What other formats would you like to import data from?
 Who will be generating/importing data, staff or customers?
 - The secretaries from the organizations will input the data. The client fills a form(usually similar to iCARE) that will be inputted directly by a human to the program.
 
+Are your staff familiar with any query languages?
+- No
+
 # Other stuff
 - Anonymity means that each organization can see the specifics of their data but not other organizations. They can see generalized data of other organizations (ie no client identifiers, such as name and address). Only general data like age and approximate location will be stored in the system. In case of a data breach, they don't want the information that can identify a client to be leaked. This is one of the reasons why the organizations are hesitant of giving their data. Assume that the system won't know who is who.
 - Immigrants do not use the program.
@@ -26,6 +29,15 @@ Who will be generating/importing data, staff or customers?
 - Organizations, UTSC and CCS are the only users of the system currently. UTSC should have more information than the CCS but it should still be anonymous(ie generalized data). Our system should anonymize the data before putting it into the database (they were not very specific).
 
 # Unanswered questions
-How are users given IDs? Are they guaranteed to be unique?
-In the event of conflicting data, is there a case where the resolution is obvious and we can automate? Or should we always defer to human intervention
-Are your staff familiar with any query languages?
+How are users given IDs? Are they guaranteed to be unique?  
+In the event of conflicting data, is there a case where the resolution is obvious and we can automate? Or should we always defer to human intervention  
+Do they have the ability to add new templates?
+Should the data from different templates be stored separately?
+Can the different templates have overlapping fields?
+Does each person across all organizations have only one unique ID?
+If new templates were to be created, who is to add the new templates to the database?
+Once the template exists, is it always guaranteed to be consistent?
+If new templates are being made, will each field a set of allowed values that must be defined?
+What does it mean to generate a report?
+When uploading the Excel spreadsheet, does each field have to be in the set of allowed values?
+High-level user, last bullet point, add more variables and dimensions.
