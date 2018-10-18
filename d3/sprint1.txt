@@ -16,37 +16,34 @@ Everybody can work 1 story point per day
 
 As Marge (counsellor), I want to bulk upload multiple filled Excel templates to the TEQ data platform so that they can be analysed and used to improve immigrant services.
 
-### T1 - 9
+### T1
 
-Setup the database (SQLite3).
+Design the database schema in MySQL workbench, create the EER diagram.
 
-#### T1.1
-
-Design the database schema (every table with their columns).
-
-#### T1.2
+### T2
 
 Create tables for basic client info (Unique Identifier, Address, Organization).
+Depends: T1
 
-#### T1.3
+### T3
 
 Create tables which store values that are acceptable.
+Depends: T1
 
-### T2 - 8
+### T4
 
-Read and parse the Excel files in the back-end.
+Read and parse the Excel files in the back-end. 
 
-### T3 - 9
+### T5
 
 Update the database with the parsed excel data.
 Dependency: T1 and T2
 
-### T4 - 8
+### T6
 
 Create UI for uploading the Excel files.
 
-### T5 - 7
+### T7
 
 Connect the UI to the back-end.
 Dependency: T4
-
