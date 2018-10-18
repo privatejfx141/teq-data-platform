@@ -36,17 +36,17 @@ Dependency: T2
 
 ### T5
 
-Read and parse the Excel files in the back-end.
+Create functions/methods for checking if data in Excel templates are valid.
 
 ### T6
+
+Read and parse the Excel files in the back-end.
+
+### T7
 
 Update the database with the parsed excel data.
 Dependency: T3 and T4
 
-### T7
-
-Develop basic front-end UI for uploading Excel templates.
-
 ### T8
 
-Create functions/methods for checking if data in Excel templates are valid.
+Develop basic front-end UI for uploading Excel templates.
