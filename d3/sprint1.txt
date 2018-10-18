@@ -10,7 +10,7 @@ Everybody can work 1 story point per day
 * Anton     - 8 SP/week
 * Jeffrey   - 8 SP/week
 
-41 story points/week
+41 story points/week (5 day sprint)
 
 ## U1 
 
