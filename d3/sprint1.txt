@@ -20,6 +20,18 @@ As Marge (counsellor), I want to bulk upload multiple filled Excel templates to 
 
 Setup the database (SQLite3).
 
+#### T1.1
+
+Design the database schema (every table with their columns).
+
+#### T1.2
+
+Create tables for basic client info (Unique Identifier, Address, Organization).
+
+#### T1.3
+
+Create tables which store values that are acceptable.
+
 ### T2 - 8
 
 Read and parse the Excel files in the back-end.
