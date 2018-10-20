@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author jeffc
+ *
+ */
+module teq {
+}
