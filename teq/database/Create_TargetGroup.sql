@@ -1,9 +1,9 @@
-CREATE TABLE [IF NOT EXISTS] [teqdb].TargetGroupType (
+CREATE TABLE [IF NOT EXISTS] [teqdb].TargetGroup (
     TargetGroupCode CHAR(5) PRIMARY KEY,
     Description VARCHAR(64)
 );
 
-INSERT INTO TargetGroupType (TargetGroupCode, Description)
+INSERT INTO TargetGroup (TargetGroupCode, Description)
 VALUES
     ('CHILD', 'Children (0-14 yrs)'),
     ('YOUTH', 'Youth (15-24 yrs)'),

@@ -1,9 +1,9 @@
-CREATE TABLE [IF NOT EXISTS] [teqdb].NonIRCCServiceType (
+CREATE TABLE [IF NOT EXISTS] [teqdb].NonIRCCService (
     NonIRCCServiceCode CHAR(5) PRIMARY KEY,
     Description VARCHAR(64)
 );
 
-INSERT INTO NonIRCCServiceType (NonIRCCServiceCode, Description)
+INSERT INTO NonIRCCService (NonIRCCServiceCode, Description)
 VALUES
     ('FCOMN', 'Food/Clothing/Other Material Needs'),
     ('HSACC', 'Housing/Accommodation'),

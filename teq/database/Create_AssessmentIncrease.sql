@@ -1,9 +1,9 @@
-CREATE TABLE [IF NOT EXISTS] [teqdb].AssessmentIncreaseType (
+CREATE TABLE [IF NOT EXISTS] [teqdb].AssessmentIncrease (
     AssessmentIncreaseCode CHAR(5) PRIMARY KEY,
     Description VARCHAR(64)
 );
 
-INSERT INTO AssessmentIncreaseType (AssessmentIncreaseCode, Description)
+INSERT INTO AssessmentIncrease (AssessmentIncreaseCode, Description)
 VALUES
     ('LIFCA', 'Life in Canada'),
     ('CMGOV', 'Community and Government Services'),

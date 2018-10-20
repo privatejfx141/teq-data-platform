@@ -1,9 +1,9 @@
-CREATE TABLE [IF NOT EXISTS] [teqdb].ScheduleType (
+CREATE TABLE [IF NOT EXISTS] [teqdb].Schedule (
     ScheduleCode CHAR(5) PRIMARY KEY,
     Description VARCHAR(64)
 );
 
-INSERT INTO ScheduleType (ScheduleCode, Description)
+INSERT INTO Schedule (ScheduleCode, Description)
 VALUES
     ('MORNG', 'Morning'),
     ('AFTNN', 'Afternoon'),
