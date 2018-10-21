@@ -1,9 +1,9 @@
-CREATE TABLE TOPIC (
+CREATE TABLE Topic (
     id INTEGER PRIMARY KEY NOT NULL,
-    description TEXT NOT NULL
+    description VARCHAR(32) NOT NULL
 );
 
-INSERT INTO TOPIC
+INSERT INTO Topic
     (description)
 VALUES
     ('Overview of Canada'),

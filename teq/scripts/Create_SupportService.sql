@@ -1,9 +1,9 @@
-CREATE TABLE SUPPORTSERVICE (
+CREATE TABLE SupportService (
     id INTEGER PRIMARY KEY NOT NULL,
-    description TEXT NOT NULL
+    description VARCHAR(32) NOT NULL
 );
 
-INSERT INTO SUPPORTSERVICE
+INSERT INTO SupportService
     (description) 
 VALUES
     ('Care for Newcomer Children'),

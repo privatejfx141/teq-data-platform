@@ -1,9 +1,9 @@
-CREATE TABLE SCHEDULE (
+CREATE TABLE Schedule (
     id INTEGER PRIMARY KEY NOT NULL,
-    description TEXT NOT NULL
+    description VARCHAR(32) NOT NULL
 );
 
-INSERT INTO SCHEDULE
+INSERT INTO Schedule
     (description)
 VALUES
     ('Morning'),

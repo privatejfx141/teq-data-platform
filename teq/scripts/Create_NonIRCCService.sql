@@ -1,9 +1,9 @@
-CREATE TABLE NONIRCCSERVICE (
+CREATE TABLE NonIRCCService (
     id INTEGER PRIMARY KEY NOT NULL,
-    description TEXT NOT NULL
+    description VARCHAR(32) NOT NULL
 );
 
-INSERT INTO NONIRCCSERVICE
+INSERT INTO NonIRCCService
     (description)
 VALUES
     ('Food/Clothing/Other Material Needs'),

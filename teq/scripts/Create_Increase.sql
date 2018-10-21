@@ -1,9 +1,9 @@
-CREATE TABLE INCREASE (
+CREATE TABLE Increase (
     id INTEGER PRIMARY KEY NOT NULL,
-    description TEXT NOT NULL
+    description VARCHAR(32) NOT NULL
 );
 
-INSERT INTO INCREASE
+INSERT INTO Increase
 	(description)
 VALUES
     ('Life in Canada'),

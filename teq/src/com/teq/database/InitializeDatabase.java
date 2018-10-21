@@ -36,12 +36,7 @@ public class InitializeDatabase {
     
     Connection connection = createNewDatabase("teq.db");
     
-    // create main tables and dependencies
-    SQLDriver.runScript(connection, "scripts/Create_Address.sql");
-    SQLDriver.runScript(connection, "scripts/Create_Client.sql");
-    SQLDriver.runScript(connection, "scripts/Create_Service.sql");
-
-    // create constant boolean tables
+    // create constant dependencies
     SQLDriver.runScript(connection, "scripts/Create_EssentialSkill.sql");
     SQLDriver.runScript(connection, "scripts/Create_Increase.sql");
     SQLDriver.runScript(connection, "scripts/Create_NonIRCCService.sql");
@@ -49,6 +44,15 @@ public class InitializeDatabase {
     SQLDriver.runScript(connection, "scripts/Create_SupportService.sql");
     SQLDriver.runScript(connection, "scripts/Create_TargetGroup.sql");
     SQLDriver.runScript(connection, "scripts/Create_Topic.sql");
+    
+    // create main table dependencies
+    SQLDriver.runScript(connection, "scripts/Create_Address.sql");
+    
+    // create main tables
+    SQLDriver.runScript(connection, "scripts/Create_Client.sql");
+    SQLDriver.runScript(connection, "scripts/Create_Service.sql");
+
+
     
     return connection;
     

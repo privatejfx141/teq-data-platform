@@ -1,10 +1,11 @@
-CREATE TABLE TARGETGROUP (
+CREATE TABLE TargetGroup (
     id INTEGER PRIMARY KEY NOT NULL,
     code CHAR(5) NOT NULL,
-    description TEXT NOT NULL
+    description VARCHAR(32) NOT NULL
 );
 
-INSERT INTO TARGETGROUP (code, description)
+INSERT INTO TargetGroup
+    (code, description)
 VALUES
     ('CHILD', 'Children (0-14 yrs)'),
     ('YOUTH', 'Youth (15-24 yrs)'),

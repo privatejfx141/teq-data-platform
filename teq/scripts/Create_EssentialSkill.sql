@@ -1,9 +1,9 @@
-CREATE TABLE ESSENTIALSKILL (
+CREATE TABLE EssentialSkill (
     id INTEGER PRIMARY KEY NOT NULL,
-    description TEXT NOT NULL
+    description VARCHAR(32) NOT NULL
 );
 
-INSERT INTO ESSENTIALSKILL
+INSERT INTO EssentialSkill
     (description)
 VALUES
     ('Computer skills'),
