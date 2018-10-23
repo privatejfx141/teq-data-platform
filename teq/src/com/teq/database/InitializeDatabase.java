@@ -33,29 +33,29 @@ public class InitializeDatabase {
   }
   
   public static Connection initializeDatabase() {
-    
     Connection connection = createNewDatabase("teq.db");
     
-    // create constant dependencies
+    SQLDriver.runScript(connection, "scripts/Create_Address.sql");
+    SQLDriver.runScript(connection, "scripts/Create_Assessment.sql");
+    SQLDriver.runScript(connection, "scripts/Create_Client.sql");
+    SQLDriver.runScript(connection, "scripts/Create_CommunityConnections.sql");
+    SQLDriver.runScript(connection, "scripts/Create_Course.sql");
+    SQLDriver.runScript(connection, "scripts/Create_CourseService.sql");
+    SQLDriver.runScript(connection, "scripts/Create_Employment.sql");
     SQLDriver.runScript(connection, "scripts/Create_EssentialSkill.sql");
     SQLDriver.runScript(connection, "scripts/Create_Increase.sql");
+    SQLDriver.runScript(connection, "scripts/Create_LiteracySkill.sql");
+    SQLDriver.runScript(connection, "scripts/Create_NewcomerChildCare.sql");
     SQLDriver.runScript(connection, "scripts/Create_NonIRCCService.sql");
+    SQLDriver.runScript(connection, "scripts/Create_Orientation.sql");
     SQLDriver.runScript(connection, "scripts/Create_Schedule.sql");
+    SQLDriver.runScript(connection, "scripts/Create_Service.sql");
     SQLDriver.runScript(connection, "scripts/Create_SupportService.sql");
     SQLDriver.runScript(connection, "scripts/Create_TargetGroup.sql");
     SQLDriver.runScript(connection, "scripts/Create_Topic.sql");
-    
-    // create main table dependencies
-    SQLDriver.runScript(connection, "scripts/Create_Address.sql");
-    
-    // create main tables
-    SQLDriver.runScript(connection, "scripts/Create_Client.sql");
-    SQLDriver.runScript(connection, "scripts/Create_Service.sql");
+    SQLDriver.runScript(connection, "scripts/Create_Translation.sql");
 
-
-    
-    return connection;
-    
+    return connection;    
   }
   
 }

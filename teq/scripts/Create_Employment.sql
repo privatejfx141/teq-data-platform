@@ -7,7 +7,7 @@ CREATE TABLE InterventionType (
 INSERT INTO InterventionType
     (code, table_name, description)
 VALUES
-    ('L', 'LongTermIntervention', 'Long-Term Intervention')
+    ('L', 'LongTermIntervention', 'Long-Term Intervention'),
     ('S', 'ShortTermIntervention', 'Short-Term Intervention');
 
 CREATE TABLE Employment (

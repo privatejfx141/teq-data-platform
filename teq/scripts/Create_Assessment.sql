@@ -6,7 +6,7 @@ CREATE TABLE Assessment (
     intends_citizenship BOOLEAN NOT NULL,
     req_support_service BOOLEAN NOT NULL,
     plan_complete       BOOLEAN NOT NULL,
-    end_date            DATE NOT NULL,
+    end_date            DATE NOT NULL
 );
 
 CREATE TABLE AssessmentFindEmployment (
