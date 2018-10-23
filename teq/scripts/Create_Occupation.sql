@@ -1,0 +1,48 @@
+CREATE TABLE Occupation (
+    OccupationID    CHAR(2) PRIMARY KEY NOT NULL,
+    description VARCHAR(255) NOT NULL
+);
+
+INSERT INTO Occupation
+    (OccupationID, description)
+VALUES
+	('00', 'Senior management occupations'),
+	('05', 'Specialized middle management occupations'),
+	('06', 'Middle management occupations in retail and wholesale trade and customer service'),
+	('07', 'Middle management occupations in trades, transportation, production and ut'),
+	('11', 'Professional occupations in business and finance'),
+	('12', 'Administrative and financial supervisors and administrative occupations'),
+	('13', 'Finance, insurance and related business administrative occupations'),
+	('14', 'Office support occupations'),
+	('15', 'Distribution, tracking and scheduling co-ordination occupations'),
+	('21', 'Professional occupations in natural and applied sciences'),
+	('22', 'Technical occupations related to natural and applied sciences'),
+	('30', 'Professional occupations in nursing'),
+	('31', 'Professional occupations in health (except nursing)'),
+	('32', 'Technical occupations in health'),
+	('34', 'Assisting occupations in support of health services'),
+	('40', 'Professional occupations in education services'),
+	('41', 'Professional occupations in law and social, community and government services'),
+	('42', 'Paraprofessional occupations in legal, social, community and education servic'),
+	('43', 'Occupations in front-line public protection services'),
+	('44', 'Care providers and educational, legal and public protection support occupatio'),
+	('51', 'Professional occupations in art and culture'),
+	('52', 'Technical occupations in art, culture, recreation and sport'),
+	('62', 'Retail sales supervisors and specialized sales occupations'),
+	('63', 'Service supervisors and specialized service occupations'),
+	('64', 'Sales representatives and salespersons - wholesale and retail trade'),
+	('65', 'Service representatives and other customer and personal services occupations'),
+	('66', 'Sales support occupations'),
+	('67', 'Service support and other service occupations, n.e.c.'),
+	('72', 'Industrial, electrical and construction trades'),
+	('73', 'Maintenance and equipment operation trades'),
+	('74', 'Other installers, repairers and servicers and material handlers'),
+	('75', 'Transport and heavy equipment operation and related maintenance occupations'),
+	('76', 'Trades helpers, construction labourers and related occupations'),
+	('82', 'Supervisors and technical occupations in natural resources, agricultural and '),
+	('84', 'Workers in natural resources, agriculture and related production'),
+	('86', 'Harvesting, landscaping and natural resources labourers'),
+	('92', 'Processing, manufacturing and utilities supervisors and central control opera'),
+	('94', 'Processing and manufacturing machine operators and related production workers'),
+	('95', 'Assemblers in manufacturing'),
+	('96', 'Labourers in processing, manufacturing and utilities');
