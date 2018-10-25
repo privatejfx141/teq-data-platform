@@ -1,10 +1,10 @@
 CREATE TABLE Language (
-    LanguageCode    CHAR(3) PRIMARY KEY NOT NULL,
+    language_code CHAR(3) PRIMARY KEY NOT NULL,
     description VARCHAR(32) NOT NULL
 );
 
 INSERT INTO Language
-    (LanguageCode, description)
+    (language_code, description)
 VALUES
 	('ENG', 'English'),
 	('FRE', 'French'),

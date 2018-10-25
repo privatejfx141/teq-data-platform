@@ -1,10 +1,10 @@
 CREATE TABLE ExitReason (
-    TrainingStatusID    CHAR(2) PRIMARY KEY NOT NULL,
+    id CHAR(2) PRIMARY KEY NOT NULL,
     description VARCHAR(255) NOT NULL
 );
 
 INSERT INTO TrainingStatus
-    (TrainingStatusID, description)
+    (id, description)
 VALUES
 	('FE', 'Found employment'),
 	('ES', 'Enrolled in school'),

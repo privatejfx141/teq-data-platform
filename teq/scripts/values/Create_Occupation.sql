@@ -1,10 +1,10 @@
 CREATE TABLE Occupation (
-    OccupationID    CHAR(2) PRIMARY KEY NOT NULL,
+    id CHAR(2) PRIMARY KEY NOT NULL,
     description VARCHAR(255) NOT NULL
 );
 
 INSERT INTO Occupation
-    (OccupationID, description)
+    (id, description)
 VALUES
 	('00', 'Senior management occupations'),
 	('05', 'Specialized middle management occupations'),

@@ -1,10 +1,10 @@
-CREATE TABLE ServiceType (
-    ServiceTypeID    CHAR(3) PRIMARY KEY NOT NULL,
+CREATE TABLE Event (
+    id CHAR(3) PRIMARY KEY NOT NULL,
     description VARCHAR(255) NOT NULL
 );
 
-INSERT INTO ServiceType
-    (ServiceTypeID, description)
+INSERT INTO Event
+    (id, description)
 VALUES
     ('CIR', 'Conversation circle'),
 	('TAR', 'Targeted matching between newcomer and settled immigrant or long-time Canadian'),

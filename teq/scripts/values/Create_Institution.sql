@@ -1,10 +1,10 @@
 CREATE TABLE Institution (
-    InstitutionID    CHAR(3) PRIMARY KEY NOT NULL,
+    id CHAR(3) PRIMARY KEY NOT NULL,
     description VARCHAR(32) NOT NULL
 );
 
 INSERT INTO Institution
-    (InstitutionID, description)
+    (id, description)
 VALUES
     ('SSP', 'Settlement service provider'),
 	('LIB', 'Public library'),

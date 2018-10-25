@@ -1,10 +1,10 @@
 CREATE TABLE ReasonLeaving (
-    ReasonLeavingID    CHAR(3) PRIMARY KEY NOT NULL,
+    id CHAR(3) PRIMARY KEY NOT NULL,
     description VARCHAR(32) NOT NULL
 );
 
 INSERT INTO ReasonLeaving
-    (ReasonLeavingID, description)
+    (id, description)
 VALUES
 	('NOT', 'Client felt the service was not meeting current needs'),
 	('EMP', 'Found employment'),

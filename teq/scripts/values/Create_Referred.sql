@@ -1,10 +1,10 @@
 CREATE TABLE Referred (
-    ReferredID    CHAR(3) PRIMARY KEY NOT NULL,
+    id CHAR(3) PRIMARY KEY NOT NULL,
     description VARCHAR(32) NOT NULL
 );
 
 INSERT INTO Referred
-    (ReferredID, description)
+    (id, description)
 VALUES
 	('COM', 'Community centre / library'),
 	('EMP', 'Employer / co-worker'),

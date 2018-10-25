@@ -1,10 +1,10 @@
 CREATE TABLE Topic (
-    TopicID    CHAR(3) PRIMARY KEY NOT NULL,
+    id CHAR(3) PRIMARY KEY NOT NULL,
     description VARCHAR(255) NOT NULL
 );
 
 INSERT INTO Topic
-    (TopicID, description)
+    (id, description)
 VALUES
 	('OCA', 'Overview of Canada'),	
 	('OCR', 'Overview of Canada Referrals'),	

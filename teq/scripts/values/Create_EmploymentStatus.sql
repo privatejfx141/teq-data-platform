@@ -1,10 +1,10 @@
 CREATE TABLE EmploymentStatus (
-    EmploymentStatusID    CHAR(2) PRIMARY KEY NOT NULL,
+    id CHAR(2) PRIMARY KEY NOT NULL,
     description VARCHAR(255) NOT NULL
 );
 
 INSERT INTO EmploymentStatus
-    (EmploymentStatusID, description)
+    (id, description)
 VALUES
 	('UN', 'Unemployed'),
 	('PT', 'Employed part time - less than 30 hours at main or only job'),

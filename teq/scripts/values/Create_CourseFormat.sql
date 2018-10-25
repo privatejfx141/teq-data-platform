@@ -1,10 +1,10 @@
 CREATE TABLE CourseFormat (
-    CourseFormatID    CHAR(2) PRIMARY KEY NOT NULL,
+    id CHAR(2) PRIMARY KEY NOT NULL,
     description VARCHAR(255) NOT NULL
 );
 
 INSERT INTO CourseFormat
-    (CourseFormatID, description)
+    (id, description)
 VALUES
 	('BO', 'Blended classroom and online training'),
 	('CL', 'Classroom'),

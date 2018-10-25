@@ -1,10 +1,10 @@
 CREATE TABLE EducationStatus (
-    EducationStatusID    CHAR(3) PRIMARY KEY NOT NULL,
+    id CHAR(3) PRIMARY KEY NOT NULL,
     description VARCHAR(255) NOT NULL
 );
 
-INSERT INTO EducationStatusID
-    (EducationStatus, description)
+INSERT INTO EducationStatus
+    (id, description)
 VALUES
 	('FTS', 'Full-time student'),
 	('PTS', 'Part-time student'),
