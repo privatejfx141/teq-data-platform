@@ -12,9 +12,9 @@ import com.teq.database.DatabaseSelector;
 
 public class DatabaseSelectHelper extends DatabaseSelector {
     
-    private static List<String> selectAllTypes(String tableName) {
+    public static List<String> selectAllTypes(String tableName) {
         List<String> list = new ArrayList<>();
-        Connection connection = DatabaseDriver.connectToDatabase();
+        Connection connection = DatabaseDriver.connectOrCreateDatabase();
         try {
             ResultSet results = DatabaseSelector.selectAllTypes(connection, tableName);
             while (results.next()) {

@@ -8,11 +8,14 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 
+import com.teq.databasehelper.DatabaseInsertHelper;
 import com.teq.databasehelper.DatabaseSelectHelper;
+import com.teq.entities.Address;
+import com.teq.entities.AddressBuilder;
 
 public class DatabaseDriver {
 
-  public static Connection connectToDatabase() {
+  public static Connection connectOrCreateDatabase() {
     Connection connection = null;
     String url = "jdbc:sqlite:teq.db";
     try {
@@ -38,9 +41,27 @@ public class DatabaseDriver {
       }
     }
 
-    printList(DatabaseSelectHelper.selectTargetGroups());
-    printList(DatabaseSelectHelper.selectIncreases());
-
+    Connection connection = connectOrCreateDatabase();
+    
+    Address address = new AddressBuilder()
+            .setPostalCode("M4M2H4")
+            .setStreetNumber(416)
+            .setStreetName("Jones Avenue")
+            .setStreetDirection("E")
+            .setCity("Toronto")
+            .setProvince("ON")
+            .create();
+    
+    int addressId = DatabaseInsertHelper.insertAddress(address);
+    System.out.print(addressId);
+    
+    try {
+        connection.close();
+    } catch (SQLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    
   }
   
   public static <T> void printList(List<T> list) {
