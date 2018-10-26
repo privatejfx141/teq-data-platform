@@ -7,7 +7,7 @@ INSERT INTO ClientIDType
     (description)
 VALUES
     ('FOSS/GCMS Client ID'),
-    ('Temporary Resident or Minister’s Permit Number'),
+    ('Temporary Resident or Minister''s Permit Number'),
     ('IMM5292, IMM5509, IMM1000 Number');
 
 CREATE TABLE Client (

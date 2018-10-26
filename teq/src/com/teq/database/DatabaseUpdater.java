@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import com.teq.entities.Address;
+import com.teq.sql.SQLDriver;
 
 public class DatabaseUpdater {
     protected static boolean updateClientBirthDate(Connection connection, int clientId, Date birthDate) {
@@ -97,10 +100,29 @@ public class DatabaseUpdater {
     }
 
     protected static boolean updateCourseLanguage(Connection connection, String courseCode, String languageCode) {
+        String sql = "UPDATE Course SET language = ? WHERE course_code = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, languageCode);
+            statement.setString(2, courseCode);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     protected static boolean updateCourseStartDate(Connection connection, String courseCode, String startDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String sql = "UPDATE Course SET start_date = ? WHERE course_code = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setDate(1, SQLDriver.parseDate(startDate));
+            statement.setString(2, courseCode);
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
@@ -115,17 +137,20 @@ public class DatabaseUpdater {
     protected static boolean updateCourseContactAddress(Connection connection, String courseCode, int addressId) {
         return false;
     }
-    
-    protected static boolean updateCourseContactTelephoneNumber(Connection connection, String courseCode, String number) {
+
+    protected static boolean updateCourseContactTelephoneNumber(Connection connection, String courseCode,
+            String number) {
         return false;
     }
-    
-    protected static boolean updateCourseContactTelephoneNumber(Connection connection, String courseCode, String number, int ext) {
+
+    protected static boolean updateCourseContactTelephoneNumber(Connection connection, String courseCode, String number,
+            int ext) {
         return false;
     }
-    
+
     protected static boolean updateCourseContactEmailAddress(Connection connection, String courseCode, String email) {
         return false;
     }
+    
     
 }

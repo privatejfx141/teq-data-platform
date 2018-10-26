@@ -36,12 +36,37 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
     
+    public static ResultSet getServiceEssentialSkill(Connection connection, int serviceId) throws SQLException {
+        return null;
+    }
+    
+    public static ResultSet getServiceSupportService(Connection connection, int serviceId) throws SQLException {
+        return null;
+    }
+    
+    public static ResultSet getServiceTargetGroup(Connection connection, int serviceId) throws SQLException {
+        return null;
+    }
+    
     protected static ResultSet getCourse(Connection connection, String courseCode) throws SQLException {
         String sql = "SELECT * FROM Course WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, courseCode);
         return preparedStatement.executeQuery();
     }
+    
+    public static ResultSet getCourseSchedule(Connection connection, String courseCode) throws SQLException {
+        return null;
+    }
+    
+    public static ResultSet getCourseSupportService(Connection connection, String courseCode) throws SQLException {
+        return null;
+    }
+    
+    public static ResultSet getCourseTargetGroup(Connection connection, String courseCode) throws SQLException {
+        return null;
+    }
+
     
     protected static ResultSet getCourseContact(Connection connection, String courseCode) throws SQLException {
         String sql = "SELECT * FROM CourseContact WHERE id = ?";

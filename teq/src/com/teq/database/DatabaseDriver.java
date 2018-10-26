@@ -12,13 +12,14 @@ import com.teq.databasehelper.DatabaseInsertHelper;
 import com.teq.databasehelper.DatabaseSelectHelper;
 import com.teq.entities.Address;
 import com.teq.entities.AddressBuilder;
+import com.teq.entities.IAddressBuilder;
 
 public class DatabaseDriver {
     public static final String DB_NAME = "teq.db";
 
     public static Connection connectOrCreateDatabase() {
         Connection connection = null;
-        String url = "jdbc:sqlite:teq.db";
+        String url = "jdbc:sqlite:" + DB_NAME;
         try {
             connection = DriverManager.getConnection(url);
         } catch (SQLException e) {
@@ -40,9 +41,10 @@ public class DatabaseDriver {
                 e.printStackTrace();
             }
         }
-        Connection connection = connectOrCreateDatabase();
-
+        Connection connection = InitializeDatabase.initializeDatabase();
         
+        System.out.println(DatabaseSelectHelper.getAddress(1));
+        //System.out.println(DatabaseInsertHelper.insertAddress(address));
         
         try {
             connection.close();
