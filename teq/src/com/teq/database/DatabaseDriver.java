@@ -41,15 +41,9 @@ public class DatabaseDriver {
                 e.printStackTrace();
             }
         }
-        Connection connection = connectOrCreateDatabase();
         
-
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        printList(DatabaseSelectHelper.getServiceEssentialSkill(1));
+        
     }
 
     public static <T> void printList(List<T> list) {
