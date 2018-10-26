@@ -1,25 +1,25 @@
 package com.teq.entities;
 
-public class Address {
+import java.util.ArrayList;
 
-    protected int id;
-    
-    protected String postalCode;
-    
-    protected int streetNumber;
-    
-    protected String streetName;
-    
-    protected String streetDirection;
-    
-    protected String city;
-    
-    protected String province;
-   
+public class Address {
+    protected int id = -1;
+    protected String postalCode = "";
+    protected int streetNumber = -1;
+    protected String streetName = "";
+    protected String streetDirection = "";
+    protected String city = "";
+    protected String province = "";
+
+    /**
+     * Returns the ID of the address as it appears in the TEQ database.
+     * 
+     * @return address ID
+     */
     public int getId() {
         return id;
     }
-    
+
     public String getPostalCode() {
         return postalCode;
     }
@@ -43,5 +43,25 @@ public class Address {
     public String getProvince() {
         return province;
     }
-    
+
+    @Override
+    public String toString() {
+        ArrayList<String> repr = new ArrayList<>();
+        if (id != -1) {
+            repr.add("" + id);
+        }
+        if (!postalCode.isEmpty()) {
+            repr.add(postalCode);
+        }
+        if (streetNumber != -1 && !streetName.isEmpty() && !streetDirection.isEmpty()) {
+            repr.add(String.format("%d %s %s", streetNumber, streetName, streetDirection));
+        }
+        if (!city.isEmpty()) {
+            repr.add(city);
+        }
+        if (!province.isEmpty()) {
+            repr.add(province);
+        }
+        return "Address(" + String.join(", ", repr) + ")";
+    }
 }

@@ -9,6 +9,13 @@ import com.teq.database.DatabaseInserter;
 import com.teq.entities.Address;
 
 public class DatabaseInsertHelper extends DatabaseInserter {
+    
+    /**
+     * Inserts an address into the TEQ database and returns the address ID.
+     * 
+     * @param address address details to insert
+     * @return address ID if successful, -1 otherwise
+     */
     public static int insertAddress(Address address) {
         int addressId = -1;
         Connection connection = DatabaseDriver.connectOrCreateDatabase();
@@ -28,10 +35,11 @@ public class DatabaseInsertHelper extends DatabaseInserter {
         } finally {
             try {
                 connection.close();
-            } catch (SQLException expectedClosedConnection) {
+            } catch (SQLException closeConnectionException) {
                 /* Do not need to do anything, connection was already closed */
             }
         }
         return addressId;
     }
+
 }

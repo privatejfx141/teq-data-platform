@@ -14,59 +14,48 @@ import com.teq.entities.Address;
 import com.teq.entities.AddressBuilder;
 
 public class DatabaseDriver {
+    public static final String DB_NAME = "teq.db";
 
-  public static Connection connectOrCreateDatabase() {
-    Connection connection = null;
-    String url = "jdbc:sqlite:teq.db";
-    try {
-      connection = DriverManager.getConnection(url);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return connection;
-  }
-  
-  /**
-   * @param args the command line arguments
-   */
-  public static void main(String[] args) {
-    
-    // if argument is set to initialize database
-    if (args.length >= 1 && args[0].equals("-1")) {
-      Connection connection = InitializeDatabase.initializeDatabase();
-      try {
-        connection.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+    public static Connection connectOrCreateDatabase() {
+        Connection connection = null;
+        String url = "jdbc:sqlite:teq.db";
+        try {
+            connection = DriverManager.getConnection(url);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
     }
 
-    Connection connection = connectOrCreateDatabase();
-    
-    Address address = new AddressBuilder()
-            .setPostalCode("M4M2H4")
-            .setStreetNumber(416)
-            .setStreetName("Jones Avenue")
-            .setStreetDirection("E")
-            .setCity("Toronto")
-            .setProvince("ON")
-            .create();
-    
-    int addressId = DatabaseInsertHelper.insertAddress(address);
-    System.out.print(addressId);
-    
-    try {
-        connection.close();
-    } catch (SQLException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // if argument is set to initialize database
+        if (args.length >= 1 && args[0].equals("-1")) {
+            Connection connection = InitializeDatabase.initializeDatabase();
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        Connection connection = connectOrCreateDatabase();
+        
+        
+        System.out.println(DatabaseSelectHelper.getAddress(1));
+        // address id is 1
+        // int addressId = DatabaseInsertHelper.insertAddress(address);
+        // System.out.print(addressId);
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-    
-  }
-  
-  public static <T> void printList(List<T> list) {
-      System.out.println(Arrays.toString(list.toArray()));
-  }
-  
 
+    public static <T> void printList(List<T> list) {
+        System.out.println(Arrays.toString(list.toArray()));
+    }
 }

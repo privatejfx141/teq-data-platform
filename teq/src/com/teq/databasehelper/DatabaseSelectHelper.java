@@ -9,63 +9,73 @@ import java.util.List;
 
 import com.teq.database.DatabaseDriver;
 import com.teq.database.DatabaseSelector;
+import com.teq.entities.Address;
+import com.teq.entities.AddressBuilder;
+import com.teq.entities.IAddressBuilder;
 
 public class DatabaseSelectHelper extends DatabaseSelector {
     
-    public static List<String> selectAllTypes(String tableName) {
+    /**
+     * 
+     * @param tableName
+     * @return
+     */
+    public static List<String> getAllTypes(String tableName) {
         List<String> list = new ArrayList<>();
         Connection connection = DatabaseDriver.connectOrCreateDatabase();
         try {
-            ResultSet results = DatabaseSelector.selectAllTypes(connection, tableName);
+            ResultSet results = DatabaseSelector.getAllTypes(connection, tableName);
             while (results.next()) {
                 list.add(results.getString("description"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            list.clear();
         } finally {
             try {
                 connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
             }
         }
         return list;
     }
-    
-    public static List<String> selectInterventionTypes() {
-        return selectAllTypes("InterventionType");
+
+    public static List<String> getAllConstaints(String tableName, String columnName) {
+        return null;
     }
-    
-    public static List<String> selectEssentialSkills() {
-        return selectAllTypes("EssentialSkill");
+
+    /**
+     * Connects to database, obtains and returns an address with ID number addressId from the Address
+     * table. Returns <code>null</code> if addressId is invalid.
+     * 
+     * @param addressId address ID
+     * @return address with the ID number addressId, <code>null</code> if invalid addressId
+     */
+    public static Address getAddress(int addressId) {
+        Address address = null;
+        Connection connection = DatabaseDriver.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getAddress(connection, addressId);
+            while (results.next()) {
+                IAddressBuilder builder = new AddressBuilder();
+                address = builder.setId(results.getInt("id"))
+                        .setPostalCode(results.getString("postal_code"))
+                        .setStreetNumber(results.getInt("street_number"))
+                        .setStreetName(results.getString("street_name"))
+                        .setStreetDirection(results.getString("street_direction"))
+                        .setCity(results.getString("city"))
+                        .setProvince(results.getString("province"))
+                        .create();
+            }
+        } catch (SQLException e) {
+            address = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return address;
     }
-    
-    public static List<String> selectIncreases() {
-        return selectAllTypes("Increase");
-    }
-    
-    public static List<String> selectNonIRCCServices() {
-        return selectAllTypes("NonIRCCService");
-    }
-    
-    public static List<String> selectSchedules() {
-        return selectAllTypes("Schedule");
-    }
-    
-    public static List<String> selectServiceTypes() {
-        return selectAllTypes("ServiceType");
-    }
-    
-    public static List<String> selectSupportServices() {
-        return selectAllTypes("SupportService");
-    }
-    
-    public static List<String> selectTargetGroups() {
-        return selectAllTypes("TargetGroup");
-    }
-    
-    public static List<String> selectTopics() {
-        return selectAllTypes("Topic");
-    }
-    
 }

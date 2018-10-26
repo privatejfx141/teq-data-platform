@@ -37,6 +37,178 @@ public class DatabaseInserter {
     }
 
     /**
+     * Inserts a service essential skill relationship.
+     * 
+     * @param connection connection to the TEQ database
+     * @param serviceId  service ID
+     * @param skillId    essential skill ID
+     * @return ID of the service essential skill relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertServiceEssentialSkill(Connection connection, int serviceId, int skillId)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO ServiceEssentialSkill(service_id,essential_skill_id) VALUES(?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceId);
+            statement.setInt(2, skillId);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Inserts a service target group relationship.
+     * 
+     * @param connection connection to the TEQ database
+     * @param serviceId  service ID
+     * @param groupId    target group ID
+     * @return ID of the service target group relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertServiceTargetGroup(Connection connection, int serviceId, int groupId)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO ServiceTargetGroup(service_id,target_group_id) VALUES(?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceId);
+            statement.setInt(2, groupId);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Inserts a service support service relationship.
+     * 
+     * @param connection connection to the TEQ database
+     * @param serviceId  service ID
+     * @param supportId  support service ID
+     * @return ID of the service support service relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertServiceSupportService(Connection connection, int serviceId, int supportId)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO ServiceSupportService(service_id,support_service_id) VALUES(?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceId);
+            statement.setInt(2, supportId);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Inserts an assessment improvement relationship.
+     * 
+     * @param connection connection to the TEQ database
+     * @param serviceId  service ID
+     * @param increaseId increase/improvement ID
+     * @param referrals  whether or not there were referrals
+     * @return ID of the assessment improvement relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertAssessmentIncrease(Connection connection, int serviceId, int increaseId,
+            boolean referrals) throws DatabaseInsertException {
+        String sql = "INSERT INTO AssessmentIncrease(assessment_id,increase_id,referrals) VALUES(?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceId);
+            statement.setInt(2, increaseId);
+            statement.setBoolean(3, referrals);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Inserts an assessment non-IRCC service relationship.
+     * 
+     * @param connection connection to the TEQ database
+     * @param serviceId  service ID
+     * @param nonIRCCid  non-IRCC service ID
+     * @return ID of the assessment non-IRCC service relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertAssessmentNonIRCCService(Connection connection, int serviceId, int nonIRCCid)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO AssessmentNonIRCCService(assessment_id,non_ircc_service_id) VALUES(?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceId);
+            statement.setInt(2, nonIRCCid);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Inserts an orientation topic relationship.
+     * 
+     * @param connection connection to the TEQ database
+     * @param serviceId  service ID
+     * @param topicId    orientation topic ID
+     * @param referrals  whether or not there were referrals
+     * @return ID of the orientation topic relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertOrientationTopic(Connection connection, int serviceId, int topicId, boolean referrals)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO OrientationTopic(orientation_id,topic_id,referrals) VALUES(?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceId);
+            statement.setInt(2, topicId);
+            statement.setBoolean(3, referrals);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
      * Inserts a course into the TEQ database and returns the course code if
      * insertion was successful.
      * 
@@ -49,6 +221,131 @@ public class DatabaseInserter {
     }
 
     /**
+     * Inserts a course contact into the TEQ database and returns the resulting ID
+     * if insertion was successful.
+     * 
+     * @param connection      connection to the TEQ database
+     * @param courseCode      course code
+     * @param contactName     course contact name
+     * @param addressId       address ID of the course contact
+     * @param telephoneNumber telephone number
+     * @param telephoneExt    telephone extension
+     * @param emailAddress    email address
+     * @return row ID if insertion was successful
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertCourseContact(Connection connection, String courseCode, String contactName,
+            int addressId, String telephoneNumber, String telephoneExt, String emailAddress)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO CourseContact(course_code,contact_name,address_id,telephone_number,telephone_ext,email_address)"
+                + " VALUES(?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, courseCode);
+            statement.setString(2, contactName);
+            statement.setInt(3, addressId);
+            statement.setString(4, telephoneNumber);
+            statement.setString(5, telephoneExt);
+            statement.setString(6, emailAddress);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Inserts a course schedule relationship.
+     * 
+     * @param connection connection to the TEQ database
+     * @param courseId   course ID
+     * @param scheduleId schedule ID
+     * @return ID of the course schedule relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertCourseSchedule(Connection connection, int courseId, int scheduleId)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO CourseSchedule(course_id,schedule_id) VALUES(?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, courseId);
+            statement.setInt(2, scheduleId);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Inserts a course support service relationship.
+     * 
+     * @param connection connection to the TEQ database
+     * @param courseId   course ID
+     * @param supportId  support service ID
+     * @return ID of the support service relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertCourseSupportService(Connection connection, int courseId, int supportId)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO CourseSupportService(course_id,support_service_id) VALUES(?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, courseId);
+            statement.setInt(2, supportId);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Inserts a course target group relationship.
+     * 
+     * @param connection connection to the TEQ database
+     * @param courseId   course ID
+     * @param groupId    target group ID
+     * @return ID of the target group relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
+    protected static int insertCourseTargetGroup(Connection connection, int courseId, int groupId)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO CourseTargetGroup(course_id,target_group_id) VALUES(?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, courseId);
+            statement.setInt(2, groupId);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Connects to the TEQ database and inserts an address to the Address table.
+     * Returns the address ID if successful, -1 otherwise.
      * 
      * @param connection      connection to the TEQ database
      * @param postalCode      postal code
