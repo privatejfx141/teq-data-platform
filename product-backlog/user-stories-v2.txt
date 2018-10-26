@@ -1,9 +1,9 @@
-U1: As Marge (counsellor), I want to bulk upload multiple filled Excel templates
-to the TEQ data platform so that they can be analysed and used to improve
-immigrant services.
+U1: As Marge (cousellor), I want to upload Exel templates to the TEQ data
+platform so that they can be analysed and used to imporve immigrant services.
 
-U2: As Marge (counsellor), I want to upload different types of templates at the
-same time so that I can minimize the time I spend uploading data.
+U2: As Marge (cousellor), I want to select a template type and upload the Excel
+file to the TEQ data platform, so that I can upload data for the different
+services offered.
 
 U3: As Marge (counsellor), I want to be notified of any errors in the data that
 I am uploading so that I can quickly fix them to prevent incorrect conclusions.
@@ -32,7 +32,7 @@ organizations with Census data on immigrants so that I can see trends in
 demographics, predict services that will be in high demand and help
 organizations meet unmet needs.
 
-U10: As Parker (analyst), I want to examine the ``life cycle'' of a client in an
+U10: As Parker (analyst), I want to examine the "life cycle" of a client in an
 organization so that I can track the progress of clients and better understand
 the reasons why some clients stop coming.
 
