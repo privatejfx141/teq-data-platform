@@ -41,11 +41,9 @@ public class DatabaseDriver {
                 e.printStackTrace();
             }
         }
-        Connection connection = InitializeDatabase.initializeDatabase();
+        Connection connection = connectOrCreateDatabase();
         
-        System.out.println(DatabaseSelectHelper.getAddress(1));
-        //System.out.println(DatabaseInsertHelper.insertAddress(address));
-        
+
         try {
             connection.close();
         } catch (SQLException e) {
