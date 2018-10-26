@@ -13,3 +13,14 @@
 * Changed the GitHub workflow to avoid forking
 * Demoed the new workflow
 * Read over D1 to prepare for TA meeting
+
+# Meeting 3 `2018-10-16`
+* Make task for user story 1
+* Assign tasks and make sprint plan
+
+# Meeting 4 `2018-10-24`
+* Discuss architecture of database
+* Think about system architecture
+* Break up user story 2 into tasks
+* Assign tasks and make plan for sprint 2
+* Log execution of sprint 1
