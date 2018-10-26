@@ -28,5 +28,6 @@ CREATE TABLE AssessmentIncrease (
 CREATE TABLE AssessmentNonIRCCService (
     assessment_id       INTEGER NOT NULL REFERENCES Assessment(service_id),
     non_ircc_service_id INTEGER NOT NULL REFERENCES NonIRCCService(id),
+    
     PRIMARY KEY(assessment_id, non_ircc_service_id)
 );

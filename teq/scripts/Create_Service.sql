@@ -1,11 +1,11 @@
 CREATE TABLE ServiceType (
-    code CHAR(1) PRIMARY KEY NOT NULL,
+    id CHAR(1) PRIMARY KEY NOT NULL,
     table_name VARCHAR(32) NOT NULL,
     description VARCHAR(32) NOT NULL
 );
 
 INSERT INTO ServiceType
-    (code, table_name, description)
+    (id, table_name, description)
 VALUES
     ('A', 'Assessment', 'Needs Assessment & Referrals'),
     ('C', 'CommunityConnections', 'Community Connections'),
@@ -23,7 +23,7 @@ CREATE TABLE Service (
     update_reason       VARCHAR(32),
     service_type        CHAR(1),
     FOREIGN KEY(client_id) REFERENCES Client(id),
-    FOREIGN KEY(service_type) REFERENCES ServiceType(code)
+    FOREIGN KEY(service_type) REFERENCES ServiceType(id)
 );
 
 CREATE TABLE ServiceEssentialSkill (

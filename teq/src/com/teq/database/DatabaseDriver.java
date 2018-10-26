@@ -41,12 +41,9 @@ public class DatabaseDriver {
             }
         }
         Connection connection = connectOrCreateDatabase();
+
         
         
-        System.out.println(DatabaseSelectHelper.getAddress(1));
-        // address id is 1
-        // int addressId = DatabaseInsertHelper.insertAddress(address);
-        // System.out.print(addressId);
         try {
             connection.close();
         } catch (SQLException e) {

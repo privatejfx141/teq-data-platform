@@ -10,6 +10,12 @@ import com.teq.entities.Address;
 
 public class DatabaseInsertHelper extends DatabaseInserter {
     
+    public static int insertCourseContact() {
+        return -1;
+    }
+    
+    
+    
     /**
      * Inserts an address into the TEQ database and returns the address ID.
      * 

@@ -1,6 +1,7 @@
 package com.teq.database;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -37,6 +38,13 @@ public class DatabaseSelector {
     
     protected static ResultSet getCourse(Connection connection, String courseCode) throws SQLException {
         String sql = "SELECT * FROM Course WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, courseCode);
+        return preparedStatement.executeQuery();
+    }
+    
+    protected static ResultSet getCourseContact(Connection connection, String courseCode) throws SQLException {
+        String sql = "SELECT * FROM CourseContact WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, courseCode);
         return preparedStatement.executeQuery();
