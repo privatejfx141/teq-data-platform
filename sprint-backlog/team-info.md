@@ -1,6 +1,5 @@
 Sprint length = 5 days  
 1 story point  = 1 developer hour 
-Sprint velocity = 41 story points
 
 Team contribution in story points per week
 * Ashley    - 11
