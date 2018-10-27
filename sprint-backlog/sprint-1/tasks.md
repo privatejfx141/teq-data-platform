@@ -23,14 +23,17 @@ Create tables which store values that are acceptable.
 
 ## T5 | 8 story points
 Create functions/methods for checking if data in Excel templates are valid.
-* cross reference with data from database to make sure what the client enters is valid
+* cross reference with data from database to make sure what the client enters is
+  valid
 
 ## T6 | 8 story points
-Read and parse the Excel files in the back-end.
+Read and parse the uploaded Excel files in the back-end.
 * might need to use library for reading excel files
 
-## T7 Dependency: T3 and T4 | 10 story points
+## T7 Dependency: T3, T4, T6 | 10 story points
 Update the database with the parsed excel data. 
+* connect the code that parses and validates excel data with the database so
+  that the data from the excel files can be inserted into the database
 
 ## T8 | 8 story points
 Develop basic front-end UI for uploading Excel templates.
