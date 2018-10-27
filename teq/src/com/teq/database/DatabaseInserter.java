@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 
+import com.teq.address.Address;
 import com.teq.client.Client;
 import com.teq.course.Course;
 import com.teq.service.Assessment;
@@ -23,8 +24,9 @@ public class DatabaseInserter {
      * @param connection connection to the TEQ database
      * @param client     client info to insert
      * @return client ID (primary key) of the inserted client
+     * @throws DatabaseInsertException 
      */
-    protected static int insertClient(Connection connection, Client client) {
+    protected static int insertClient(Connection connection, Client client) throws DatabaseInsertException {
         String sql = "INSERT INTO Client (id,id_type,birth_date,phone_number,email_address,address_id,consents)"
                 + " VALUES (?,?,?,?,?,?,?,?)";
         try {
@@ -46,7 +48,7 @@ public class DatabaseInserter {
         } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
-        return -1;
+        throw new DatabaseInsertException();
     }
 
     /**
@@ -63,18 +65,17 @@ public class DatabaseInserter {
      * @return the address ID number, -1 otherwise
      * @throws DatabaseInsertException
      */
-    protected static int insertAddress(Connection connection, String postalCode, int streetNumber, String streetName,
-            String streetDirection, String city, String province) throws DatabaseInsertException {
+    protected static int insertAddress(Connection connection, Address address) throws DatabaseInsertException {
         String sql = "INSERT INTO Address(postal_code,street_number,street_name,street_direction,city,province)"
                 + " VALUES (?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, postalCode);
-            statement.setInt(2, streetNumber);
-            statement.setString(3, streetName);
-            statement.setString(4, streetDirection);
-            statement.setString(5, city);
-            statement.setString(6, province);
+            statement.setString(1, address.getPostalCode());
+            statement.setInt(2, address.getStreetNumber());
+            statement.setString(3, address.getStreetName());
+            statement.setString(4, address.getStreetDirection());
+            statement.setString(5, address.getCity());
+            statement.setString(6, address.getProvince());
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
                 if (uniqueKey.next()) {
