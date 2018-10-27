@@ -13,7 +13,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class errorCheck {
-    	/** Returns an 2D array where index i is the row of input from row i
+    	
+	/** Returns an 2D array where index i is the row of input from row i
 	 * 
 	 * @throws IOException 
 	 * @throws InvalidFormatException 
@@ -64,7 +65,7 @@ public class errorCheck {
     		
     		
             ArrayList<String> cells = new ArrayList<String>();
-            int lastColumn = 100;//Math.max(row.getLastCellNum(), 5);
+            int lastColumn = 95;//Math.max(row.getLastCellNum(), 5);
             for (int cellNum = 0; cellNum < lastColumn; cellNum++) {
             	Cell cell = row.getCell(cellNum, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
                 String input = dataFormatter.formatCellValue(cell);
@@ -75,8 +76,11 @@ public class errorCheck {
 
 					if (map.get(headerArray.get(cellNum)) == null || input.isEmpty() || map.get(headerArray.get(cellNum)).equals(newArray) || map.get(headerArray.get(cellNum)).contains(input)) {
 	                    // add to db
+	                	if (map.get(headerArray.get(cellNum)) == null) {
+	                		System.out.println("added " + input + " wrt " + map.get(headerArray.get(cellNum)) + " header " + headerArray.get(cellNum) + " cell num " + cellNum);
+	                	}
 	                	
-	                    System.out.println("added " + input + " wrt " + map.get(headerArray.get(cellNum)));
+	                   // System.out.println("added " + input + " wrt " + map.get(headerArray.get(cellNum)) + " header " + headerArray.get(cellNum));
 	                	cells.add(input);
 	
 	                }
@@ -87,9 +91,9 @@ public class errorCheck {
 	                }
                 }
             }
-	        	System.out.println(cells.toString());
+	        	//System.out.println(cells.toString());
         }
-    	System.out.println(headerArray.toString());
+    	//System.out.println(headerArray.toString());
     }
 	
 	@SuppressWarnings("resource")
@@ -100,19 +104,17 @@ public class errorCheck {
         DataFormatter dataFormatter = new DataFormatter();
         HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
         ArrayList<String> headerArray = new ArrayList<String>();
-        for (int cellNum = 0; cellNum <10; cellNum ++) 
+        for (int cellNum = 0; cellNum <311; cellNum ++) 
         	
         { 	 ArrayList<String> cells = new ArrayList<String>(); 
-        	boolean firstRow = true;
-        	boolean secondRow = true;
+
         	 for (Row row : sheet) {
-                 if (firstRow) {
-                	firstRow = false;
+        		 if (row.getRowNum() == 0 ) {
+
                  	continue;
                  }
-                 if (secondRow) {
+                 if (row.getRowNum() == 1) {
                  	headerArray.add(dataFormatter.formatCellValue(sheet.getRow(1).getCell(cellNum)));
-                 	secondRow = false;
                   	continue;
                   }
                  Cell cell = row.getCell(cellNum, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
@@ -137,8 +139,8 @@ public class errorCheck {
 	
 	
         public static void main(String[] args) throws InvalidFormatException, IOException {
-        	//errorChecking();
-        	parseForDB();
+        	errorChecking();
+        	//parseForDB();
         	//System.out.println(map.toString());
         }
 }
