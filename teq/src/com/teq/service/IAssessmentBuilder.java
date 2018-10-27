@@ -1,6 +1,9 @@
 package com.teq.service;
 
-public interface IAssessmentBuilder extends IServiceBuilder {
+import java.util.List;
+
+public interface IAssessmentBuilder {
+	
     public IAssessmentBuilder setStartDate(String startDate);
 
     public IAssessmentBuilder setLanguageGoal(String languageGoal);
@@ -14,4 +17,9 @@ public interface IAssessmentBuilder extends IServiceBuilder {
     public IAssessmentBuilder setPlanComplete(boolean planComplete);
 
     public IAssessmentBuilder setEndDate(String endDate);
+
+	public IAssessmentBuilder setIncrease(List<String> increase);
+
+	public IAssessmentBuilder setNonIRCCServices(List<String> nonIRCCServices);
+    
 }

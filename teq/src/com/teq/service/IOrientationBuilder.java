@@ -1,15 +1,17 @@
 package com.teq.service;
 
-public interface IOrientationBuilder extends IServiceBuilder {
-    public IEmploymentBuilder setServiceReceived(String serviceReceived);
+public interface IOrientationBuilder {
+	
+    public IOrientationBuilder setServiceReceived(String serviceReceived);
 
-    public IEmploymentBuilder setTotalLength(String totalLength);
+    public IOrientationBuilder setTotalLength(String totalLength);
 
-    public IEmploymentBuilder setLengthHours(int lengthHours);
+    public IOrientationBuilder setLengthHours(int lengthHours);
 
-    public IEmploymentBuilder setLengthMinutes(int lengthMinutes);
+    public IOrientationBuilder setLengthMinutes(int lengthMinutes);
 
-    public IEmploymentBuilder setNumberOfClients(int numberOfClients);
+    public IOrientationBuilder setNumberOfClients(int numberOfClients);
 
-    public IEmploymentBuilder setEndDate(String endDate);
+    public IOrientationBuilder setEndDate(String endDate);
+    
 }

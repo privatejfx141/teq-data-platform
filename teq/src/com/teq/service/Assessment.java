@@ -1,17 +1,20 @@
 package com.teq.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Assessment extends Service {
-    private String startDate;
-    private String languageSkillGoal;
-    private String otherSkillGoal;
-    private boolean wantsCitizenship;
-    private boolean reqSupportService;
-    private boolean planComplete;
-    private String endDate;
-    private List<String> increases;
-    private List<String> nonIRCCServices;
+	
+	protected String id;
+    protected String startDate;
+    protected String languageSkillGoal;
+    protected String otherSkillGoal;
+    protected boolean wantsCitizenship;
+    protected boolean reqSupportService;
+    protected boolean planComplete;
+    protected String endDate;
+    protected List<String> increases;
+    protected List<String> nonIRCCServices;
 
     public String getStartDate() {
         return startDate;
@@ -25,19 +28,49 @@ public class Assessment extends Service {
         return otherSkillGoal;
     }
 
-    public boolean wantsCitizenship() {
+    public boolean getWantsCitizenship() {
         return wantsCitizenship;
     }
 
-    public boolean reqSupportService() {
+    public boolean getReqSupportService() {
         return reqSupportService;
     }
 
-    public boolean isPlanComplete() {
+    public boolean getIsPlanComplete() {
         return planComplete;
     }
 
     public String getEndDate() {
         return endDate;
+    }
+    
+    public List<String> getIncreases() {
+    	return increases;
+    }
+    
+    public List<String> getNonIRCCServices() {
+    	return nonIRCCServices;
+    }
+    
+    @Override
+    public String toString() {
+        ArrayList<String> repr = new ArrayList<>();
+        if (!startDate.isEmpty()) {
+            repr.add("Start Date" + startDate);
+        }
+        
+        if (!languageSkillGoal.isEmpty()) {
+            repr.add("Language Skill Goal" + languageSkillGoal);
+        }
+        
+        if (!otherSkillGoal.isEmpty()) {
+            repr.add("Other Skill Goal" + otherSkillGoal);
+        }
+        
+        if (!endDate.isEmpty()) {
+            repr.add("End Date" + endDate);
+        }
+        
+        return "Assessment(" + String.join(", ", repr) + ")";
     }
 }

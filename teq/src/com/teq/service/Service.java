@@ -3,6 +3,7 @@ package com.teq.service;
 import java.util.List;
 
 public abstract class Service {
+	
     private int id;
     private int clientId;
     private String language;

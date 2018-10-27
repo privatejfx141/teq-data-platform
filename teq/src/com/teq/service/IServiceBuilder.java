@@ -1,8 +1,9 @@
 package com.teq.service;
 
-import com.teq.client.Client;
+import java.util.List;
 
 public interface IServiceBuilder {
+	
     public IServiceBuilder setId(int id);
 
     public IServiceBuilder setClientId(int clientId);
@@ -14,6 +15,11 @@ public interface IServiceBuilder {
     public IServiceBuilder setUpdateReason(String updateReason);
 
     public IServiceBuilder setServiceType(String serviceType);
+    
+    public IServiceBuilder setEssentialSkill(List<String> essentialSkills);
 
-    public Client create();
+    public IServiceBuilder setSupportServices(List<String> supportServices);
+
+    public IServiceBuilder getTargetGroups(List<String> targetGroups);
+    
 }

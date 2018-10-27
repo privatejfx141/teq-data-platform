@@ -1,6 +1,7 @@
 package com.teq.service;
 
-public interface IEmploymentBuilder extends IServiceBuilder {
+public interface IEmploymentBuilder {
+	
     public IEmploymentBuilder setRegistration(boolean status);
 
     public IEmploymentBuilder setReferralTo(String referral);
