@@ -1,4 +1,4 @@
-package com.teq.entities;
+package com.teq.address;
 
 public interface IAddressBuilder {
     

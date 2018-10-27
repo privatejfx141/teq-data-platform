@@ -8,11 +8,11 @@ import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 
+import com.teq.address.Address;
+import com.teq.address.AddressBuilder;
+import com.teq.address.IAddressBuilder;
 import com.teq.databasehelper.DatabaseInsertHelper;
 import com.teq.databasehelper.DatabaseSelectHelper;
-import com.teq.entities.Address;
-import com.teq.entities.AddressBuilder;
-import com.teq.entities.IAddressBuilder;
 
 public class DatabaseDriver {
     public static final String DB_NAME = "teq.db";
@@ -41,9 +41,7 @@ public class DatabaseDriver {
                 e.printStackTrace();
             }
         }
-        
         printList(DatabaseSelectHelper.getServiceEssentialSkill(1));
-        
     }
 
     public static <T> void printList(List<T> list) {

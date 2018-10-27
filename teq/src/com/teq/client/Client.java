@@ -1,18 +1,19 @@
-package com.teq.entities;
+package com.teq.client;
 
 import java.util.ArrayList;
 
-public class Client {
+import com.teq.address.Address;
 
-	public int id = -1;
-	public int IdType = -1;
-	public String Birthdate = "";
-	public String PhoneNumber = "";
-	public String EmailAddress = "";
-	public boolean Consent;
-	public String Language = "";
-	public Address Address = null;
-	
+public class Client {
+    public int id = -1;
+    public int IdType = -1;
+    public String Birthdate = "";
+    public String PhoneNumber = "";
+    public String EmailAddress = "";
+    public boolean Consent;
+    public String Language = "";
+    public Address Address = null;
+
     /**
      * Returns the ID of the client as it appears in the TEQ database.
      * 
@@ -41,13 +42,13 @@ public class Client {
     public boolean getConsent() {
         return Consent;
     }
-    
+
     public String getLanguage() {
         return Language;
     }
-    
+
     public Address getAddress() {
-    	return Address;
+        return Address;
     }
 
     @Override
@@ -71,8 +72,8 @@ public class Client {
         if (!Language.isEmpty()) {
             repr.add(Language);
         }
-        if (Address != null && Address.id != -1) {
-            repr.add("AddressId " + Address.id);
+        if (Address != null && Address.getId() != -1) {
+            repr.add("AddressId " + Address.getId());
         }
         return "Client(" + String.join(", ", repr) + ")";
     }
