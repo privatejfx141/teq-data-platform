@@ -13,81 +13,132 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class errorCheck {
-    public static void main(String[] args) throws IOException {
-        errorChecking("/cmshome/sarranch/cscc01_space/Team14/teq/testUser.xlsx");
-    }
-
-    /**
-     * Returns an array list of allowed values for the given header, header
-     * 
-     * @param header: column header that you want the allowed values for
-     */
-    public static ArrayList<String> allowedValues(String header) {
-        HashMap<String, ArrayList<String>> allowedValuesArray = new HashMap<>();
-        // allowedValues.put(db.getColumn(header))
-        // add db code when you get access to it
-        // temp code:
-        // if allowedValues.containsKey(header){
-        // allowedValues.get(header).add("Coloumn Header")
-        // } else {
-        ArrayList<String> newArray = new ArrayList<String>();
-        newArray.add("Bob");
-        allowedValuesArray.put("Namheadere", newArray);
-        // }
-        return newArray;
-    }
-
-    /**
-     * Returns false if the file contains errors, otherwise true, and will print the
-     * column, row and value for any incorrect inputed cells
-     * 
-     * @param filePath: full path to the excel file which you want to be error
-     *        checked
-     */
-    public static Boolean errorChecking(String filePath) throws IOException {
-        // FileInputStream inputStream = new FileInputStream(new File(filePath));
-        // errors == false when no errors in input, else true
-        Boolean errors = false;
-        // open workbook from file path and move to sheet 0
-        Workbook workbook = new XSSFWorkbook(filePath);
-        Sheet firstSheet = workbook.getSheetAt(0);
-        // create an iterator for each row and data formatter to read input
-        Iterator<Row> iterator = firstSheet.iterator();
+    	/** Returns an 2D array where index i is the row of input from row i
+	 * 
+	 * @throws IOException 
+	 * @throws InvalidFormatException 
+	 */
+	@SuppressWarnings("resource")
+	public static ArrayList<ArrayList<String>> parseForDB() throws InvalidFormatException, IOException {
+        Workbook workbook = null;
+        workbook = new XSSFWorkbook(new File("/cmshome/sarranch/eclipse_workspace2/inputChecking/src/inputCheck/iCARE_template.xlsx"));
+        Sheet sheet = workbook.getSheetAt(0);
         DataFormatter dataFormatter = new DataFormatter();
-        // Create an array to store all the headers in the excel file
-        ArrayList<String> headerArray = new ArrayList<String>();
-        // Create a variable that will turn false after iterating through
-        // column in the first row, so that we can collect each header
-        Boolean firstRow = true;
-        // for each row...
-        while (iterator.hasNext()) {
-            Row nextRow = iterator.next();
-            // for each column...
-            Iterator<Cell> cellIterator = nextRow.cellIterator();
-            int colCounter = 0;
-            while (cellIterator.hasNext()) {
-                // get the input in each cell, and read it
-                Cell cell = cellIterator.next();
+        int lastRow = sheet.getLastRowNum();
+        ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
+        for (Row row : sheet) {
+        	if (row.getRowNum() == 0 || row.getRowNum() == 1 || row.getRowNum() == 1 || row.getRowNum() == lastRow) {
+    			continue;
+    		}
+            ArrayList<String> cells = new ArrayList<String>();
+            int lastColumn = Math.max(row.getLastCellNum(), 5);
+            for (int cellNum = 0; cellNum < lastColumn; cellNum++) {
+                Cell cell = row.getCell(cellNum, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
                 String input = dataFormatter.formatCellValue(cell);
-                // check if the data exists as an allowed value using allowedValues()
-                if (firstRow == true) {
-                    headerArray.add(input);
-                } else if (allowedValues(headerArray.get(colCounter)).contains(input)) {
-                    // if it doesn't print the column, row and input where is not allowed
-                } else {
-                    errors = true;
-                    System.out.println("Error, Column " + cell.getColumnIndex() + " Row" + " " + cell.getRowIndex()
-                            + " does not contain an allowed value: " + input);
-                }
-                colCounter++;
+                cells.add(input);
             }
-            firstRow = false;
-            System.out.println();
+            // add to db
+           // System.out.println(cells.toString());
+            output.add(cells);
         }
-        // close workbook and input streams
-        workbook.close();
-        // inputStream.close();
-        // return whether or not errors where found
-        return errors;
+        return output;
     }
+	
+	@SuppressWarnings("resource")
+	public static void errorChecking() throws InvalidFormatException, IOException {
+        Workbook workbook = null;
+        workbook = new XSSFWorkbook(new File("/cmshome/sarranch/eclipse_workspace2/inputChecking/src/inputCheck/iCARE_template.xlsx"));
+        Sheet sheet = workbook.getSheetAt(0);
+        DataFormatter dataFormatter = new DataFormatter();
+
+        HashMap<String, ArrayList<String>> map = createAllowedValues();
+        ArrayList<String> headerArray = new ArrayList<String>();
+        ArrayList<String> newArray = new ArrayList<String>();;
+        System.out.println(map.toString());
+        
+    	int lastRow = sheet.getLastRowNum();
+    	for (Row row : sheet) {
+    		if (row.getRowNum() == 0 || row.getRowNum() == 1 || row.getRowNum() == lastRow) {
+    			continue;
+    		}
+    		
+    		
+            ArrayList<String> cells = new ArrayList<String>();
+            int lastColumn = 100;//Math.max(row.getLastCellNum(), 5);
+            for (int cellNum = 0; cellNum < lastColumn; cellNum++) {
+            	Cell cell = row.getCell(cellNum, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+                String input = dataFormatter.formatCellValue(cell);
+                //System.out.println(input.isEmpty());
+                if (row.getRowNum() == 2 ) {
+                	headerArray.add(input);
+                } else {
+
+					if (map.get(headerArray.get(cellNum)) == null || input.isEmpty() || map.get(headerArray.get(cellNum)).equals(newArray) || map.get(headerArray.get(cellNum)).contains(input)) {
+	                    // add to db
+	                	
+	                    System.out.println("added " + input + " wrt " + map.get(headerArray.get(cellNum)));
+	                	cells.add(input);
+	
+	                }
+	                else {
+	                	
+	                	System.out.println("Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+	                    + " does not contain an allowed value: " + input + " and expected: " + map.get(headerArray.get(cellNum)) );
+	                }
+                }
+            }
+	        	System.out.println(cells.toString());
+        }
+    	System.out.println(headerArray.toString());
+    }
+	
+	@SuppressWarnings("resource")
+	public static HashMap<String, ArrayList<String>> createAllowedValues() throws InvalidFormatException, IOException {
+        Workbook workbook = null;
+        workbook = new XSSFWorkbook(new File("/cmshome/sarranch/eclipse_workspace2/inputChecking/src/inputCheck/New_iCARE_Template_Comb_with_Examples.xlsx"));
+        Sheet sheet = workbook.getSheetAt(1);
+        DataFormatter dataFormatter = new DataFormatter();
+        HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+        ArrayList<String> headerArray = new ArrayList<String>();
+        for (int cellNum = 0; cellNum <10; cellNum ++) 
+        	
+        { 	 ArrayList<String> cells = new ArrayList<String>(); 
+        	boolean firstRow = true;
+        	boolean secondRow = true;
+        	 for (Row row : sheet) {
+                 if (firstRow) {
+                	firstRow = false;
+                 	continue;
+                 }
+                 if (secondRow) {
+                 	headerArray.add(dataFormatter.formatCellValue(sheet.getRow(1).getCell(cellNum)));
+                 	secondRow = false;
+                  	continue;
+                  }
+                 Cell cell = row.getCell(cellNum, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
+                 if (cell == null) {
+                	 continue;
+                 } else if (cell.getColumnIndex() == 0){
+                	 
+        	 	 } else {
+	                 String input = dataFormatter.formatCellValue(cell);
+	                 cells.add(input);
+                 }
+        	 } 
+        	 map.put(headerArray.get(cellNum) , cells);
+
+        }
+        workbook.close();
+        
+        return map;
+
+	}
+	
+	
+	
+        public static void main(String[] args) throws InvalidFormatException, IOException {
+        	//errorChecking();
+        	parseForDB();
+        	//System.out.println(map.toString());
+        }
 }
