@@ -2,8 +2,10 @@ Sprint length = 5 days
 1 story point  = 1 developer hour 
 
 Team contribution in story points per week
-* Ashley    - 11
-* Christian - 7 
-* Kelvin    - 7 
-* Anton     - 8 
-* Jeffrey   - 8 
+| id | name           | points |
+|----|----------------|--------|
+| Z  | Ashley (Zifan) | 11     |
+| C  | Christian      | 7      |
+| K  | Kelvin         | 7      |
+| A  | Anton          | 8      |
+| J  | Jeffrey        | 8      |
