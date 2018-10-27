@@ -6,13 +6,13 @@ import com.teq.address.Address;
 
 public class Client {
     public int id = -1;
-    public int IdType = -1;
-    public String Birthdate = "";
+    public int idType = -1;
+    public String birthDate = "";
     public String PhoneNumber = "";
     public String EmailAddress = "";
-    public boolean Consent;
-    public String Language = "";
-    public Address Address = null;
+    public boolean consent;
+    public String language = "";
+    public int addressId = -1;
 
     /**
      * Returns the ID of the client as it appears in the TEQ database.
@@ -24,11 +24,11 @@ public class Client {
     }
 
     public int getIdType() {
-        return IdType;
+        return idType;
     }
 
-    public String getBirthdate() {
-        return Birthdate;
+    public String getBirthDate() {
+        return birthDate;
     }
 
     public String getPhoneNumber() {
@@ -40,15 +40,15 @@ public class Client {
     }
 
     public boolean getConsent() {
-        return Consent;
+        return consent;
     }
 
     public String getLanguage() {
-        return Language;
+        return language;
     }
 
-    public Address getAddress() {
-        return Address;
+    public int getAddressId() {
+        return addressId;
     }
 
     @Override
@@ -57,11 +57,11 @@ public class Client {
         if (id != -1) {
             repr.add("" + id);
         }
-        if (IdType != -1) {
-            repr.add(String.format("%d", IdType));
+        if (idType != -1) {
+            repr.add(String.format("%d", idType));
         }
-        if (!Birthdate.isEmpty()) {
-            repr.add(Birthdate);
+        if (!birthDate.isEmpty()) {
+            repr.add(birthDate);
         }
         if (!PhoneNumber.isEmpty()) {
             repr.add(PhoneNumber);
@@ -69,11 +69,11 @@ public class Client {
         if (!EmailAddress.isEmpty()) {
             repr.add(EmailAddress);
         }
-        if (!Language.isEmpty()) {
-            repr.add(Language);
+        if (!language.isEmpty()) {
+            repr.add(language);
         }
-        if (Address != null && Address.getId() != -1) {
-            repr.add("AddressId " + Address.getId());
+        if (addressId != -1) {
+            repr.add("" + addressId);
         }
         return "Client(" + String.join(", ", repr) + ")";
     }

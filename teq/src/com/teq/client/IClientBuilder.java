@@ -13,11 +13,11 @@ public interface IClientBuilder {
 
     public IClientBuilder setEmailAddress(String EmailAddress);
 
-    public IClientBuilder setConesnt(boolean consent);
+    public IClientBuilder setConsent(boolean consent);
 
     public IClientBuilder setLanguage(String language);
 
-    public IClientBuilder setAddress(Address address);
+    public IClientBuilder setAddressId(int addressId);
 
     public Client create();
 }

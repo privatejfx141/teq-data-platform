@@ -17,6 +17,18 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
+    protected static int getTypeId(Connection connection, String tableName, String typeDesc) throws SQLException {
+        String sql = String.format("SELECT DISTINCT id FROM %s WHERE description = ?", tableName);
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, typeDesc);
+        ResultSet results = preparedStatement.executeQuery();
+        int typeId = 0;
+        while (results.next()) {
+            typeId = results.getInt(1);
+        }
+        return typeId;
+    }
+
     protected static ResultSet getClient(Connection connection, int clientId) throws SQLException {
         String sql = "SELECT * FROM Client WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);

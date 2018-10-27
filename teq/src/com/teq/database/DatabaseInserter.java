@@ -5,11 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 
-import com.teq.address.Address;
 import com.teq.client.Client;
 import com.teq.course.Course;
+import com.teq.service.Assessment;
+import com.teq.service.Employment;
+import com.teq.service.Orientation;
 import com.teq.service.Service;
+import com.teq.sql.SQLDriver;
 
 public class DatabaseInserter {
     /**
@@ -21,7 +25,66 @@ public class DatabaseInserter {
      * @return client ID (primary key) of the inserted client
      */
     protected static int insertClient(Connection connection, Client client) {
+        String sql = "INSERT INTO Client (id,id_type,birth_date,phone_number,email_address,address_id,consents)"
+                + " VALUES (?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, client.getId());
+            statement.setInt(2, client.getIdType());
+            statement.setDate(3, SQLDriver.parseDate(client.getBirthDate()));
+            statement.setString(4, client.getPhoneNumber());
+            statement.setString(5, client.getEmailAddress());
+            statement.setInt(6, client.getAddressId());
+            statement.setString(7, client.getLanguage());
+            statement.setBoolean(8, client.getConsent());
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
         return -1;
+    }
+
+    /**
+     * Connects to the TEQ database and inserts an address to the Address table.
+     * Returns the address ID if successful, -1 otherwise.
+     * 
+     * @param connection      connection to the TEQ database
+     * @param postalCode      postal code
+     * @param streetNumber    street number
+     * @param streetName      street name
+     * @param streetDirection street direction (N, S, E, W)
+     * @param city            city name
+     * @param province        province name
+     * @return the address ID number, -1 otherwise
+     * @throws DatabaseInsertException
+     */
+    protected static int insertAddress(Connection connection, String postalCode, int streetNumber, String streetName,
+            String streetDirection, String city, String province) throws DatabaseInsertException {
+        String sql = "INSERT INTO Address(postal_code,street_number,street_name,street_direction,city,province)"
+                + " VALUES (?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, postalCode);
+            statement.setInt(2, streetNumber);
+            statement.setString(3, streetName);
+            statement.setString(4, streetDirection);
+            statement.setString(5, city);
+            statement.setString(6, province);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
     }
 
     /**
@@ -31,14 +94,89 @@ public class DatabaseInserter {
      * @param connection connection to the TEQ database
      * @param service    service info to insert
      * @return service ID (primary key) of the inserted service
+     * @throws DatabaseInsertException on failure of insert
      */
-    protected static int insertService(Connection connection, Service service) {
-        return -1;
+    protected static int insertService(Connection connection, Service service) throws DatabaseInsertException {
+        // insert into the service table
+        int serviceId = insertServiceObject(connection, service);
+        // insert relationships
+        for (String supportService : service.getSupportServices()) {
+            try {
+                int typeId = DatabaseSelector.getTypeId(connection, "SupportService", supportService);
+                insertServiceSupportService(connection, serviceId, typeId);
+            } catch (SQLException e) {
+                throw new DatabaseInsertException();
+            }
+        }
+        for (String essentialSkill : service.getEssentialSkills()) {
+            try {
+                int typeId = DatabaseSelector.getTypeId(connection, "EssentialSkill", essentialSkill);
+                insertServiceEssentialSkill(connection, serviceId, typeId);
+            } catch (SQLException e) {
+                throw new DatabaseInsertException();
+            }
+        }
+        for (String targetGroup : service.getTargetGroups()) {
+            try {
+                int typeId = DatabaseSelector.getTypeId(connection, "TargetGroup", targetGroup);
+                insertServiceTargetGroup(connection, serviceId, typeId);
+            } catch (SQLException e) {
+                throw new DatabaseInsertException();
+            }
+        }
+        // return service id
+        return serviceId;
     }
 
-    protected static int insertServiceRelationship(Connection connection, String tableName, String serviceCol,
-            String typeCol, int serviceId, int typeId) throws DatabaseInsertException {
-        String sql = String.format("INSERT INTO %s(%s,%s) VALUES(?,?)", tableName, serviceCol, typeCol);
+    private static int insertServiceObject(Connection connection, Service service) throws DatabaseInsertException {
+        String sql = "INSERT INTO Service (client_id,language,organization_type,referred_by,update_reason,service_type)"
+                + " VALUES (?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, service.getClientId());
+            statement.setString(2, service.getLanguage());
+            statement.setString(3, service.getOrganizationType());
+            statement.setString(4, service.getReferredBy());
+            statement.setString(5, service.getUpdateReason());
+            statement.setString(6, service.getServiceType());
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    protected static int insertAssessment(Connection connection, Assessment assessment) throws DatabaseInsertException {
+        int assessmentId = insertService(connection, assessment);
+        String sql = "INSERT INTO Assessment(service_id,start_date,language_skill_goal_other_skill_goal,intends_citizenship,req_support_service,plan_complete,end_date)"
+                + " VALUES (?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return assessmentId;
+    }
+
+    protected static int insertEmployment(Connection connection, Employment employment) throws DatabaseInsertException {
+        int employmentId = insertService(connection, employment);
+        return employmentId;
+    }
+
+    protected static int insertOrientation(Connection connection, Orientation orientation)
+            throws DatabaseInsertException {
+        int orientationId = insertService(connection, orientation);
+        return orientationId;
+    }
+
+    protected static int insertServiceRelationship(Connection connection, String tableName, String serviceIdCol,
+            String typeIdCol, int serviceId, int typeId) throws DatabaseInsertException {
+        String sql = String.format("INSERT INTO %s(%s,%s) VALUES(?,?)", tableName, serviceIdCol, typeIdCol);
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, serviceId);
@@ -55,9 +193,9 @@ public class DatabaseInserter {
         throw new DatabaseInsertException();
     }
 
-    protected static int insertServiceRelationship(Connection connection, String tableName, String serviceCol,
-            String typeCol, int serviceId, int typeId, boolean referrals) throws DatabaseInsertException {
-        String sql = String.format("INSERT INTO %s(%s,%s,referrals) VALUES(?,?,?)", tableName, serviceCol, typeCol);
+    protected static int insertServiceRelationship(Connection connection, String tableName, String serviceIdCol,
+            String typeIdCol, int serviceId, int typeId, boolean referrals) throws DatabaseInsertException {
+        String sql = String.format("INSERT INTO %s(%s,%s,referrals) VALUES(?,?,?)", tableName, serviceIdCol, typeIdCol);
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, serviceId);
@@ -290,44 +428,6 @@ public class DatabaseInserter {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, courseId);
             statement.setInt(2, groupId);
-            if (statement.executeUpdate() > 0) {
-                ResultSet uniqueKey = statement.getGeneratedKeys();
-                if (uniqueKey.next()) {
-                    return uniqueKey.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new DatabaseInsertException();
-    }
-
-    /**
-     * Connects to the TEQ database and inserts an address to the Address table.
-     * Returns the address ID if successful, -1 otherwise.
-     * 
-     * @param connection      connection to the TEQ database
-     * @param postalCode      postal code
-     * @param streetNumber    street number
-     * @param streetName      street name
-     * @param streetDirection street direction (N, S, E, W)
-     * @param city            city name
-     * @param province        province name
-     * @return the address ID number, -1 otherwise
-     * @throws DatabaseInsertException
-     */
-    protected static int insertAddress(Connection connection, String postalCode, int streetNumber, String streetName,
-            String streetDirection, String city, String province) throws DatabaseInsertException {
-        String sql = "INSERT INTO Address(postal_code,street_number,street_name,street_direction,city,province)"
-                + " VALUES (?,?,?,?,?,?)";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, postalCode);
-            statement.setInt(2, streetNumber);
-            statement.setString(3, streetName);
-            statement.setString(4, streetDirection);
-            statement.setString(5, city);
-            statement.setString(6, province);
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
                 if (uniqueKey.next()) {

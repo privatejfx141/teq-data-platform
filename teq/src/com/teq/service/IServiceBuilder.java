@@ -10,6 +10,8 @@ public interface IServiceBuilder {
 
     public IServiceBuilder setLanguage(String language);
 
+    public IServiceBuilder setReferredBy(String referredBy);
+    
     public IServiceBuilder setOrganizationType(String organizationType);
 
     public IServiceBuilder setUpdateReason(String updateReason);

@@ -17,13 +17,13 @@ public class ClientBuilder implements IClientBuilder {
 
     @Override
     public IClientBuilder setIdType(int IdType) {
-        client.IdType = IdType;
+        client.idType = IdType;
         return this;
     }
 
     @Override
     public IClientBuilder setBirthdate(String Birthdate) {
-        client.Birthdate = Birthdate;
+        client.birthDate = Birthdate;
         return this;
     }
 
@@ -40,20 +40,20 @@ public class ClientBuilder implements IClientBuilder {
     }
 
     @Override
-    public IClientBuilder setConesnt(boolean consent) {
-        client.Consent = consent;
+    public IClientBuilder setConsent(boolean consent) {
+        client.consent = consent;
         return this;
     }
 
     @Override
     public IClientBuilder setLanguage(String language) {
-        client.Language = language;
+        client.language = language;
         return this;
     }
 
     @Override
-    public IClientBuilder setAddress(Address address) {
-        client.Address = address;
+    public IClientBuilder setAddressId(int addressId) {
+        client.addressId = addressId;
         return this;
     }
 
