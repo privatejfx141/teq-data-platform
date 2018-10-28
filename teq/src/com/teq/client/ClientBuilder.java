@@ -22,7 +22,7 @@ public class ClientBuilder implements IClientBuilder {
     }
 
     @Override
-    public IClientBuilder setBirthdate(String Birthdate) {
+    public IClientBuilder setBirthDate(String Birthdate) {
         client.birthDate = Birthdate;
         return this;
     }
@@ -54,6 +54,12 @@ public class ClientBuilder implements IClientBuilder {
     @Override
     public IClientBuilder setAddressId(int addressId) {
         client.addressId = addressId;
+        return this;
+    }
+    
+    @Override
+    public IClientBuilder setAddress(Address address) {
+        client.address = address;
         return this;
     }
 

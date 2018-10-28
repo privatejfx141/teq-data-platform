@@ -1,9 +1,8 @@
 package com.teq.address;
 
 public class AddressBuilder implements IAddressBuilder {
-    
     private Address address;
-    
+
     public AddressBuilder() {
         address = new Address();
     }
@@ -21,6 +20,12 @@ public class AddressBuilder implements IAddressBuilder {
     }
 
     @Override
+    public IAddressBuilder setUnitNumber(int number) {
+        address.unitNumber = number;
+        return this;
+    }
+
+    @Override
     public IAddressBuilder setStreetNumber(int number) {
         address.streetNumber = number;
         return this;
@@ -29,6 +34,12 @@ public class AddressBuilder implements IAddressBuilder {
     @Override
     public IAddressBuilder setStreetName(String name) {
         address.streetName = name;
+        return this;
+    }
+
+    @Override
+    public IAddressBuilder setStreetType(String type) {
+        address.streetType = type;
         return this;
     }
 
@@ -54,5 +65,4 @@ public class AddressBuilder implements IAddressBuilder {
     public Address create() {
         return address;
     }
-    
 }

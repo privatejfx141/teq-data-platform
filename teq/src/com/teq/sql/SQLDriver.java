@@ -26,7 +26,11 @@ public class SQLDriver {
     }
 
     public static java.sql.Date parseDate(String dateString) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return parseDate(dateString, "yyyy-MM-dd");
+    }
+    
+    public static java.sql.Date parseDate(String dateString, String dateFormat) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         java.util.Date date = simpleDateFormat.parse(dateString);
         java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
         return sqlStartDate;

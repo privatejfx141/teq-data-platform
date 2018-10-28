@@ -5,9 +5,11 @@ import java.util.ArrayList;
 public class Address {
     protected int id = -1;
     protected String postalCode = "";
+    protected int unitNumber = -1;
     protected int streetNumber = -1;
     protected String streetName = "";
     protected String streetDirection = "";
+    protected String streetType = "";
     protected String city = "";
     protected String province = "";
 
@@ -24,12 +26,20 @@ public class Address {
         return postalCode;
     }
 
+    public int getUnitNumber() {
+        return unitNumber;
+    }
+
     public int getStreetNumber() {
         return streetNumber;
     }
 
     public String getStreetName() {
         return streetName;
+    }
+
+    public String getStreetType() {
+        return streetType;
     }
 
     public String getStreetDirection() {
@@ -53,8 +63,12 @@ public class Address {
         if (!postalCode.isEmpty()) {
             repr.add(postalCode);
         }
-        if (streetNumber != -1 && !streetName.isEmpty() && !streetDirection.isEmpty()) {
-            repr.add(String.format("%d %s %s", streetNumber, streetName, streetDirection));
+        if (streetNumber != -1 && !streetName.isEmpty() && !streetType.isEmpty() && !streetDirection.isEmpty()) {
+            String streetRepr = String.format("%d %s %s %s", streetNumber, streetName, streetType, streetDirection);
+            if (unitNumber != -1) {
+                streetRepr = unitNumber + "-" + streetRepr;
+            }
+            repr.add(streetRepr);
         }
         if (!city.isEmpty()) {
             repr.add(city);

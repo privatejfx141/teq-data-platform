@@ -1,15 +1,21 @@
 package com.teq.app;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-
+import com.teq.address.Address;
+import com.teq.client.Client;
 import com.teq.databasehelper.DatabaseDriverHelper;
-import com.teq.inputCheck.errorCheck;
+import com.teq.databasehelper.DatabaseInsertHelper;
+import com.teq.databasehelper.DatabaseSelectHelper;
 
 public class App {
+    
+    // temporary value for testing
+    public static String filePath = "client_profile.xlsx";
     
     public static void main(String[] args) {
         System.out.println("TEQ LIP data platform");
@@ -19,16 +25,25 @@ public class App {
         if (!dbExists) {
             DatabaseDriverHelper.initializeDatabase();
         }
-        
-        String filePath = "icare.xlsx";
-        try {
-            ArrayList<ArrayList<String>> values = errorCheck.parseForDB(filePath);
-            for (ArrayList<String> list : values) {
-                String repr = Arrays.toString(list.toArray());
-                System.out.println(repr);
-            }
-        } catch (InvalidFormatException | IOException e) {
-            e.printStackTrace();
+
+        List<Client> clients = ExcelDriver.readClientProfile(filePath);
+        for (Client client : clients) {
+            
+            // insert address first
+            Address address = client.getAddress();
+            int addressId = DatabaseInsertHelper.insertAddress(address);
+            System.out.println("New address ID at: " + addressId);
+            
+            // insert client next
+            client.setAddressId(addressId);
+            int clientId = DatabaseInsertHelper.insertClient(client);
+            System.out.println("New client ID at: " + clientId);
+            
+            // get client and its address from database
+            client = DatabaseSelectHelper.getClient(clientId);
+            System.out.println("Retrieved results from database:");
+            System.out.println(client);
+            System.out.println(client.getAddress());
         }
         
     }

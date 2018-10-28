@@ -10,6 +10,9 @@ import java.util.List;
 import com.teq.address.Address;
 import com.teq.address.AddressBuilder;
 import com.teq.address.IAddressBuilder;
+import com.teq.client.Client;
+import com.teq.client.ClientBuilder;
+import com.teq.client.IClientBuilder;
 import com.teq.database.DatabaseDriver;
 import com.teq.database.DatabaseSelector;
 
@@ -54,6 +57,35 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return list;
     }
 
+    public static Client getClient(int clientId) {
+        Client client = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getClient(connection, clientId);
+            while (results.next()) {       
+                IClientBuilder builder = new ClientBuilder();
+                client = builder.setId(results.getInt("id"))
+                        .setIdType(results.getInt("id_type"))
+                        .setBirthDate(results.getDate("birth_date").toString())
+                        .setPhoneNumber(results.getString("phone_number"))
+                        .setEmailAddress(results.getString("email_address"))
+                        .setAddress(getAddress(results.getInt("address_id")))
+                        .setLanguage(results.getString("language"))
+                        .setConsent(results.getBoolean("consents"))
+                        .create();
+            }
+        } catch (SQLException e) {
+            client = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return client;
+    }
+    
     /**
      * Connects to database, obtains and returns an address with ID number addressId
      * from the Address table. Returns <code>null</code> if addressId is invalid.
@@ -69,11 +101,16 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             ResultSet results = DatabaseSelector.getAddress(connection, addressId);
             while (results.next()) {
                 IAddressBuilder builder = new AddressBuilder();
-                address = builder.setId(results.getInt("id")).setPostalCode(results.getString("postal_code"))
+                address = builder.setId(results.getInt("id"))
+                        .setPostalCode(results.getString("postal_code"))
+                        .setUnitNumber(results.getInt("unit_number"))
                         .setStreetNumber(results.getInt("street_number"))
                         .setStreetName(results.getString("street_name"))
-                        .setStreetDirection(results.getString("street_direction")).setCity(results.getString("city"))
-                        .setProvince(results.getString("province")).create();
+                        .setStreetType(results.getString("street_type"))
+                        .setStreetDirection(results.getString("street_direction"))
+                        .setCity(results.getString("city"))
+                        .setProvince(results.getString("province"))
+                        .create();
             }
         } catch (SQLException e) {
             address = null;

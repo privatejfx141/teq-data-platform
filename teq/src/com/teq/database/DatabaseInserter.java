@@ -27,8 +27,9 @@ public class DatabaseInserter {
      * @throws DatabaseInsertException
      */
     protected static int insertClient(Connection connection, Client client) throws DatabaseInsertException {
-        String sql = "INSERT INTO Client (id,id_type,birth_date,phone_number,email_address,address_id,consents)"
-                + " VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Client ("
+                + "id,id_type,birth_date,phone_number,email_address,address_id,language,consents"
+                + ") VALUES (?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, client.getId());
@@ -66,16 +67,19 @@ public class DatabaseInserter {
      * @throws DatabaseInsertException
      */
     protected static int insertAddress(Connection connection, Address address) throws DatabaseInsertException {
-        String sql = "INSERT INTO Address(postal_code,street_number,street_name,street_direction,city,province)"
-                + " VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO Address("
+                + "postal_code,unit_number,street_number,street_name,street_type,street_direction,city,province"
+                + ") VALUES (?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, address.getPostalCode());
-            statement.setInt(2, address.getStreetNumber());
-            statement.setString(3, address.getStreetName());
-            statement.setString(4, address.getStreetDirection());
-            statement.setString(5, address.getCity());
-            statement.setString(6, address.getProvince());
+            statement.setInt(2, address.getUnitNumber());
+            statement.setInt(3, address.getStreetNumber());
+            statement.setString(4, address.getStreetName());
+            statement.setString(5, address.getStreetType());
+            statement.setString(6, address.getStreetDirection());
+            statement.setString(7, address.getCity());
+            statement.setString(8, address.getProvince());
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
                 if (uniqueKey.next()) {

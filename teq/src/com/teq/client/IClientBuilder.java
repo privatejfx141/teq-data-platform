@@ -7,7 +7,7 @@ public interface IClientBuilder {
 
     public IClientBuilder setIdType(int IdType);
 
-    public IClientBuilder setBirthdate(String Birthdate);
+    public IClientBuilder setBirthDate(String Birthdate);
 
     public IClientBuilder setPhoneNumber(String PhoneNumber);
 
@@ -18,6 +18,8 @@ public interface IClientBuilder {
     public IClientBuilder setLanguage(String language);
 
     public IClientBuilder setAddressId(int addressId);
+    
+    public IClientBuilder setAddress(Address address);
 
     public Client create();
 }

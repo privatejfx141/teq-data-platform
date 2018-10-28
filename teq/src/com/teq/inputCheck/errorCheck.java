@@ -4,10 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -18,15 +17,12 @@ public class errorCheck {
     /**
      * Returns an 2D array where index i is the row of input from row i
      * 
-     * @throws IOException
-     * @throws InvalidFormatException
-     * @throws  
+     * @throws IOException @throws InvalidFormatException @throws
      */
     @SuppressWarnings("resource")
     public static ArrayList<ArrayList<String>> parseForDB(String filePath) throws InvalidFormatException, IOException {
         Workbook workbook = null;
-        workbook = new XSSFWorkbook(
-                new File(filePath));
+        workbook = new XSSFWorkbook(new File(filePath));
         Sheet sheet = workbook.getSheetAt(0);
         DataFormatter dataFormatter = new DataFormatter();
         int lastRow = sheet.getLastRowNum();
@@ -34,6 +30,9 @@ public class errorCheck {
         for (Row row : sheet) {
             if (row.getRowNum() == 0 || row.getRowNum() == 1 || row.getRowNum() == 1 || row.getRowNum() == lastRow) {
                 continue;
+            }
+            if (isRowEmpty(row)) {
+                break;
             }
             ArrayList<String> cells = new ArrayList<String>();
             int lastColumn = Math.max(row.getLastCellNum(), 5);
@@ -47,6 +46,15 @@ public class errorCheck {
             output.add(cells);
         }
         return output;
+    }
+
+    public static boolean isRowEmpty(Row row) {
+        for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
+            Cell cell = row.getCell(c);
+            if (cell != null && cell.getCellType() != CellType.BLANK)
+                return false;
+        }
+        return true;
     }
 
     @SuppressWarnings("resource")
