@@ -10,9 +10,16 @@ import com.teq.database.DatabaseInsertException;
 import com.teq.database.DatabaseInserter;
 
 public class DatabaseInsertHelper extends DatabaseInserter {
+    /**
+     * Inserts client details into the TEQ database and returns the client ID if
+     * successful.
+     * 
+     * @param client client details to insert
+     * @return client ID if successful, -1 otherwise
+     */
     public static int insertClient(Client client) {
         int clientId = -1;
-        Connection connection = DatabaseDriver.connectOrCreateDatabase();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             clientId = DatabaseInserter.insertClient(connection, client);
         } catch (DatabaseInsertException exception) {
@@ -35,7 +42,7 @@ public class DatabaseInsertHelper extends DatabaseInserter {
      */
     public static int insertAddress(Address address) {
         int addressId = -1;
-        Connection connection = DatabaseDriver.connectOrCreateDatabase();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         // attempt to insert into database
         try {
             addressId = DatabaseInserter.insertAddress(connection, address);
@@ -53,7 +60,7 @@ public class DatabaseInsertHelper extends DatabaseInserter {
 
     public static int insertServiceEssentialSkill(int serviceId, int skillId) {
         int id = -1;
-        Connection connection = DatabaseDriver.connectOrCreateDatabase();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         // attempt to insert into database
         try {
             id = DatabaseInserter.insertServiceEssentialSkill(connection, serviceId, skillId);

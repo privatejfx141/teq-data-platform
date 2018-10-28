@@ -16,7 +16,7 @@ import com.teq.database.DatabaseSelector;
 public class DatabaseSelectHelper extends DatabaseSelector {
     public static List<String> getAllTypes(String tableName) {
         List<String> list = new ArrayList<>();
-        Connection connection = DatabaseDriver.connectOrCreateDatabase();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             ResultSet results = DatabaseSelector.getAllTypes(connection, tableName);
             while (results.next()) {
@@ -36,7 +36,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
 
     public static List<String> getServiceEssentialSkill(int serviceId) {
         List<String> list = new ArrayList<>();
-        Connection connection = DatabaseDriver.connectOrCreateDatabase();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             ResultSet results = DatabaseSelector.getServiceEssentialSkill(connection, serviceId);
             while (results.next()) {
@@ -64,7 +64,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
      */
     public static Address getAddress(int addressId) {
         Address address = null;
-        Connection connection = DatabaseDriver.connectOrCreateDatabase();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             ResultSet results = DatabaseSelector.getAddress(connection, addressId);
             while (results.next()) {
