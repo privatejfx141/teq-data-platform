@@ -31,9 +31,9 @@ Read and parse the uploaded Excel files in the back-end.
 * might need to use library for reading excel files
 
 ## T7 Dependency: T3, T4, T6 | 10 story points
-Update the database with the parsed excel data. 
-* connect the code that parses and validates excel data with the database so
-  that the data from the excel files can be inserted into the database
+Insert the parsed excel data for the Client Profile template into the database.
+* need to store all the different field types
+* need to know the allowable values for each field
 
 ## T8 | 8 story points
 Develop basic front-end UI for uploading Excel templates.

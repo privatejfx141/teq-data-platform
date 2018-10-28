@@ -9,8 +9,8 @@ Add UI to select template type and integrate with uploading UI
 * notify the backend of the type of template being uploaded
 
 ## T10 | 8 story points
-Store all template types in database and the data fields in the cols, and
-mandatory fields
+Create allowed values for all template types, in database and the data fields in
+the cols, and mandatory fields
 * Needed to determine what templates can be uploaded and what data they can
   contain
 
@@ -21,6 +21,5 @@ Add UI for displaying status of uploaded files with errors if they occur
 * notify user of any error inconsistency or duplication in the data they upload
 
 ## T12 Dependency: T11 | 5 story points
-Connect UI with the code for Excel data validation
-* send the file path and template type to the system which can read and parse
-  excel files
+Input data read from input excel file into the database
+* transform data into the format suitable for injection into database
