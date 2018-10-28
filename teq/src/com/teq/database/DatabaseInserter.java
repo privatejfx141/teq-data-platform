@@ -24,7 +24,7 @@ public class DatabaseInserter {
      * @param connection connection to the TEQ database
      * @param client     client info to insert
      * @return client ID (primary key) of the inserted client
-     * @throws DatabaseInsertException 
+     * @throws DatabaseInsertException
      */
     protected static int insertClient(Connection connection, Client client) throws DatabaseInsertException {
         String sql = "INSERT INTO Client (id,id_type,birth_date,phone_number,email_address,address_id,consents)"

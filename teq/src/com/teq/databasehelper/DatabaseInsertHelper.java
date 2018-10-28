@@ -26,7 +26,7 @@ public class DatabaseInsertHelper extends DatabaseInserter {
         }
         return clientId;
     }
-    
+
     /**
      * Inserts an address into the TEQ database and returns the address ID.
      * 
