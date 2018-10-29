@@ -1,0 +1,22 @@
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import java.lang.*?>
+<GridPane fx:controller="ui.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10"
+          vgap="10">
+    <ComboBox GridPane.columnIndex="5" promptText="Select Template Type">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Info and Orientation"/>
+                <String fx:value="Employment"/>
+                <String fx:value="LT Client Enrol"/>
+                <String fx:value="LT Course Setup"/>
+                <String fx:value="LT Client Exit"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <Button GridPane.columnIndex="0" text="Add file"
+            onAction="#handleAddFileAction"/>
+</GridPane>
