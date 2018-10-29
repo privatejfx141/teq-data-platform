@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -15,8 +16,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader
-                .load(getClass().getResource("/fxml/sample.fxml"));
-        primaryStage.setTitle("Hello World");
+                .load(getClass().getResource("/fxml/home.fxml"));
+        primaryStage.setTitle("TEQ data platform");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
