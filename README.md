@@ -1,3 +1,9 @@
+# Building and Running
+This is a maven project so you can build with
+```shell
+$ mvn compile
+```
+
 # Repository Structure
 ## Meeting minutes
 The file `minutes.md` contains minutes for each of our meetings.
@@ -25,4 +31,5 @@ The folder `product-backlog` contains the product backlog for this project. This
 includes all versions of user stories and personas. The folder `sprint-backlog`
 contains all documentation for the sprints we have done and are currently doing.
 This includes task breakdowns, plan, execution and burndown charts for the plan
-and execution.
+and execution. The folder `teq-data-platform` contains the code we have written
+for this project.
