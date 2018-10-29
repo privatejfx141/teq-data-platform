@@ -1,4 +1,4 @@
-# U2 | 13 story points
+# U2 | 23 story points
 As Marge (counsellor), I want to select a template type and upload the Excel
 file to the TEQ data platform, so that I can upload data for the different
 services offered.
@@ -14,12 +14,7 @@ the cols, and mandatory fields
 * Needed to determine what templates can be uploaded and what data they can
   contain
 
-# U3 | 10 story points
-## T11 | 5 story points
-Add UI for displaying status of uploaded files with errors if they occur
-* communicate with parsing/data insertion system
-* notify user of any error inconsistency or duplication in the data they upload
-
-## T12 Dependency: T11 | 5 story points
+## T11 | 10 story points
 Input data read from input excel file into the database
+* communicate with parsing/data insertion system
 * transform data into the format suitable for injection into database
