@@ -1,5 +1,5 @@
-U1: As Marge (cousellor), I want to upload Exel templates to the TEQ data
-platform so that they can be analysed and used to imporve immigrant services.
+U1: As Marge (counsellor), I want to upload the Client Profile template to the TEQ data platform so that
+we have data on the client that can be analyzed and used to keep track of the client.
 
 U2: As Marge (cousellor), I want to select a template type and upload the Excel
 file to the TEQ data platform, so that I can upload data for the different
