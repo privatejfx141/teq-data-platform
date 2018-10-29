@@ -1,6 +1,7 @@
 # Building and Running
 This is a maven project so you can build with
 ```shell
+$ cd teq-data-platform
 $ mvn compile
 ```
 
