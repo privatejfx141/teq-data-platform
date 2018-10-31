@@ -313,8 +313,9 @@ public class DatabaseInserter {
      * @param connection connection to the TEQ database
      * @param course     course info to insert
      * @return course code (primary key) of the inserted course
+     * @throws DatabaseInsertException 
      */
-    protected static int insertCourse(Connection connection, Course course) {
+    protected static int insertCourse(Connection connection, Course course) throws DatabaseInsertException {
         // insert into the course table
         int courseId = insertCourseObject(connection, course);
         // insert relationships
@@ -342,7 +343,7 @@ public class DatabaseInserter {
                 throw new DatabaseInsertException();
             }
         }
-        // return service id
+        // return course id
         return courseId;
     }
     
@@ -391,7 +392,6 @@ public class DatabaseInserter {
         throw new DatabaseInsertException();
     }
 
-    }
 
     /**
      * Inserts a course contact into the TEQ database and returns the resulting ID
