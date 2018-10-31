@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.List;
 
 import com.devlopp.teq.address.Address;
 import com.devlopp.teq.client.Client;
@@ -313,8 +314,83 @@ public class DatabaseInserter {
      * @param course     course info to insert
      * @return course code (primary key) of the inserted course
      */
-    protected static String insertCourse(Connection connection, Course course) {
-        return "";
+    protected static int insertCourse(Connection connection, Course course) {
+        // insert into the course table
+        int courseId = insertCourseObject(connection, course);
+        // insert relationships
+        for (String schedule : course.getSchedules()) {
+            try {
+                int typeId = DatabaseSelector.getTypeId(connection, "Schedule", schedule);
+                insertServiceSupportService(connection, courseId, typeId);
+            } catch (SQLException e) {
+                throw new DatabaseInsertException();
+            }
+        }
+        for (String supportService : course.getSupportServices()) {
+            try {
+                int typeId = DatabaseSelector.getTypeId(connection, "SupportService", supportService);
+                insertServiceEssentialSkill(connection, courseId, typeId);
+            } catch (SQLException e) {
+                throw new DatabaseInsertException();
+            }
+        }
+        for (String targetGroup : course.getTargetGroups()) {
+            try {
+                int typeId = DatabaseSelector.getTypeId(connection, "TargetGroup", targetGroup);
+                insertServiceTargetGroup(connection, courseId, typeId);
+            } catch (SQLException e) {
+                throw new DatabaseInsertException();
+            }
+        }
+        // return service id
+        return courseId;
+    }
+    
+    /**
+     * Inserts a course into the TEQ database and returns the course ID if
+     * insertion was successful.
+     * 
+     * @param connection connection to the TEQ database
+     * @param course    course info to insert
+     * @return course ID (primary key) of the inserted course
+     * @throws DatabaseInsertException on failure of insert
+     */
+    private static int insertCourseObject(Connection connection, Course course) throws DatabaseInsertException {
+        String sql = "INSERT INTO Course (courseCode,notes,ongoingBasis,language,trainingFormat,"
+        		+ "classLocation,inpersonInstruct,onlineInstructnumberOfSpots,numberOfIRCC,"
+        		+ "enrollmentType,startDate,endDate,instructHours,weeklyHours,numWeeks,numWeeksPerYear,dominantFocus"
+                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, course.getCourseCode());
+            statement.setString(2, course.getLanguage());
+            statement.setBoolean(3, course.isOngoingBasis());
+            statement.setString(4, course.getLanguage());
+            statement.setString(5, course.getTrainingFormat());
+            statement.setString(6, course.getClassLocation());
+            statement.setFloat(7, course.getInPercentInstruct());
+            statement.setFloat(8, course.getOnlineInstruct());
+            statement.setInt(9, course.getNumberOfIRCC());
+            statement.setString(10, course.getEnrollmentType());
+            statement.setString(11, course.getStartDate());
+            statement.setString(12, course.getEndDate());
+            statement.setInt(13, course.getInstructHours());
+            statement.setInt(14, course.getWeeklyHours());
+            statement.setInt(15, course.getNumWeeks());
+            statement.setInt(16, course.getNumWeeksPerYear());
+            statement.setString(17, course.getDominantFocus());
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
     }
 
     /**
