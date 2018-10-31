@@ -18,8 +18,8 @@ import com.devlopp.teq.sql.SQLDriver;
 
 public class DatabaseInserter {
     /**
-     * Inserts a client (and its address) into the TEQ database and returns the client ID if insertion
-     * was successful.
+     * Inserts a client (and its address) into the TEQ database and returns the
+     * client ID if insertion was successful.
      * 
      * @param connection connection to the TEQ database
      * @param client     client info to insert
@@ -59,8 +59,8 @@ public class DatabaseInserter {
      * Connects to the TEQ database and inserts an address to the Address table.
      * Returns the address ID if successful, -1 otherwise.
      * 
-     * @param connection      connection to the TEQ database
-     * @param address the address object that describes the address
+     * @param connection connection to the TEQ database
+     * @param address    the address object that describes the address
      * @return the address ID number, -1 otherwise
      * @throws DatabaseInsertException on failure of insert
      */
@@ -90,6 +90,7 @@ public class DatabaseInserter {
         throw new DatabaseInsertException();
     }
 
+    // -- Service supertype insertions --
     /**
      * Inserts a service into the TEQ database and returns the service ID if
      * insertion was successful.
@@ -100,49 +101,41 @@ public class DatabaseInserter {
      * @throws DatabaseInsertException on failure of insert
      */
     protected static int insertService(Connection connection, Service service) throws DatabaseInsertException {
-        // insert service supertype into database
-        int serviceId = insertServiceSupertype(connection, service);
-        // insert all support services into database
-        for (String supportService : service.getSupportServices()) {
-            try {
+        // insert service details into database
+        int serviceId = insertServiceDetails(connection, service);
+        try {
+            // insert all support services into database
+            for (String supportService : service.getSupportServices()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "SupportService", supportService);
                 insertServiceSupportService(connection, serviceId, typeId);
-            } catch (SQLException e) {
-                throw new DatabaseInsertException();
             }
-        }
-        // insert all essential skills into database
-        for (String essentialSkill : service.getEssentialSkills()) {
-            try {
+            // insert all essential skills into database
+            for (String essentialSkill : service.getEssentialSkills()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "EssentialSkill", essentialSkill);
                 insertServiceEssentialSkill(connection, serviceId, typeId);
-            } catch (SQLException e) {
-                throw new DatabaseInsertException();
             }
-        }
-        // insert all target groups into database
-        for (String targetGroup : service.getTargetGroups()) {
-            try {
+            // insert all target groups into database
+            for (String targetGroup : service.getTargetGroups()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "TargetGroup", targetGroup);
                 insertServiceTargetGroup(connection, serviceId, typeId);
-            } catch (SQLException e) {
-                throw new DatabaseInsertException();
             }
+        } catch (SQLException e) {
+            throw new DatabaseInsertException();
         }
         // return service id
         return serviceId;
     }
 
     /**
-     * Inserts a service supertype into the TEQ database and returns the service ID if
-     * insertion was successful.
+     * Inserts a service supertype into the TEQ database and returns the service ID
+     * if insertion was successful.
      * 
      * @param connection connection to the TEQ database
      * @param service    service info to insert
      * @return service ID (primary key) of the inserted service
      * @throws DatabaseInsertException on failure of insert
      */
-    private static int insertServiceSupertype(Connection connection, Service service) throws DatabaseInsertException {
+    private static int insertServiceDetails(Connection connection, Service service) throws DatabaseInsertException {
         String sql = "INSERT INTO Service ("
                 + "client_id,postal_code,language,organization_type,referred_by,update_reason,service_type"
                 + ") VALUES (?,?,?,?,?,?,?)";
@@ -167,27 +160,97 @@ public class DatabaseInserter {
         throw new DatabaseInsertException();
     }
 
+    // -- Assessment service insertions --
+    /**
+     * Inserts an assessment service into the TEQ database and returns the service
+     * ID if insertion was successful.
+     *
+     * @param connection connection to the TEQ database
+     * @param service    assessment service info to insert
+     * @return service ID (primary key) of the inserted assessment service
+     * @throws DatabaseInsertException on failure of insert
+     */
     protected static int insertAssessment(Connection connection, Assessment assessment) throws DatabaseInsertException {
+        // insert assessment details into assessment table
+        int assessmentId = insertAssessmentDetails(connection, assessment);
+        try {
+            // insert all improvements into database
+            for (String increase : assessment.getIncreases()) {
+                int typeId = DatabaseSelector.getTypeId(connection, "Increase", increase);
+                insertServiceEssentialSkill(connection, assessmentId, typeId);
+            }
+            // insert all non-IRCC services into database
+            for (String service : assessment.getNonIRCCServices()) {
+                int typeId = DatabaseSelector.getTypeId(connection, "NonIRCCService", service);
+                insertServiceEssentialSkill(connection, assessmentId, typeId);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseInsertException();
+        }
+        // return service ID generated by database
+        return assessmentId;
+    }
+
+    /**
+     * Inserts the assessment service details into the TEQ database and returns the
+     * service ID if insertion was successful.
+     *
+     * @param connection connection to the TEQ database
+     * @param service    assessment service to insert
+     * @return service ID (primary key) of the inserted assessment service
+     * @throws DatabaseInsertException on failure of insert
+     */
+    private static int insertAssessmentDetails(Connection connection, Assessment assessment)
+            throws DatabaseInsertException {
         int assessmentId = insertService(connection, assessment);
-        String sql = "INSERT INTO Assessment(service_id,start_date,language_skill_goal_other_skill_goal,intends_citizenship,req_support_service,plan_complete,end_date)"
-                + " VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Assessment("
+                + "service_id,start_date,language_skill_goal_other_skill_goal,intends_citizenship,req_support_service,plan_complete,end_date"
+                + ") VALUES (?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-        } catch (SQLException e) {
+            statement.setInt(1, assessment.getId());
+            statement.setDate(2, SQLDriver.parseDate(assessment.getStartDate()));
+            statement.setString(3, assessment.getLanguageSkillGoal());
+            statement.setString(4, assessment.getOtherSkillGoal());
+            statement.setBoolean(5, assessment.wantsCitizenship());
+            statement.setBoolean(6, assessment.reqSupportService());
+            statement.setBoolean(7, assessment.isPlanComplete());
+            statement.setDate(8, SQLDriver.parseDate(assessment.getEndDate()));
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
         return assessmentId;
     }
 
+    // -- Orientation service insertions --
+    protected static int insertOrientation(Connection connection, Orientation orientation)
+            throws DatabaseInsertException {
+        int orientationId = insertOrientationDetails(connection, orientation);
+        return orientationId;
+    }
+
+    private static int insertOrientationDetails(Connection connection, Orientation orientation)
+            throws DatabaseInsertException {
+        // TODO
+        throw new DatabaseInsertException();
+    }
+
+    // -- Employment service insertions --
     protected static int insertEmployment(Connection connection, Employment employment) throws DatabaseInsertException {
-        int employmentId = insertService(connection, employment);
+        int employmentId = insertEmploymentDetails(connection, employment);
         return employmentId;
     }
 
-    protected static int insertOrientation(Connection connection, Orientation orientation)
+    private static int insertEmploymentDetails(Connection connection, Employment employment)
             throws DatabaseInsertException {
-        int orientationId = insertService(connection, orientation);
-        return orientationId;
+        // TODO
+        throw new DatabaseInsertException();
     }
 
     protected static int insertServiceRelationship(Connection connection, String tableName, String serviceIdCol,

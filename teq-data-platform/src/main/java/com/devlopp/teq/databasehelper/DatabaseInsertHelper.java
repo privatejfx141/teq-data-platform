@@ -8,6 +8,7 @@ import com.devlopp.teq.client.Client;
 import com.devlopp.teq.database.DatabaseDriver;
 import com.devlopp.teq.database.DatabaseInsertException;
 import com.devlopp.teq.database.DatabaseInserter;
+import com.devlopp.teq.service.assessment.Assessment;
 
 public class DatabaseInsertHelper extends DatabaseInserter {
     /**
@@ -58,6 +59,31 @@ public class DatabaseInsertHelper extends DatabaseInserter {
         return addressId;
     }
 
+    /**
+     * Inserts an assessment service into the TEQ database and returns the service ID.
+     * 
+     * @param assessment assessment service to insert
+     * @return assessment service ID if successful, -1 otherwise
+     */
+    public static int insertAssessment(Assessment assessment) {
+        int assessmentId = -1;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        // attempt to insert into database
+        try {
+            assessmentId = DatabaseInserter.insertAssessment(connection, assessment);
+        } catch (DatabaseInsertException exception) {
+            assessmentId = -1;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return assessmentId;
+    }
+    
+    
     public static int insertServiceEssentialSkill(int serviceId, int skillId) {
         int id = -1;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
