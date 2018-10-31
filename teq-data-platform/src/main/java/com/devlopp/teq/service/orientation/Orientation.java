@@ -1,4 +1,6 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.orientation;
+
+import com.devlopp.teq.service.Service;
 
 public class Orientation extends Service {
     protected String serviceReceived;

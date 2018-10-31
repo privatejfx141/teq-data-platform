@@ -1,4 +1,4 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.employment;
 
 public class EmploymentBuilder implements IEmploymentBuilder {
     private Employment employment;

@@ -17,8 +17,6 @@ public interface IClientBuilder {
 
     public IClientBuilder setLanguage(String language);
 
-    public IClientBuilder setAddressId(int addressId);
-    
     public IClientBuilder setAddress(Address address);
 
     public Client create();

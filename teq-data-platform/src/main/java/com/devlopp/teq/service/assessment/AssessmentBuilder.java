@@ -1,12 +1,15 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.assessment;
 
 import java.util.List;
 
-public class AssessmentBuilder implements IAssessmentBuilder {
+import com.devlopp.teq.service.ServiceBuilder;
+
+public class AssessmentBuilder extends ServiceBuilder implements IAssessmentBuilder {
     private Assessment assessment;
 
     public AssessmentBuilder() {
-        assessment = new Assessment();
+        service = new Assessment();
+        assessment = (Assessment)service;
     }
 
     @Override
@@ -62,4 +65,10 @@ public class AssessmentBuilder implements IAssessmentBuilder {
         assessment.nonIRCCServices = nonIRCCServices;
         return this;
     }
+    
+    @Override
+    public Assessment create() {
+        return assessment;
+    }
 }
+

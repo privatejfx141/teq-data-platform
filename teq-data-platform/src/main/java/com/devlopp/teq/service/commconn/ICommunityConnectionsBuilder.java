@@ -1,4 +1,4 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.commconn;
 
 public interface ICommunityConnectionsBuilder {
     public ICommunityConnectionsBuilder setEventType(String eventType);

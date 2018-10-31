@@ -1,7 +1,9 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.assessment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.devlopp.teq.service.Service;
 
 public class Assessment extends Service {
     protected String id;
@@ -15,38 +17,83 @@ public class Assessment extends Service {
     protected List<String> increases = new ArrayList<String>();
     protected List<String> nonIRCCServices = new ArrayList<String>();
 
+    /**
+     * Returns the start date of this assessment service.
+     * 
+     * @return start date of this assessment service
+     */
     public String getStartDate() {
         return startDate;
     }
 
+    /**
+     * Returns the client's language skill goal as stated in this assessment service.
+     * 
+     * @return client's language skill goal
+     */
     public String getLanguageSkillGoal() {
         return languageSkillGoal;
     }
 
+    /**
+     * Returns the client's miscellaneous skill goal as stated in this assessment service.
+     * 
+     * @return client's miscellaneous skill goal
+     */
     public String getOtherSkillGoal() {
         return otherSkillGoal;
     }
 
-    public boolean getWantsCitizenship() {
+    /**
+     * Returns whether the client wants citizenship as stated in this assessment service.
+     * 
+     * @return whether the client wants citizenship
+     */
+    public boolean wantsCitizenship() {
         return wantsCitizenship;
     }
 
-    public boolean getReqSupportService() {
+    /**
+     * Returns whether the client required support services for this assessment service.
+     * 
+     * @return whether the client required support services
+     */
+    public boolean reqSupportService() {
         return reqSupportService;
     }
 
-    public boolean getIsPlanComplete() {
+    /**
+     * Returns whether the client's settlement plan is reviewed and complete.
+     * 
+     * @return whether the client's settlement plan is reviewed and complete
+     */
+    public boolean isPlanComplete() {
         return planComplete;
     }
 
+    /**
+     * Returns the end date of this assessment service.
+     * 
+     * @return end date of this assessment service
+     */
     public String getEndDate() {
         return endDate;
     }
 
+    /**
+     * Returns a list of fields of improvement in this assessment service.
+     * 
+     * @return list of fields of improvement
+     */
     public List<String> getIncreases() {
         return increases;
     }
 
+    /**
+     * Returns a list of non-IRCC services for this assessment service.
+     * 
+     * @return list of non-IRCC services
+     */
     public List<String> getNonIRCCServices() {
         return nonIRCCServices;
     }

@@ -10,15 +10,15 @@ import java.text.ParseException;
 import com.devlopp.teq.address.Address;
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.course.Course;
-import com.devlopp.teq.service.Assessment;
-import com.devlopp.teq.service.Employment;
-import com.devlopp.teq.service.Orientation;
 import com.devlopp.teq.service.Service;
+import com.devlopp.teq.service.assessment.Assessment;
+import com.devlopp.teq.service.employment.Employment;
+import com.devlopp.teq.service.orientation.Orientation;
 import com.devlopp.teq.sql.SQLDriver;
 
 public class DatabaseInserter {
     /**
-     * Inserts a client into the TEQ database and returns the client ID if insertion
+     * Inserts a client (and its address) into the TEQ database and returns the client ID if insertion
      * was successful.
      * 
      * @param connection connection to the TEQ database
@@ -27,6 +27,9 @@ public class DatabaseInserter {
      * @throws DatabaseInsertException
      */
     protected static int insertClient(Connection connection, Client client) throws DatabaseInsertException {
+        // insert address object from client into database
+        int addressId = insertAddress(connection, client.getAddress());
+        // insert client object into database
         String sql = "INSERT INTO Client ("
                 + "id,id_type,birth_date,phone_number,email_address,address_id,language,consents"
                 + ") VALUES (?,?,?,?,?,?,?,?)";
@@ -37,7 +40,7 @@ public class DatabaseInserter {
             statement.setDate(3, SQLDriver.parseDate(client.getBirthDate()));
             statement.setString(4, client.getPhoneNumber());
             statement.setString(5, client.getEmailAddress());
-            statement.setInt(6, client.getAddressId());
+            statement.setInt(6, addressId);
             statement.setString(7, client.getLanguage());
             statement.setBoolean(8, client.getConsent());
             if (statement.executeUpdate() > 0) {
@@ -57,9 +60,9 @@ public class DatabaseInserter {
      * Returns the address ID if successful, -1 otherwise.
      * 
      * @param connection      connection to the TEQ database
-     * @param address the adress object that describes the adress
+     * @param address the address object that describes the address
      * @return the address ID number, -1 otherwise
-     * @throws DatabaseInsertException if fails to insert into db
+     * @throws DatabaseInsertException on failure of insert
      */
     protected static int insertAddress(Connection connection, Address address) throws DatabaseInsertException {
         String sql = "INSERT INTO Address("
@@ -97,9 +100,9 @@ public class DatabaseInserter {
      * @throws DatabaseInsertException on failure of insert
      */
     protected static int insertService(Connection connection, Service service) throws DatabaseInsertException {
-        // insert into the service table
-        int serviceId = insertServiceObject(connection, service);
-        // insert relationships
+        // insert service supertype into database
+        int serviceId = insertServiceSupertype(connection, service);
+        // insert all support services into database
         for (String supportService : service.getSupportServices()) {
             try {
                 int typeId = DatabaseSelector.getTypeId(connection, "SupportService", supportService);
@@ -108,6 +111,7 @@ public class DatabaseInserter {
                 throw new DatabaseInsertException();
             }
         }
+        // insert all essential skills into database
         for (String essentialSkill : service.getEssentialSkills()) {
             try {
                 int typeId = DatabaseSelector.getTypeId(connection, "EssentialSkill", essentialSkill);
@@ -116,6 +120,7 @@ public class DatabaseInserter {
                 throw new DatabaseInsertException();
             }
         }
+        // insert all target groups into database
         for (String targetGroup : service.getTargetGroups()) {
             try {
                 int typeId = DatabaseSelector.getTypeId(connection, "TargetGroup", targetGroup);
@@ -128,17 +133,28 @@ public class DatabaseInserter {
         return serviceId;
     }
 
-    private static int insertServiceObject(Connection connection, Service service) throws DatabaseInsertException {
-        String sql = "INSERT INTO Service (client_id,language,organization_type,referred_by,update_reason,service_type)"
-                + " VALUES (?,?,?,?,?,?)";
+    /**
+     * Inserts a service supertype into the TEQ database and returns the service ID if
+     * insertion was successful.
+     * 
+     * @param connection connection to the TEQ database
+     * @param service    service info to insert
+     * @return service ID (primary key) of the inserted service
+     * @throws DatabaseInsertException on failure of insert
+     */
+    private static int insertServiceSupertype(Connection connection, Service service) throws DatabaseInsertException {
+        String sql = "INSERT INTO Service ("
+                + "client_id,postal_code,language,organization_type,referred_by,update_reason,service_type"
+                + ") VALUES (?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, service.getClientId());
-            statement.setString(2, service.getLanguage());
-            statement.setString(3, service.getOrganizationType());
-            statement.setString(4, service.getReferredBy());
-            statement.setString(5, service.getUpdateReason());
-            statement.setString(6, service.getServiceType());
+            statement.setString(2, service.getPostalCode());
+            statement.setString(3, service.getLanguage());
+            statement.setString(4, service.getOrganizationType());
+            statement.setString(5, service.getReferredBy());
+            statement.setString(6, service.getUpdateReason());
+            statement.setString(7, service.getServiceType());
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
                 if (uniqueKey.next()) {

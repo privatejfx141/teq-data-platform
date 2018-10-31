@@ -1,4 +1,4 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.orientation;
 
 public class OrientationBuilder implements IOrientationBuilder {
     private Orientation orientation;

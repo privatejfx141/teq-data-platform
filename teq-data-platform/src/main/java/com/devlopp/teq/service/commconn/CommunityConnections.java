@@ -1,4 +1,6 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.commconn;
+
+import com.devlopp.teq.service.Service;
 
 public class CommunityConnections extends Service {
     protected String eventType;

@@ -12,7 +12,6 @@ public class Client {
     protected String EmailAddress = "";
     protected boolean consent;
     protected String language = "";
-    protected int addressId = -1;
     protected Address address = null;
 
     /**
@@ -46,14 +45,6 @@ public class Client {
 
     public String getLanguage() {
         return language;
-    }
-    
-    public int getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
     }
     
     public Address getAddress() {

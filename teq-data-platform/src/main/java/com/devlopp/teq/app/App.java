@@ -1,12 +1,7 @@
 package com.devlopp.teq.app;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import com.devlopp.teq.address.Address;
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
@@ -28,14 +23,7 @@ public class App {
 
         List<Client> clients = ExcelDriver.readClientProfile(filePath);
         for (Client client : clients) {
-            
-            // insert address first
-            Address address = client.getAddress();
-            int addressId = DatabaseInsertHelper.insertAddress(address);
-            System.out.println("New address ID at: " + addressId);
-            
             // insert client next
-            client.setAddressId(addressId);
             int clientId = DatabaseInsertHelper.insertClient(client);
             System.out.println("New client ID at: " + clientId);
             
@@ -44,6 +32,7 @@ public class App {
             System.out.println("Retrieved results from database:");
             System.out.println(client);
             System.out.println(client.getAddress());
+            
         }
         
     }

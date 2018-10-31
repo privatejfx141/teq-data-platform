@@ -1,4 +1,4 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.employment;
 
 public interface IEmploymentBuilder {
     public IEmploymentBuilder setRegistration(boolean status);

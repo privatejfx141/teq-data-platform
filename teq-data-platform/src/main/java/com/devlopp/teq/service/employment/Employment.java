@@ -1,4 +1,6 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.employment;
+
+import com.devlopp.teq.service.Service;
 
 public class Employment extends Service {
     protected boolean registration;

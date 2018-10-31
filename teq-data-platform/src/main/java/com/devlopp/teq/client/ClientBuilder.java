@@ -52,12 +52,6 @@ public class ClientBuilder implements IClientBuilder {
     }
 
     @Override
-    public IClientBuilder setAddressId(int addressId) {
-        client.addressId = addressId;
-        return this;
-    }
-    
-    @Override
     public IClientBuilder setAddress(Address address) {
         client.address = address;
         return this;

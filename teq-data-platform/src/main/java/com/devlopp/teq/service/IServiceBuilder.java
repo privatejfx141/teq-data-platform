@@ -20,7 +20,7 @@ public interface IServiceBuilder {
 
     public IServiceBuilder setServiceType(String serviceType);
     
-    public IServiceBuilder setEssentialSkill(List<String> essentialSkills);
+    public IServiceBuilder setEssentialSkills(List<String> essentialSkills);
 
     public IServiceBuilder setSupportServices(List<String> supportServices);
 

@@ -1,4 +1,4 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.orientation;
 
 public interface IOrientationBuilder {
     public IOrientationBuilder setServiceReceived(String serviceReceived);
