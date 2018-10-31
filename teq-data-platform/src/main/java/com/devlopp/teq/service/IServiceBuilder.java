@@ -24,6 +24,6 @@ public interface IServiceBuilder {
 
     public IServiceBuilder setSupportServices(List<String> supportServices);
 
-    public IServiceBuilder getTargetGroups(List<String> targetGroups);
+    public IServiceBuilder setTargetGroups(List<String> targetGroups);
     
 }

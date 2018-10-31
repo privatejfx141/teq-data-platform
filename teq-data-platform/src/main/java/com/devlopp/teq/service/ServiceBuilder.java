@@ -66,7 +66,7 @@ public abstract class ServiceBuilder implements IServiceBuilder {
     }
 
     @Override
-    public IServiceBuilder getTargetGroups(List<String> targetGroups) {
+    public IServiceBuilder setTargetGroups(List<String> targetGroups) {
         service.targetGroups = targetGroups;
         return this;
     }

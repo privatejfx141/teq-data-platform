@@ -80,7 +80,7 @@ public abstract class Service {
     }
 
     /**
-     * Returns the subtype discrimiator that determines this service's type in the database.
+     * Returns the subtype discriminator that determines this service's type in the database.
      * 
      * @return subtype discriminator for this service
      */
