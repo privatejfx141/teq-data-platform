@@ -1,7 +1,6 @@
 package com.devlopp.teq.service;
 
 public interface ICommunityConnectionsBuilder {
-	
     public ICommunityConnectionsBuilder setEventType(String eventType);
 
     public ICommunityConnectionsBuilder setMainTopic(String mainTopic);
@@ -25,5 +24,4 @@ public interface ICommunityConnectionsBuilder {
     public ICommunityConnectionsBuilder setLengthHours(int lengthHours);
 
     public ICommunityConnectionsBuilder setLengthMinutes(int lengthMinutes);
-    
 }

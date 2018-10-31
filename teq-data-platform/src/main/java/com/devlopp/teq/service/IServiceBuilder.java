@@ -8,6 +8,8 @@ public interface IServiceBuilder {
 
     public IServiceBuilder setClientId(int clientId);
 
+    public IServiceBuilder setPostalCode(String postalCode);
+    
     public IServiceBuilder setLanguage(String language);
 
     public IServiceBuilder setReferredBy(String referredBy);

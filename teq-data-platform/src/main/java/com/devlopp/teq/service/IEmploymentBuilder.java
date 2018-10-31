@@ -1,7 +1,6 @@
 package com.devlopp.teq.service;
 
 public interface IEmploymentBuilder {
-	
     public IEmploymentBuilder setRegistration(boolean status);
 
     public IEmploymentBuilder setReferralTo(String referral);

@@ -1,7 +1,6 @@
 package com.devlopp.teq.service;
 
 public interface IOrientationBuilder {
-	
     public IOrientationBuilder setServiceReceived(String serviceReceived);
 
     public IOrientationBuilder setTotalLength(String totalLength);
@@ -13,5 +12,4 @@ public interface IOrientationBuilder {
     public IOrientationBuilder setNumberOfClients(int numberOfClients);
 
     public IOrientationBuilder setEndDate(String endDate);
-    
 }

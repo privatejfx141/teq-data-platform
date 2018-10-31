@@ -3,7 +3,6 @@ package com.devlopp.teq.service;
 import java.util.List;
 
 public interface IAssessmentBuilder {
-	
     public IAssessmentBuilder setStartDate(String startDate);
 
     public IAssessmentBuilder setLanguageGoal(String languageGoal);
@@ -18,8 +17,7 @@ public interface IAssessmentBuilder {
 
     public IAssessmentBuilder setEndDate(String endDate);
 
-	public IAssessmentBuilder setIncrease(List<String> increase);
+    public IAssessmentBuilder setIncrease(List<String> increase);
 
-	public IAssessmentBuilder setNonIRCCServices(List<String> nonIRCCServices);
-    
+    public IAssessmentBuilder setNonIRCCServices(List<String> nonIRCCServices);
 }
