@@ -45,6 +45,7 @@ public class App {
                     .setLanguage("English")
                     .setPostalCode("M4H2A5")
                     .setReferredBy("Method of referral")
+                    .setOrganizationType("Organization type")
                     .setUpdateReason("Reason for update")
                     .setServiceType("A")
                     .setEssentialSkills(Arrays.asList("Computer skills", "Numeracy"))
