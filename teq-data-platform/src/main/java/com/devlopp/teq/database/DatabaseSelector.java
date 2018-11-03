@@ -70,15 +70,16 @@ public class DatabaseSelector {
 
     /* Specific service methods */
     protected static ResultSet getAssessmentDetails(Connection connection, int serviceId) throws SQLException {
-        String sql = "SELECT * FROM Assessment WHERE id = ?";
+        String sql = "SELECT * FROM Assessment WHERE service_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, serviceId);
         return preparedStatement.executeQuery();
     }
     
     protected static ResultSet getAssessmentIncrease(Connection connection, int assessmentId) throws SQLException {
-        String sql = "SELECT description FROM Increase t WHERE t.id IN"
-                + " (SELECT DISTINCT increase_id FROM AssessmentIncrease WHERE assessment_id = ?)";
+        String sql = "SELECT a.description, b.referrals"
+                + " FROM AssessmentIncrease b JOIN Increase a"
+                + " ON a.id = b.increase_id WHERE b.assessment_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, assessmentId);
         return preparedStatement.executeQuery();

@@ -1,6 +1,7 @@
 package com.devlopp.teq.service.assessment;
 
 import java.util.List;
+import java.util.Map;
 
 import com.devlopp.teq.service.IServiceBuilder;
 
@@ -19,7 +20,7 @@ public interface IAssessmentBuilder extends IServiceBuilder {
 
     public IAssessmentBuilder setEndDate(String endDate);
 
-    public IAssessmentBuilder setIncrease(List<String> increase);
+    public IAssessmentBuilder setIncrease(Map<String, Boolean> increase);
 
     public IAssessmentBuilder setNonIRCCServices(List<String> nonIRCCServices);
     

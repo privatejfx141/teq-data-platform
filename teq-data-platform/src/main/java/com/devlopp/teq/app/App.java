@@ -52,19 +52,22 @@ public class App {
                     .setSupportServices(Arrays.asList("Transportation, Translation"))
                     .setTargetGroups(Arrays.asList("Senior", "Refugees"));
             Assessment assessment = assessBuilder
-                    .setStartDate("01-01-2017")
+                    .setStartDate("2017-01-01")
                     .setLanguageGoal("Language skill goal")
                     .setOtherGoal("Other skill goal")
                     .setIntendsCitizenship(true)
                     .setReqSupportServices(true)
                     .setPlanComplete(true)
-                    .setEndDate("01-01-2018")
-                    .setIncrease(Arrays.asList("Social networks"))
-                    .setNonIRCCServices(Arrays.asList("Financial"))
+                    .setEndDate("2018-01-01")
                     .create();
+            assessment.addIncrease("Social networks", true);
+            assessment.addNonIRCCService("Financial");
             
             int serviceId = DatabaseInsertHelper.insertAssessment(assessment);
             System.out.println("New service ID at: " + serviceId);
+            
+            assessment = DatabaseSelectHelper.getAssessment(serviceId);
+            System.out.println(assessment);
 
         }
         

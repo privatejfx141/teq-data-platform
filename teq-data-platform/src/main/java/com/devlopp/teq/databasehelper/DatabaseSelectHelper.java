@@ -42,42 +42,27 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return list;
     }
 
-    public static List<String> getServiceEssentialSkill(int serviceId) {
-        List<String> list = new ArrayList<>();
-        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
-        try {
-            ResultSet results = DatabaseSelector.getServiceEssentialSkill(connection, serviceId);
-            while (results.next()) {
-                list.add(results.getString(1));
-            }
-        } catch (SQLException e) {
-            list.clear();
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException closeConnectionException) {
-                /* Do not need to do anything, connection was already closed */
-            }
-        }
-        return list;
-    }
-
+    /**
+     * Connects to database, obtains and returns a client with ID number clientId
+     * from the Client table. Returns <code>null</code> if clientId is invalid.
+     * 
+     * @param clientId
+     * @return client with the ID number addressId, <code>null</code> if invalid
+     *         clientId
+     */
     public static Client getClient(int clientId) {
         Client client = null;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             ResultSet results = DatabaseSelector.getClient(connection, clientId);
-            while (results.next()) {       
+            while (results.next()) {
                 IClientBuilder builder = new ClientBuilder();
-                client = builder.setId(results.getInt("id"))
-                        .setIdType(results.getInt("id_type"))
+                client = builder.setId(results.getInt("id")).setIdType(results.getInt("id_type"))
                         .setBirthDate(results.getDate("birth_date").toString())
                         .setPhoneNumber(results.getString("phone_number"))
                         .setEmailAddress(results.getString("email_address"))
-                        .setAddress(getAddress(results.getInt("address_id")))
-                        .setLanguage(results.getString("language"))
-                        .setConsent(results.getBoolean("consents"))
-                        .create();
+                        .setAddress(getAddress(results.getInt("address_id"))).setLanguage(results.getString("language"))
+                        .setConsent(results.getBoolean("consents")).create();
             }
         } catch (SQLException e) {
             client = null;
@@ -90,7 +75,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return client;
     }
-    
+
     /**
      * Connects to database, obtains and returns an address with ID number addressId
      * from the Address table. Returns <code>null</code> if addressId is invalid.
@@ -106,16 +91,11 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             ResultSet results = DatabaseSelector.getAddress(connection, addressId);
             while (results.next()) {
                 IAddressBuilder builder = new AddressBuilder();
-                address = builder.setId(results.getInt("id"))
-                        .setPostalCode(results.getString("postal_code"))
-                        .setUnitNumber(results.getInt("unit_number"))
-                        .setStreetNumber(results.getInt("street_number"))
-                        .setStreetName(results.getString("street_name"))
-                        .setStreetType(results.getString("street_type"))
-                        .setStreetDirection(results.getString("street_direction"))
-                        .setCity(results.getString("city"))
-                        .setProvince(results.getString("province"))
-                        .create();
+                address = builder.setId(results.getInt("id")).setPostalCode(results.getString("postal_code"))
+                        .setUnitNumber(results.getInt("unit_number")).setStreetNumber(results.getInt("street_number"))
+                        .setStreetName(results.getString("street_name")).setStreetType(results.getString("street_type"))
+                        .setStreetDirection(results.getString("street_direction")).setCity(results.getString("city"))
+                        .setProvince(results.getString("province")).create();
             }
         } catch (SQLException e) {
             address = null;
@@ -129,10 +109,44 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return address;
     }
 
+    /**
+     * Populates the builder object for a service with service details.
+     * 
+     * @param serviceId service ID
+     * @param builder   builder pattern object for the service
+     * @return builder pattern object with service data
+     */
     private static IServiceBuilder getServiceDetails(int serviceId, IServiceBuilder builder) {
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             ResultSet results = DatabaseSelector.getServiceDetails(connection, serviceId);
+            // get data from service table
+            builder.setId(results.getInt("id")).setClientId(results.getInt("client_id"))
+                    .setPostalCode(results.getString("postal_code")).setLanguage(results.getString("language"))
+                    .setOrganizationType(results.getString("organization_type"))
+                    .setReferredBy(results.getString("referred_by")).setUpdateReason(results.getString("update_reason"))
+                    .setServiceType(results.getString("service_type"));
+            // get essential skills
+            List<String> essentialSkills = new ArrayList<String>();
+            results = DatabaseSelector.getServiceEssentialSkill(connection, serviceId);
+            while (results.next()) {
+                essentialSkills.add(results.getString("description"));
+            }
+            builder.setEssentialSkills(essentialSkills);
+            // get support services
+            List<String> supportServices = new ArrayList<String>();
+            results = DatabaseSelector.getServiceSupportService(connection, serviceId);
+            while (results.next()) {
+                supportServices.add(results.getString("description"));
+            }
+            builder.setSupportServices(supportServices);
+            // get target groups
+            List<String> targetGroups = new ArrayList<String>();
+            results = DatabaseSelector.getServiceTargetGroup(connection, serviceId);
+            while (results.next()) {
+                targetGroups.add(results.getString("description"));
+            }
+            builder.setTargetGroups(targetGroups);
         } catch (SQLException e) {
             builder = null;
         } finally {
@@ -142,19 +156,45 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                 /* Do not need to do anything, connection was already closed */
             }
         }
-        
         return builder;
     }
-    
+
+    /**
+     * Connects to database, obtains and returns an assessment & referrals service
+     * with ID number serviceId from the Assessment table. Returns <code>null</code>
+     * if serviceId is invalid.
+     * 
+     * @param serviceId service ID
+     * @return Assessment & referrals service with the ID number serviceId,
+     *         <code>null</code> if invalid serviceId
+     */
     public static Assessment getAssessment(int serviceId) {
         Assessment assessment = null;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
-            IAssessmentBuilder builder = new AssessmentBuilder();
-            builder = (IAssessmentBuilder) getServiceDetails(serviceId, builder);
-            
-            throw new SQLException();
+            // get data for assessment service object
+            IAssessmentBuilder builder = (IAssessmentBuilder) getServiceDetails(serviceId, new AssessmentBuilder());
+            ResultSet results = DatabaseSelector.getAssessmentDetails(connection, serviceId);
+            assessment = builder.setStartDate(results.getDate("start_date").toString())
+                    .setLanguageGoal(results.getString("language_skill_goal"))
+                    .setOtherGoal(results.getString("other_skill_goal"))
+                    .setIntendsCitizenship(results.getBoolean("intends_citizenship"))
+                    .setReqSupportServices(results.getBoolean("req_support_service"))
+                    .setPlanComplete(results.getBoolean("plan_complete"))
+                    .setEndDate(results.getDate("end_date").toString())
+                    .create();
+            // get assessment increases
+            results = DatabaseSelector.getAssessmentIncrease(connection, serviceId);
+            while (results.next()) {
+                assessment.addIncrease(results.getString("description"), results.getBoolean("referrals"));
+            }
+            // get assessment non-IRCC services
+            results = DatabaseSelector.getAssessmentNonIRCCService(connection, serviceId);
+            while (results.next()) {
+                assessment.addNonIRCCService(results.getString("description"));
+            }
         } catch (SQLException e) {
+            e.printStackTrace();
             assessment = null;
         } finally {
             try {
@@ -165,5 +205,4 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return assessment;
     }
-
 }

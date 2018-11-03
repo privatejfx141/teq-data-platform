@@ -1,7 +1,9 @@
 package com.devlopp.teq.service.assessment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.devlopp.teq.service.Service;
 
@@ -14,7 +16,7 @@ public class Assessment extends Service {
     protected boolean reqSupportService;
     protected boolean planComplete;
     protected String endDate;
-    protected List<String> increases = new ArrayList<String>();
+    protected Map<String, Boolean> increases = new HashMap<String, Boolean>();
     protected List<String> nonIRCCServices = new ArrayList<String>();
 
     /**
@@ -85,8 +87,12 @@ public class Assessment extends Service {
      * 
      * @return list of fields of improvement
      */
-    public List<String> getIncreases() {
+    public Map<String, Boolean> getIncreases() {
         return increases;
+    }
+
+    public void addIncrease(String increase, boolean referral) {
+        increases.put(increase, referral);
     }
 
     /**
@@ -96,6 +102,10 @@ public class Assessment extends Service {
      */
     public List<String> getNonIRCCServices() {
         return nonIRCCServices;
+    }
+    
+    public void addNonIRCCService(String service) {
+        nonIRCCServices.add(service);
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.Map;
 
 import com.devlopp.teq.address.Address;
 import com.devlopp.teq.client.Client;
@@ -175,9 +176,9 @@ public class DatabaseInserter {
         int assessmentId = insertAssessmentDetails(connection, assessment);
         try {
             // insert all improvements into database
-            for (String increase : assessment.getIncreases()) {
-                int typeId = DatabaseSelector.getTypeId(connection, "Increase", increase);
-                insertAssessmentIncrease(connection, assessmentId, typeId, false);
+            for (Map.Entry<String, Boolean> increase : assessment.getIncreases().entrySet()) {
+                int typeId = DatabaseSelector.getTypeId(connection, "Increase", increase.getKey());
+                insertAssessmentIncrease(connection, assessmentId, typeId, increase.getValue());
             }
             // insert all non-IRCC services into database
             for (String service : assessment.getNonIRCCServices()) {

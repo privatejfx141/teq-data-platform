@@ -1,6 +1,7 @@
 package com.devlopp.teq.service.assessment;
 
 import java.util.List;
+import java.util.Map;
 
 import com.devlopp.teq.service.ServiceBuilder;
 
@@ -55,7 +56,7 @@ public class AssessmentBuilder extends ServiceBuilder implements IAssessmentBuil
     }
 
     @Override
-    public IAssessmentBuilder setIncrease(List<String> increase) {
+    public IAssessmentBuilder setIncrease(Map<String, Boolean> increase) {
         assessment.increases = increase;
         return this;
     }
