@@ -18,9 +18,9 @@ public class DatabaseSelector {
     }
 
     protected static int getTypeId(Connection connection, String tableName, String typeDesc) throws SQLException {
-        String sql = String.format("SELECT DISTINCT id FROM %s WHERE description = ?", tableName);
+        String sql = String.format("SELECT DISTINCT id FROM %s WHERE LOWER(description) = ?", tableName);
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, typeDesc);
+        preparedStatement.setString(1, typeDesc.toLowerCase());
         ResultSet results = preparedStatement.executeQuery();
         int typeId = 0;
         while (results.next()) {
@@ -37,7 +37,7 @@ public class DatabaseSelector {
     }
 
     /* Service methods */
-    protected static ResultSet getService(Connection connection, int serviceId) throws SQLException {
+    protected static ResultSet getServiceDetails(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT * FROM Service WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, serviceId);
@@ -69,6 +69,13 @@ public class DatabaseSelector {
     }
 
     /* Specific service methods */
+    protected static ResultSet getAssessmentDetails(Connection connection, int serviceId) throws SQLException {
+        String sql = "SELECT * FROM Assessment WHERE id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, serviceId);
+        return preparedStatement.executeQuery();
+    }
+    
     protected static ResultSet getAssessmentIncrease(Connection connection, int assessmentId) throws SQLException {
         String sql = "SELECT description FROM Increase t WHERE t.id IN"
                 + " (SELECT DISTINCT increase_id FROM AssessmentIncrease WHERE assessment_id = ?)";

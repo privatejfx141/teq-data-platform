@@ -15,6 +15,11 @@ import com.devlopp.teq.client.ClientBuilder;
 import com.devlopp.teq.client.IClientBuilder;
 import com.devlopp.teq.database.DatabaseDriver;
 import com.devlopp.teq.database.DatabaseSelector;
+import com.devlopp.teq.service.IServiceBuilder;
+import com.devlopp.teq.service.ServiceBuilder;
+import com.devlopp.teq.service.assessment.Assessment;
+import com.devlopp.teq.service.assessment.AssessmentBuilder;
+import com.devlopp.teq.service.assessment.IAssessmentBuilder;
 
 public class DatabaseSelectHelper extends DatabaseSelector {
     public static List<String> getAllTypes(String tableName) {
@@ -123,4 +128,42 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return address;
     }
+
+    private static IServiceBuilder getServiceDetails(int serviceId, IServiceBuilder builder) {
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getServiceDetails(connection, serviceId);
+        } catch (SQLException e) {
+            builder = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        
+        return builder;
+    }
+    
+    public static Assessment getAssessment(int serviceId) {
+        Assessment assessment = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            IAssessmentBuilder builder = new AssessmentBuilder();
+            builder = (IAssessmentBuilder) getServiceDetails(serviceId, builder);
+            
+            throw new SQLException();
+        } catch (SQLException e) {
+            assessment = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return assessment;
+    }
+
 }

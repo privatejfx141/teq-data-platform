@@ -1,11 +1,15 @@
 package com.devlopp.teq.app;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
+import com.devlopp.teq.service.assessment.Assessment;
+import com.devlopp.teq.service.assessment.AssessmentBuilder;
+import com.devlopp.teq.service.assessment.IAssessmentBuilder;
 
 public class App {
     
@@ -33,6 +37,35 @@ public class App {
             System.out.println(client);
             System.out.println(client.getAddress());
             
+            // 
+            IAssessmentBuilder assessBuilder = new AssessmentBuilder();
+            assessBuilder = (IAssessmentBuilder) assessBuilder
+                    .setId(1)
+                    .setClientId(clientId)
+                    .setLanguage("English")
+                    .setPostalCode("M4H2A5")
+                    .setReferredBy("Method of referral")
+                    .setOrganizationType("Organization type")
+                    .setUpdateReason("Reason for update")
+                    .setServiceType("A")
+                    .setEssentialSkills(Arrays.asList("Computer skills", "Numeracy"))
+                    .setSupportServices(Arrays.asList("Transportation, Translation"))
+                    .setTargetGroups(Arrays.asList("Senior", "Refugees"));
+            Assessment assessment = assessBuilder
+                    .setStartDate("01-01-2017")
+                    .setLanguageGoal("Language skill goal")
+                    .setOtherGoal("Other skill goal")
+                    .setIntendsCitizenship(true)
+                    .setReqSupportServices(true)
+                    .setPlanComplete(true)
+                    .setEndDate("01-01-2018")
+                    .setIncrease(Arrays.asList("Social networks"))
+                    .setNonIRCCServices(Arrays.asList("Financial"))
+                    .create();
+            
+            int serviceId = DatabaseInsertHelper.insertAssessment(assessment);
+            System.out.println("New service ID at: " + serviceId);
+
         }
         
     }

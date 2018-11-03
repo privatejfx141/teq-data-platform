@@ -177,12 +177,12 @@ public class DatabaseInserter {
             // insert all improvements into database
             for (String increase : assessment.getIncreases()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "Increase", increase);
-                insertServiceEssentialSkill(connection, assessmentId, typeId);
+                insertAssessmentIncrease(connection, assessmentId, typeId, false);
             }
             // insert all non-IRCC services into database
             for (String service : assessment.getNonIRCCServices()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "NonIRCCService", service);
-                insertServiceEssentialSkill(connection, assessmentId, typeId);
+                insertAssessmentNonIRCCService(connection, assessmentId, typeId);
             }
         } catch (SQLException e) {
             throw new DatabaseInsertException();
@@ -204,7 +204,8 @@ public class DatabaseInserter {
             throws DatabaseInsertException {
         int assessmentId = insertService(connection, assessment);
         String sql = "INSERT INTO Assessment("
-                + "service_id,start_date,language_skill_goal_other_skill_goal,intends_citizenship,req_support_service,plan_complete,end_date"
+                + "service_id,start_date,language_skill_goal,other_skill_goal,"
+                + "intends_citizenship,req_support_service,plan_complete,end_date"
                 + ") VALUES (?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
