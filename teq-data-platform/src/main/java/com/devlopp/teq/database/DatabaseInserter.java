@@ -13,6 +13,8 @@ import com.devlopp.teq.client.Client;
 import com.devlopp.teq.course.Course;
 import com.devlopp.teq.service.Service;
 import com.devlopp.teq.service.assessment.Assessment;
+import com.devlopp.teq.service.assessment.FindEmployment;
+import com.devlopp.teq.service.assessment.IFindEmployment;
 import com.devlopp.teq.service.employment.Employment;
 import com.devlopp.teq.service.orientation.Orientation;
 import com.devlopp.teq.sql.SQLDriver;
@@ -175,6 +177,11 @@ public class DatabaseInserter {
         // insert assessment details into assessment table
         int assessmentId = insertAssessmentDetails(connection, assessment);
         try {
+            // insert find employment responses
+            IFindEmployment findEmployment = assessment.getFindEmployment();
+            if (assessment.getFindEmployment() != null) {
+                insertAssessmentFindEmployment(connection, assessmentId, findEmployment);
+            }
             // insert all improvements into database
             for (Map.Entry<String, Boolean> increase : assessment.getIncreases().entrySet()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "Increase", increase.getKey());
@@ -204,10 +211,10 @@ public class DatabaseInserter {
     private static int insertAssessmentDetails(Connection connection, Assessment assessment)
             throws DatabaseInsertException {
         int assessmentId = insertService(connection, assessment);
-        String sql = "INSERT INTO Assessment("
-                + "service_id,start_date,language_skill_goal,other_skill_goal,"
-                + "intends_citizenship,req_support_service,plan_complete,end_date"
-                + ") VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Assessment ("
+                + "service_id, start_date, language_skill_goal, other_skill_goal, "
+                + "intends_citizenship, req_support_service, plan_complete, end_date"
+                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, assessment.getId());
@@ -230,6 +237,29 @@ public class DatabaseInserter {
         return assessmentId;
     }
 
+    private static int insertAssessmentFindEmployment(Connection connection, int assessmentId, IFindEmployment findEmployment) {
+        String sql = "INSERT INTO AssessmentFindEmployment ("
+                + "assessment_id, time_frame, min_one_year, skill_level, intends_to_obtain"
+                + ") VALUES (?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, assessmentId);
+            statement.setString(2, findEmployment.getTimeFrame());
+            statement.setString(3, findEmployment.getMinExperience());
+            statement.setString(4, findEmployment.getSkillLevel());
+            statement.setString(5, findEmployment.getIntendsToObtain());
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return assessmentId;
+    }
+    
     // -- Orientation service insertions --
     protected static int insertOrientation(Connection connection, Orientation orientation)
             throws DatabaseInsertException {

@@ -25,7 +25,7 @@ public class App {
             DatabaseDriverHelper.initializeDatabase();
         }
 
-        List<Client> clients = ExcelDriver.readClientProfile(filePath);
+        List<Client> clients = ExcelDriver.readClientProfile(filePath, 0);
         for (Client client : clients) {
             // insert client next
             int clientId = DatabaseInsertHelper.insertClient(client);
@@ -59,6 +59,7 @@ public class App {
                     .setReqSupportServices(true)
                     .setPlanComplete(true)
                     .setEndDate("2018-01-01")
+                    .setFindEmployment("Time frame", "Min experience", "Skill level", "Wants to intent")
                     .create();
             assessment.addIncrease("Social networks", true);
             assessment.addNonIRCCService("Financial");

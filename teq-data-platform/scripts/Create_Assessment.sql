@@ -13,8 +13,8 @@ CREATE TABLE AssessmentFindEmployment (
     assessment_id       INTEGER PRIMARY KEY NOT NULL,
     time_frame          VARCHAR(32),
     min_one_year        BOOLEAN,
-    skill_level         CHAR(1),
-    intends_to_obtain   BOOLEAN,
+    skill_level         VARCHAR(32),
+    intends_to_obtain   VARCHAR(32),
     FOREIGN KEY(assessment_id) REFERENCES Assessment(service_id)
 );
 

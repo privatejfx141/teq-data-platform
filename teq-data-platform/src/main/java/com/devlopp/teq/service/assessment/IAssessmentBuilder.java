@@ -20,9 +20,11 @@ public interface IAssessmentBuilder extends IServiceBuilder {
 
     public IAssessmentBuilder setEndDate(String endDate);
 
+    public IAssessmentBuilder setFindEmployment(String timeFrame, String minExp, String skillLevel, String intends);
+    
     public IAssessmentBuilder setIncrease(Map<String, Boolean> increase);
 
     public IAssessmentBuilder setNonIRCCServices(List<String> nonIRCCServices);
-    
+
     public Assessment create();
 }

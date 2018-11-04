@@ -1,4 +1,4 @@
-package com.devlopp.teq.inputCheck;
+package com.devlopp.teq.excel;
 
 import java.io.File;
 import java.io.IOException;

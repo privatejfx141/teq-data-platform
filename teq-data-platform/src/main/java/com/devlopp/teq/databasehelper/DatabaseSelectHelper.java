@@ -2,7 +2,6 @@ package com.devlopp.teq.databasehelper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +12,8 @@ import com.devlopp.teq.address.IAddressBuilder;
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.client.ClientBuilder;
 import com.devlopp.teq.client.IClientBuilder;
-import com.devlopp.teq.database.DatabaseDriver;
 import com.devlopp.teq.database.DatabaseSelector;
 import com.devlopp.teq.service.IServiceBuilder;
-import com.devlopp.teq.service.ServiceBuilder;
 import com.devlopp.teq.service.assessment.Assessment;
 import com.devlopp.teq.service.assessment.AssessmentBuilder;
 import com.devlopp.teq.service.assessment.IAssessmentBuilder;
@@ -40,6 +37,35 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             }
         }
         return list;
+    }
+
+    /**
+     * Returns the ID number corresponding to the client ID type in the ClientIDType
+     * table.
+     * 
+     * @param idTypeString description of the client ID type
+     * @return ID number corresponding to the client ID type
+     */
+    public static int getClientIDType(String idTypeString) {
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getAllTypes(connection, "ClientIDType");
+            while (results.next()) {
+                String currentIdTypeString = results.getString("description");
+                if (currentIdTypeString.toLowerCase().equals(idTypeString.toLowerCase())) {
+                    return results.getInt("id");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return -1;
     }
 
     /**
@@ -172,17 +198,32 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         Assessment assessment = null;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
+            // get find employment responses
+            String timeFrame = "";
+            String minExp = "";
+            String skillLevel = "";
+            String intends = "";
+            ResultSet results = DatabaseSelector.getAssessmentFindEmployment(connection, serviceId);
+            while (results.next()) {
+                timeFrame = results.getString("time_frame");
+                minExp = results.getString("min_one_year");
+                skillLevel = results.getString("skill_level");
+                intends = results.getString("intends_to_obtain");
+            }
             // get data for assessment service object
             IAssessmentBuilder builder = (IAssessmentBuilder) getServiceDetails(serviceId, new AssessmentBuilder());
-            ResultSet results = DatabaseSelector.getAssessmentDetails(connection, serviceId);
-            assessment = builder.setStartDate(results.getDate("start_date").toString())
+            results = DatabaseSelector.getAssessmentDetails(connection, serviceId);
+            builder.setStartDate(results.getDate("start_date").toString())
                     .setLanguageGoal(results.getString("language_skill_goal"))
                     .setOtherGoal(results.getString("other_skill_goal"))
                     .setIntendsCitizenship(results.getBoolean("intends_citizenship"))
                     .setReqSupportServices(results.getBoolean("req_support_service"))
                     .setPlanComplete(results.getBoolean("plan_complete"))
-                    .setEndDate(results.getDate("end_date").toString())
-                    .create();
+                    .setEndDate(results.getDate("end_date").toString());
+            if (!timeFrame.isEmpty() && !minExp.isEmpty() && !skillLevel.isEmpty() && !intends.isEmpty()) {
+                builder.setFindEmployment(timeFrame, minExp, skillLevel, intends);
+            }
+            assessment = builder.create();
             // get assessment increases
             results = DatabaseSelector.getAssessmentIncrease(connection, serviceId);
             while (results.next()) {

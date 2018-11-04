@@ -16,6 +16,7 @@ public class Assessment extends Service {
     protected boolean reqSupportService;
     protected boolean planComplete;
     protected String endDate;
+    protected IFindEmployment findEmployment;
     protected Map<String, Boolean> increases = new HashMap<String, Boolean>();
     protected List<String> nonIRCCServices = new ArrayList<String>();
 
@@ -91,6 +92,10 @@ public class Assessment extends Service {
         return increases;
     }
 
+    public IFindEmployment getFindEmployment() {
+        return findEmployment;
+    }
+    
     public void addIncrease(String increase, boolean referral) {
         increases.put(increase, referral);
     }

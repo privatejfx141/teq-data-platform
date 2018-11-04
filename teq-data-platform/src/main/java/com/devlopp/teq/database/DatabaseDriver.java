@@ -3,17 +3,7 @@ package com.devlopp.teq.database;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
-import java.util.List;
-
-import com.devlopp.teq.address.Address;
-import com.devlopp.teq.address.AddressBuilder;
-import com.devlopp.teq.address.IAddressBuilder;
-import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
-import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 import com.devlopp.teq.sql.SQLDriver;
 
 public class DatabaseDriver {

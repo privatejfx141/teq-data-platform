@@ -1,14 +1,9 @@
 package com.devlopp.teq.database;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseSelector {
     protected static ResultSet getAllTypes(Connection connection, String tableName) throws SQLException {
@@ -29,6 +24,7 @@ public class DatabaseSelector {
         return typeId;
     }
 
+    /* Client methods */
     protected static ResultSet getClient(Connection connection, int clientId) throws SQLException {
         String sql = "SELECT * FROM Client WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -71,6 +67,13 @@ public class DatabaseSelector {
     /* Specific service methods */
     protected static ResultSet getAssessmentDetails(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT * FROM Assessment WHERE service_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, serviceId);
+        return preparedStatement.executeQuery();
+    }
+    
+    protected static ResultSet getAssessmentFindEmployment(Connection connection, int serviceId) throws SQLException {
+        String sql = "SELECT * FROM AssessmentFindEmployment WHERE assessment_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, serviceId);
         return preparedStatement.executeQuery();

@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import com.devlopp.teq.address.Address;
 import com.devlopp.teq.client.Client;
-import com.devlopp.teq.database.DatabaseDriver;
 import com.devlopp.teq.database.DatabaseInsertException;
 import com.devlopp.teq.database.DatabaseInserter;
 import com.devlopp.teq.service.assessment.Assessment;

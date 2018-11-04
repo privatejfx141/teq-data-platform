@@ -1,12 +1,9 @@
 package com.devlopp.teq.database;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
 import com.devlopp.teq.address.Address;
 import com.devlopp.teq.sql.SQLDriver;
 

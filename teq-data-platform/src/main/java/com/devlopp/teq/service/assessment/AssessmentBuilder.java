@@ -56,6 +56,12 @@ public class AssessmentBuilder extends ServiceBuilder implements IAssessmentBuil
     }
 
     @Override
+    public IAssessmentBuilder setFindEmployment(String timeFrame, String minExp, String skillLevel, String intends) {
+        assessment.findEmployment = new FindEmployment(timeFrame, minExp, skillLevel, intends);
+        return this;
+    }
+    
+    @Override
     public IAssessmentBuilder setIncrease(Map<String, Boolean> increase) {
         assessment.increases = increase;
         return this;
@@ -72,4 +78,3 @@ public class AssessmentBuilder extends ServiceBuilder implements IAssessmentBuil
         return assessment;
     }
 }
-
