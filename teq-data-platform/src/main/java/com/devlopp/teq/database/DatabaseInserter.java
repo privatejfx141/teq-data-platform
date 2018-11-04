@@ -12,6 +12,7 @@ import com.devlopp.teq.address.Address;
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.course.Course;
 import com.devlopp.teq.service.Assessment;
+import com.devlopp.teq.service.CommunityConnections;
 import com.devlopp.teq.service.Employment;
 import com.devlopp.teq.service.Orientation;
 import com.devlopp.teq.service.Service;
@@ -514,5 +515,16 @@ public class DatabaseInserter {
             e.printStackTrace();
         }
         throw new DatabaseInsertException();
+    }
+    protected static int insertCommunityConnections(Connection connection, CommunityConnections communityConnections) throws DatabaseInsertException {
+        int communityConnectionsId = insertService(connection, communityConnections);
+        String sql = "INSERT INTO communityConnections(service_id,eventType,mainTopic,serviceReceived,participants,hasVolunteers,reasonForLeave,status,startDate,endDate,projectedEndDate,lengthHours,lengthMinutes)"
+                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return communityConnectionsId;
     }
 }
