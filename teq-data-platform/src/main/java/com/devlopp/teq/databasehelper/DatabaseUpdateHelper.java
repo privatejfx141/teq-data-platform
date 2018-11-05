@@ -2,8 +2,6 @@ package com.devlopp.teq.databasehelper;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import com.devlopp.teq.database.DatabaseDriver;
 import com.devlopp.teq.database.DatabaseUpdater;
 
 public class DatabaseUpdateHelper extends DatabaseUpdater {
