@@ -47,3 +47,31 @@ CREATE TABLE CourseTargetGroup (
     target_group_id     INTEGER NOT NULL REFERENCES TargetGroup(id),
     PRIMARY KEY(course_code, target_group_id)
 );
+
+CREATE TABLE CourseReadingSkill (
+    course_code         CHAR(16) PRIMARY KEY NOT NULL,
+    level               INTEGER NOT NULL,
+    value               VARCHAR(32) NOT NULL,
+    FOREIGN KEY(course_code) REFERENCES Course(course_code),
+);
+
+CREATE TABLE CourseListeningSkill (
+    course_code         CHAR(16) PRIMARY KEY NOT NULL,
+    level               INTEGER NOT NULL,
+    value               VARCHAR(32) NOT NULL,
+    FOREIGN KEY(course_code) REFERENCES Course(course_code),
+);
+
+CREATE TABLE CourseSpeakingSkill (
+    course_code         CHAR(16) PRIMARY KEY NOT NULL,
+    level               INTEGER NOT NULL,
+    value               VARCHAR(32) NOT NULL,
+    FOREIGN KEY(course_code) REFERENCES Course(course_code),
+);
+
+CREATE TABLE CourseWritingSkill (
+    course_code         CHAR(16) PRIMARY KEY NOT NULL,
+    level               INTEGER NOT NULL,
+    value               VARCHAR(32) NOT NULL,
+    FOREIGN KEY(course_code) REFERENCES Course(course_code),
+);
