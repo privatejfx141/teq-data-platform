@@ -32,4 +32,8 @@ public class FindEmployment implements IFindEmployment {
     public String getIntendsToObtain() {
         return intends;
     }
+    
+    public String toString() {
+        return String.format("FindEmployment(%s, %s, %s, %s)", timeFrame, minExp, skillLevel, intends);
+    }
 }

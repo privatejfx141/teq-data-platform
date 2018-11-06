@@ -69,7 +69,7 @@ public class App {
             
             assessment = DatabaseSelectHelper.getAssessment(serviceId);
             System.out.println(assessment);
-
+            System.out.println(assessment.getFindEmployment());
         }
         
     }

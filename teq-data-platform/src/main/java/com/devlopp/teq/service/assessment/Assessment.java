@@ -59,7 +59,7 @@ public class Assessment extends Service {
     /**
      * Returns whether the client required support services for this assessment service.
      * 
-     * @return whether the client required support services
+     * @return Whether the client required support services
      */
     public boolean reqSupportService() {
         return reqSupportService;
@@ -68,7 +68,7 @@ public class Assessment extends Service {
     /**
      * Returns whether the client's settlement plan is reviewed and complete.
      * 
-     * @return whether the client's settlement plan is reviewed and complete
+     * @return Whether the client's settlement plan is reviewed and complete
      */
     public boolean isPlanComplete() {
         return planComplete;
@@ -77,7 +77,7 @@ public class Assessment extends Service {
     /**
      * Returns the end date of this assessment service.
      * 
-     * @return end date of this assessment service
+     * @return The end date of this assessment service
      */
     public String getEndDate() {
         return endDate;
@@ -86,16 +86,27 @@ public class Assessment extends Service {
     /**
      * Returns a list of fields of improvement in this assessment service.
      * 
-     * @return list of fields of improvement
+     * @return The list of fields of improvement
      */
     public Map<String, Boolean> getIncreases() {
         return increases;
     }
 
+    /**
+     * Returns the responses for the find employment fields.
+     * 
+     * @return The responses for the find employment fields
+     */
     public IFindEmployment getFindEmployment() {
         return findEmployment;
     }
     
+    /**
+     * Adds a field of improvement to the service and whether or not the client had referral.
+     * 
+     * @param increase field of improvement
+     * @param referral whether or not the client had referral
+     */
     public void addIncrease(String increase, boolean referral) {
         increases.put(increase, referral);
     }
@@ -103,12 +114,17 @@ public class Assessment extends Service {
     /**
      * Returns a list of non-IRCC services for this assessment service.
      * 
-     * @return list of non-IRCC services
+     * @return A list of non-IRCC services
      */
     public List<String> getNonIRCCServices() {
         return nonIRCCServices;
     }
     
+    /**
+     * Adds a non-IRCC service.
+     * 
+     * @param service non-IRCC service
+     */
     public void addNonIRCCService(String service) {
         nonIRCCServices.add(service);
     }
@@ -117,16 +133,16 @@ public class Assessment extends Service {
     public String toString() {
         ArrayList<String> repr = new ArrayList<>();
         if (!startDate.isEmpty()) {
-            repr.add("Start Date" + startDate);
+            repr.add("Start Date: " + startDate);
         }
         if (!languageSkillGoal.isEmpty()) {
-            repr.add("Language Skill Goal" + languageSkillGoal);
+            repr.add("Language Skill Goal: " + languageSkillGoal);
         }
         if (!otherSkillGoal.isEmpty()) {
-            repr.add("Other Skill Goal" + otherSkillGoal);
+            repr.add("Other Skill Goal: " + otherSkillGoal);
         }
         if (!endDate.isEmpty()) {
-            repr.add("End Date" + endDate);
+            repr.add("End Date: " + endDate);
         }
         return "Assessment(" + String.join(", ", repr) + ")";
     }
