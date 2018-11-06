@@ -360,7 +360,7 @@ public class DatabaseInserter {
     private static int insertCourseObject(Connection connection, Course course) throws DatabaseInsertException {
         String sql = "INSERT INTO Course (courseCode,notes,ongoingBasis,language,trainingFormat,"
         		+ "classLocation,inpersonInstruct,onlineInstructnumberOfSpots,numberOfSpots,numberOfIRCC,"
-        		+ "enrollmentType,startDate,endDate,instructHours,weeklyHours,numWeeks,numWeeksPerYear,dominantFocus"
+        		+ "enrollmentType,startDate,endDate,instructHours,weeklyHours,numWeeks,numWeeksPerYear,dominantFocus)"
                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
