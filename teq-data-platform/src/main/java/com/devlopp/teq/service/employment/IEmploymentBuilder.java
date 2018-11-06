@@ -1,6 +1,8 @@
 package com.devlopp.teq.service.employment;
 
-public interface IEmploymentBuilder {
+import com.devlopp.teq.service.IServiceBuilder;
+
+public interface IEmploymentBuilder extends IServiceBuilder {
     public IEmploymentBuilder setRegistration(boolean status);
 
     public IEmploymentBuilder setReferralTo(String referral);
@@ -13,7 +15,7 @@ public interface IEmploymentBuilder {
 
     public IEmploymentBuilder setOccupationIntended(String occupation);
 
-    public IEmploymentBuilder setInterventionType(char intType);
+    public IEmploymentBuilder setInterventionType(String intType);
 
     public IEmploymentBuilder setTimeSpentHours(int hours);
 

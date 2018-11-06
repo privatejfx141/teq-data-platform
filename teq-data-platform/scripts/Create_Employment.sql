@@ -19,7 +19,7 @@ CREATE TABLE Employment (
     education_status    VARCHAR(32),
     occupation_canada   VARCHAR(32),
     occupation_intend   VARCHAR(32),
-    intervention_type   CHAR(1) NOT NULL,
+    intervention_type   CHAR(1),
     time_spent_hours    INTEGER,
     time_spent_minutes  INTEGER,
     FOREIGN KEY(service_id) REFERENCES Service(id),
@@ -43,9 +43,9 @@ CREATE TABLE LongTermIntervention (
 );
 
 CREATE TABLE ShortTermIntervention (
-    intervention_id     INTEGER PRIMARY KEY NOT NULL,
     employment_id       INTEGER NOT NULL,
-    service_recieved    VARCHAR(32),
-    date                DATE,
+    service_recieved    VARCHAR(32) NOT NULL,
+    date                DATE NOT NULL,
+    PRIMARY KEY(employment_id, service_recieved, date),
     FOREIGN KEY(employment_id) REFERENCES Employment(service_id)
 );

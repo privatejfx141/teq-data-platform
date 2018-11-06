@@ -1,10 +1,13 @@
 package com.devlopp.teq.service.employment;
 
-public class EmploymentBuilder implements IEmploymentBuilder {
+import com.devlopp.teq.service.ServiceBuilder;
+
+public class EmploymentBuilder extends ServiceBuilder implements IEmploymentBuilder {
     private Employment employment;
 
     public EmploymentBuilder() {
-        employment = new Employment();
+        service = new Employment();
+        employment = (Employment) service;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class EmploymentBuilder implements IEmploymentBuilder {
     }
 
     @Override
-    public IEmploymentBuilder setInterventionType(char intType) {
+    public IEmploymentBuilder setInterventionType(String intType) {
         employment.interventionType = intType;
         return this;
     }

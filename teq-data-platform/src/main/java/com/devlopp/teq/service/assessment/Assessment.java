@@ -16,7 +16,7 @@ public class Assessment extends Service {
     protected boolean reqSupportService;
     protected boolean planComplete;
     protected String endDate;
-    protected IFindEmployment findEmployment;
+    protected FindEmployment findEmployment;
     protected Map<String, Boolean> increases = new HashMap<String, Boolean>();
     protected List<String> nonIRCCServices = new ArrayList<String>();
 
@@ -101,7 +101,7 @@ public class Assessment extends Service {
      * 
      * @return The responses for the find employment fields
      */
-    public IFindEmployment getFindEmployment() {
+    public FindEmployment getFindEmployment() {
         return findEmployment;
     }
 

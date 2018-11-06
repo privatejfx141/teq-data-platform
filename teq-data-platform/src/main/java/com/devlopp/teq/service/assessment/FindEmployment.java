@@ -1,6 +1,6 @@
 package com.devlopp.teq.service.assessment;
 
-public class FindEmployment implements IFindEmployment {
+public class FindEmployment {
     private String timeFrame;
     private String minExp;
     private String skillLevel;
@@ -13,22 +13,18 @@ public class FindEmployment implements IFindEmployment {
         this.intends = intends;
     }
 
-    @Override
     public String getTimeFrame() {
         return timeFrame;
     }
 
-    @Override
     public String getMinExperience() {
         return minExp;
     }
 
-    @Override
     public String getSkillLevel() {
         return skillLevel;
     }
 
-    @Override
     public String getIntendsToObtain() {
         return intends;
     }
