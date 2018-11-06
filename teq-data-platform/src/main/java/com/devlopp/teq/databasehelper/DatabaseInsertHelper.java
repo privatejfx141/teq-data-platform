@@ -36,19 +36,19 @@ public class DatabaseInsertHelper extends DatabaseInserter {
     }
     
     /**
-     * Inserts course details into the TEQ database and returns the course ID if
+     * Inserts course details into the TEQ database and returns the courseCode if
      * successful.
      * 
      * @param course course details to insert
-     * @return course ID if successful, -1 otherwise
+     * @return courseCode if successful, -1 otherwise
      */
-    public static int insertCourse(Course course) {
-        int courseId = -1;
+    public static String insertCourse(Course course) {
+        String courseCode = "-1";
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
-        	courseId = DatabaseInserter.insertCourse(connection, course);
+        	courseCode = DatabaseInserter.insertCourse(connection, course);
         } catch (DatabaseInsertException exception) {
-        	courseId = -1;
+        	courseCode = "-1";
         } finally {
             try {
                 connection.close();
@@ -56,7 +56,7 @@ public class DatabaseInsertHelper extends DatabaseInserter {
                 /* Do not need to do anything, connection was already closed */
             }
         }
-        return courseId;
+        return courseCode;
     }
 
     /**

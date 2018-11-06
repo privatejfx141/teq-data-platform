@@ -68,6 +68,14 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
+    protected static ResultSet getServiceCommunityConnectioins(Connection connection, int serviceId) throws SQLException {
+        String sql = "SELECT * FROM CommunityConnections t WHERE t.id IN"
+                + " (SELECT DISTINCT target_group_id FROM ServiceTargetGroup WHERE service_id = ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, serviceId);
+        return preparedStatement.executeQuery();
+    }
+
     /* Specific service methods */
     protected static ResultSet getAssessmentIncrease(Connection connection, int assessmentId) throws SQLException {
         String sql = "SELECT description FROM Increase t WHERE t.id IN"
