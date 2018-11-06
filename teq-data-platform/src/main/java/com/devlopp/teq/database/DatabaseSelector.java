@@ -104,7 +104,7 @@ public class DatabaseSelector {
 
     /* Course methods */
     protected static ResultSet getCourse(Connection connection, String courseCode) throws SQLException {
-        String sql = "SELECT * FROM Course WHERE id = ?";
+        String sql = "SELECT * FROM Course WHERE course_code = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, courseCode);
         return preparedStatement.executeQuery();
