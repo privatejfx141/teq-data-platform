@@ -1,5 +1,6 @@
 package com.devlopp.teq.app;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +19,7 @@ import com.devlopp.teq.client.IClientBuilder;
 import com.devlopp.teq.inputCheck.errorCheck;
 
 public class ExcelDriver {
-    
+
     public static String fixDate(String dateString, String dateFormat) {
         SimpleDateFormat inputDateFormat = new SimpleDateFormat(dateFormat);
         SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -30,21 +31,21 @@ public class ExcelDriver {
         }
         return null;
     }
-    
+
     public static String fixDirection(String direction) {
         String[] split = direction.split(" ");
         return split[0];
     }
-    
+
     public static boolean parseYesNo(String response) {
         response = response.toLowerCase();
         return response.contains("ye") || response.equals("y");
     }
 
-    public static List<Client> readClientProfile(String filePath) {
+    public static List<Client> readClientProfile(File templateFile) {
         List<Client> clients = new ArrayList<>();
         try {
-            ArrayList<ArrayList<String>> clientProfileData = errorCheck.parseForDB(filePath);
+            ArrayList<ArrayList<String>> clientProfileData = errorCheck.parseForDB(templateFile);
             for (ArrayList<String> clientData : clientProfileData.subList(1, clientProfileData.size())) {
                 // build the address object
                 IAddressBuilder addressBuilder = new AddressBuilder();

@@ -17,6 +17,6 @@ public class Controller {
         FileChooser.ExtensionFilter excelFilter =
                 new FileChooser.ExtensionFilter("Excel files", "*.xls", "*.xlsx");
         chooser.getExtensionFilters().add(excelFilter);
-        File dataFile = chooser.showOpenDialog(primary);
+        File template = chooser.showOpenDialog(primary);
     }
 }
