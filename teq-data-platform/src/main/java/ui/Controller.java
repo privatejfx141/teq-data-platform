@@ -13,6 +13,7 @@ public class Controller {
 
     public void handleAddFileAction(ActionEvent actionEvent) {
         FileChooser chooser = new FileChooser();
-        File dataFile = chooser.showOpenDialog(new Stage());
+        Stage primary = TEQDataPlatformApplication.primaryStage;
+        File dataFile = chooser.showOpenDialog(primary);
     }
 }
