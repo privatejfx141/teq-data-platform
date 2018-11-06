@@ -13,7 +13,6 @@ import com.devlopp.teq.client.Client;
 import com.devlopp.teq.course.Course;
 import com.devlopp.teq.service.Service;
 import com.devlopp.teq.service.assessment.Assessment;
-import com.devlopp.teq.service.assessment.FindEmployment;
 import com.devlopp.teq.service.assessment.IFindEmployment;
 import com.devlopp.teq.service.employment.Employment;
 import com.devlopp.teq.service.orientation.Orientation;
@@ -27,7 +26,7 @@ public class DatabaseInserter {
      * @param connection connection to the TEQ database
      * @param client     client info to insert
      * @return client ID (primary key) of the inserted client
-     * @throws DatabaseInsertException
+     * @throws DatabaseInsertException on failure of insert
      */
     protected static int insertClient(Connection connection, Client client) throws DatabaseInsertException {
         // insert address object from client into database
@@ -211,8 +210,7 @@ public class DatabaseInserter {
     private static int insertAssessmentDetails(Connection connection, Assessment assessment)
             throws DatabaseInsertException {
         int assessmentId = insertService(connection, assessment);
-        String sql = "INSERT INTO Assessment ("
-                + "service_id, start_date, language_skill_goal, other_skill_goal, "
+        String sql = "INSERT INTO Assessment (" + "service_id, start_date, language_skill_goal, other_skill_goal, "
                 + "intends_citizenship, req_support_service, plan_complete, end_date"
                 + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -232,12 +230,23 @@ public class DatabaseInserter {
                 }
             }
         } catch (SQLException | ParseException e) {
-            e.printStackTrace();
+            throw new DatabaseInsertException();
         }
         return assessmentId;
     }
 
-    private static int insertAssessmentFindEmployment(Connection connection, int assessmentId, IFindEmployment findEmployment) {
+    /**
+     * Inserts the assessment service find employment responses into the TEQ
+     * database and returns the service ID if insertion was successful.
+     * 
+     * @param connection     connection to the TEQ database
+     * @param assessmentId   ID of the assessment service
+     * @param findEmployment find employment responses to insert
+     * @return service ID (primary key) of the assessment service
+     * @throws DatabaseInsertException on failure of insert
+     */
+    private static int insertAssessmentFindEmployment(Connection connection, int assessmentId,
+            IFindEmployment findEmployment) throws DatabaseInsertException {
         String sql = "INSERT INTO AssessmentFindEmployment ("
                 + "assessment_id, time_frame, min_one_year, skill_level, intends_to_obtain"
                 + ") VALUES (?, ?, ?, ?, ?)";
@@ -255,11 +264,11 @@ public class DatabaseInserter {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DatabaseInsertException();
         }
         return assessmentId;
     }
-    
+
     // -- Orientation service insertions --
     protected static int insertOrientation(Connection connection, Orientation orientation)
             throws DatabaseInsertException {
@@ -285,6 +294,18 @@ public class DatabaseInserter {
         throw new DatabaseInsertException();
     }
 
+    /**
+     * Inserts a service type relationship into an associative entity.
+     * 
+     * @param connection   connection to the TEQ database
+     * @param tableName    name of the associative entity table
+     * @param serviceIdCol name of the service ID column
+     * @param typeIdCol    name of the type ID column
+     * @param serviceId    ID of the service
+     * @param typeId       ID of the type
+     * @return ID of the service type relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
     protected static int insertServiceRelationship(Connection connection, String tableName, String serviceIdCol,
             String typeIdCol, int serviceId, int typeId) throws DatabaseInsertException {
         String sql = String.format("INSERT INTO %s(%s,%s) VALUES(?,?)", tableName, serviceIdCol, typeIdCol);
@@ -304,6 +325,20 @@ public class DatabaseInserter {
         throw new DatabaseInsertException();
     }
 
+    /**
+     * Inserts a service type relationship with a referral attribute into an
+     * associative entity.
+     * 
+     * @param connection   connection to the TEQ database
+     * @param tableName    name of the associative entity table
+     * @param serviceIdCol name of the service ID column
+     * @param typeIdCol    name of the type ID column
+     * @param serviceId    ID of the service
+     * @param typeId       ID of the type
+     * @param referrals    whether or not there were referrals
+     * @return ID of the service type relationship
+     * @throws DatabaseInsertException on failure of insert
+     */
     protected static int insertServiceRelationship(Connection connection, String tableName, String serviceIdCol,
             String typeIdCol, int serviceId, int typeId, boolean referrals) throws DatabaseInsertException {
         String sql = String.format("INSERT INTO %s(%s,%s,referrals) VALUES(?,?,?)", tableName, serviceIdCol, typeIdCol);

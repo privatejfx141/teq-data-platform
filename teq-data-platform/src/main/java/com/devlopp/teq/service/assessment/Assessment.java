@@ -30,7 +30,8 @@ public class Assessment extends Service {
     }
 
     /**
-     * Returns the client's language skill goal as stated in this assessment service.
+     * Returns the client's language skill goal as stated in this assessment
+     * service.
      * 
      * @return client's language skill goal
      */
@@ -39,7 +40,8 @@ public class Assessment extends Service {
     }
 
     /**
-     * Returns the client's miscellaneous skill goal as stated in this assessment service.
+     * Returns the client's miscellaneous skill goal as stated in this assessment
+     * service.
      * 
      * @return client's miscellaneous skill goal
      */
@@ -48,7 +50,8 @@ public class Assessment extends Service {
     }
 
     /**
-     * Returns whether the client wants citizenship as stated in this assessment service.
+     * Returns whether the client wants citizenship as stated in this assessment
+     * service.
      * 
      * @return whether the client wants citizenship
      */
@@ -57,7 +60,8 @@ public class Assessment extends Service {
     }
 
     /**
-     * Returns whether the client required support services for this assessment service.
+     * Returns whether the client required support services for this assessment
+     * service.
      * 
      * @return Whether the client required support services
      */
@@ -100,9 +104,10 @@ public class Assessment extends Service {
     public IFindEmployment getFindEmployment() {
         return findEmployment;
     }
-    
+
     /**
-     * Adds a field of improvement to the service and whether or not the client had referral.
+     * Adds a field of improvement to the service and whether or not the client had
+     * referral.
      * 
      * @param increase field of improvement
      * @param referral whether or not the client had referral
@@ -119,7 +124,7 @@ public class Assessment extends Service {
     public List<String> getNonIRCCServices() {
         return nonIRCCServices;
     }
-    
+
     /**
      * Adds a non-IRCC service.
      * 

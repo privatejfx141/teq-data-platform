@@ -81,23 +81,4 @@ public class DatabaseInsertHelper extends DatabaseInserter {
         }
         return assessmentId;
     }
-    
-    
-    public static int insertServiceEssentialSkill(int serviceId, int skillId) {
-        int id = -1;
-        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
-        // attempt to insert into database
-        try {
-            id = DatabaseInserter.insertServiceEssentialSkill(connection, serviceId, skillId);
-        } catch (DatabaseInsertException e) {
-            id = -1;
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException closeConnectionException) {
-                /* Do not need to do anything, connection was already closed */
-            }
-        }
-        return id;
-    }
 }
