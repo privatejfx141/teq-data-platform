@@ -359,9 +359,9 @@ public class DatabaseInserter {
      */
     private static int insertCourseObject(Connection connection, Course course) throws DatabaseInsertException {
         String sql = "INSERT INTO Course (courseCode,notes,ongoingBasis,language,trainingFormat,"
-        		+ "classLocation,inpersonInstruct,onlineInstructnumberOfSpots,numberOfIRCC,"
+        		+ "classLocation,inpersonInstruct,onlineInstructnumberOfSpots,numberOfSpots,numberOfIRCC,"
         		+ "enrollmentType,startDate,endDate,instructHours,weeklyHours,numWeeks,numWeeksPerYear,dominantFocus"
-                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, course.getCourseCode());
@@ -372,15 +372,16 @@ public class DatabaseInserter {
             statement.setString(6, course.getClassLocation());
             statement.setFloat(7, course.getInPercentInstruct());
             statement.setFloat(8, course.getOnlineInstruct());
-            statement.setInt(9, course.getNumberOfIRCC());
-            statement.setString(10, course.getEnrollmentType());
-            statement.setString(11, course.getStartDate());
-            statement.setString(12, course.getEndDate());
-            statement.setInt(13, course.getInstructHours());
-            statement.setInt(14, course.getWeeklyHours());
-            statement.setInt(15, course.getNumWeeks());
-            statement.setInt(16, course.getNumWeeksPerYear());
-            statement.setString(17, course.getDominantFocus());
+            statement.setInt(9, course.getNumberOfSpots());
+            statement.setInt(10, course.getNumberOfIRCC());
+            statement.setString(11, course.getEnrollmentType());
+            statement.setString(12, course.getStartDate());
+            statement.setString(13, course.getEndDate());
+            statement.setInt(14, course.getInstructHours());
+            statement.setInt(15, course.getWeeklyHours());
+            statement.setInt(16, course.getNumWeeks());
+            statement.setInt(17, course.getNumWeeksPerYear());
+            statement.setString(18, course.getDominantFocus());
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
                 if (uniqueKey.next()) {
