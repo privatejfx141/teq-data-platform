@@ -323,7 +323,7 @@ public class DatabaseInserter {
         for (String schedule : course.getSchedules()) {
             try {
                 int typeId = DatabaseSelector.getTypeId(connection, "Schedule", schedule);
-                insertServiceSupportService(connection, courseId, typeId);
+                insertCourseSchedule(connection, courseId, typeId);
             } catch (SQLException e) {
                 throw new DatabaseInsertException();
             }
@@ -331,7 +331,7 @@ public class DatabaseInserter {
         for (String supportService : course.getSupportServices()) {
             try {
                 int typeId = DatabaseSelector.getTypeId(connection, "SupportService", supportService);
-                insertServiceEssentialSkill(connection, courseId, typeId);
+                insertCourseSupportService(connection, courseId, typeId);
             } catch (SQLException e) {
                 throw new DatabaseInsertException();
             }
@@ -339,7 +339,7 @@ public class DatabaseInserter {
         for (String targetGroup : course.getTargetGroups()) {
             try {
                 int typeId = DatabaseSelector.getTypeId(connection, "TargetGroup", targetGroup);
-                insertServiceTargetGroup(connection, courseId, typeId);
+                insertCourseTargetGroup(connection, courseId, typeId);
             } catch (SQLException e) {
                 throw new DatabaseInsertException();
             }
