@@ -29,8 +29,14 @@ public class EmploymentBuilder extends ServiceBuilder implements IEmploymentBuil
     }
 
     @Override
-    public IEmploymentBuilder setEmploymentStatus(String employmentStatus) {
-        employment.employmentStatus = employmentStatus;
+    public IEmploymentBuilder setEmploymentStatus(String status) {
+        employment.employmentStatus = status;
+        return this;
+    }
+
+    @Override
+    public IEmploymentBuilder setEducationStatus(String status) {
+        employment.educationStatus = status;
         return this;
     }
 
@@ -62,5 +68,16 @@ public class EmploymentBuilder extends ServiceBuilder implements IEmploymentBuil
     public IEmploymentBuilder setTimeSpentMinutes(int minutes) {
         employment.timeSpentMinutes = minutes;
         return this;
+    }
+
+    @Override
+    public IEmploymentBuilder setLongTermIntervention(LongTermIntervention lti) {
+        employment.lti = lti;
+        return this;
+    }
+
+    @Override
+    public Employment create() {
+        return employment;
     }
 }

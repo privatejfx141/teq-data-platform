@@ -11,6 +11,8 @@ public interface IEmploymentBuilder extends IServiceBuilder {
 
     public IEmploymentBuilder setEmploymentStatus(String employmentStatus);
 
+    public IEmploymentBuilder setEducationStatus(String string);
+
     public IEmploymentBuilder setOccupationCanada(String occupation);
 
     public IEmploymentBuilder setOccupationIntended(String occupation);
@@ -20,4 +22,8 @@ public interface IEmploymentBuilder extends IServiceBuilder {
     public IEmploymentBuilder setTimeSpentHours(int hours);
 
     public IEmploymentBuilder setTimeSpentMinutes(int minutes);
+
+    public IEmploymentBuilder setLongTermIntervention(LongTermIntervention lti);
+
+    public Employment create();
 }

@@ -8,48 +8,59 @@ public class LongTermInterventionBuilder {
         intervention = new LongTermIntervention();
     }
 
-    public void setServiceRecieved(String service) {
+    public LongTermInterventionBuilder setServiceRecieved(String service) {
         intervention.serviceRecieved = service;
+        return this;
     }
 
-    public void setStatus(String status) {
+    public LongTermInterventionBuilder setStatus(String status) {
         intervention.status = status;
+        return this;
     }
 
-    public void setReasonForLeave(String reason) {
+    public LongTermInterventionBuilder setReasonForLeave(String reason) {
         intervention.reasonForLeave = reason;
+        return this;
     }
 
-    public void setStartDate(String date) {
+    public LongTermInterventionBuilder setStartDate(String date) {
         intervention.startDate = date;
+        return this;
     }
 
-    public void setEndDate(String date) {
+    public LongTermInterventionBuilder setEndDate(String date) {
         intervention.endDate = date;
+        return this;
     }
 
-    public void setEmployerSize(int size) {
+    public LongTermInterventionBuilder setEmployerSize(int size) {
         intervention.employerSize = size;
+        return this;
     }
 
-    public void setPlacement(String placement) {
+    public LongTermInterventionBuilder setPlacement(String placement) {
         intervention.placement = placement;
+        return this;
     }
 
-    public void setAverageHoursPerWeek(String hours) {
+    public LongTermInterventionBuilder setAverageHoursPerWeek(String hours) {
         intervention.averageHoursPerWeek = hours;
+        return this;
     }
 
-    public void setMetMentorAt(String metMentorAt) {
+    public LongTermInterventionBuilder setMetMentorAt(String metMentorAt) {
         intervention.metMentorAt = metMentorAt;
+        return this;
     }
 
-    public void setHoursPeerWeek(int hours) {
+    public LongTermInterventionBuilder setHoursPeerWeek(int hours) {
         intervention.hoursPerWeek = hours;
+        return this;
     }
 
-    public void setProfession(String profession) {
+    public LongTermInterventionBuilder setProfession(String profession) {
         intervention.profession = profession;
+        return this;
     }
 
     public LongTermIntervention build() {

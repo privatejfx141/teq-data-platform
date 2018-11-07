@@ -17,6 +17,12 @@ import com.devlopp.teq.service.IServiceBuilder;
 import com.devlopp.teq.service.assessment.Assessment;
 import com.devlopp.teq.service.assessment.AssessmentBuilder;
 import com.devlopp.teq.service.assessment.IAssessmentBuilder;
+import com.devlopp.teq.service.employment.Employment;
+import com.devlopp.teq.service.employment.EmploymentBuilder;
+import com.devlopp.teq.service.employment.IEmploymentBuilder;
+import com.devlopp.teq.service.employment.LongTermIntervention;
+import com.devlopp.teq.service.employment.LongTermInterventionBuilder;
+import com.devlopp.teq.service.employment.ShortTermIntervention;
 
 public class DatabaseSelectHelper extends DatabaseSelector {
     public static List<String> getAllTypes(String tableName) {
@@ -72,7 +78,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
      * Connects to database, obtains and returns a client with ID number clientId
      * from the Client table. Returns <code>null</code> if clientId is invalid.
      * 
-     * @param clientId
+     * @param clientId unique ID of the client
      * @return client with the ID number addressId, <code>null</code> if invalid
      *         clientId
      */
@@ -106,7 +112,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
      * Connects to database, obtains and returns an address with ID number addressId
      * from the Address table. Returns <code>null</code> if addressId is invalid.
      * 
-     * @param addressId address ID
+     * @param addressId ID of the address record
      * @return address with the ID number addressId, <code>null</code> if invalid
      *         addressId
      */
@@ -138,7 +144,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     /**
      * Populates the builder object for a service with service details.
      * 
-     * @param serviceId service ID
+     * @param serviceId ID of the service
      * @param builder   builder pattern object for the service
      * @return builder pattern object with service data
      */
@@ -190,7 +196,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
      * with ID number serviceId from the Assessment table. Returns <code>null</code>
      * if serviceId is invalid.
      * 
-     * @param serviceId service ID
+     * @param serviceId ID of the assessment service
      * @return Assessment & referrals service with the ID number serviceId,
      *         <code>null</code> if invalid serviceId
      */
@@ -245,5 +251,66 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             }
         }
         return assessment;
+    }
+
+    /**
+     * Connects to database, obtains and returns an employment service with ID
+     * number serviceId from the Employment table. Returns <code>null</code> if
+     * serviceId is invalid.
+     * 
+     * @param serviceId ID of the employment service
+     * @return Employment service with the ID number serviceId, <code>null</code> if
+     *         invalid serviceId
+     */
+    public static Employment getEmployment(int serviceId) {
+        Employment employment = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        // populate builder with general service information
+        IEmploymentBuilder builder = (IEmploymentBuilder) getServiceDetails(serviceId, new EmploymentBuilder());
+        // populate builder with employment information
+        try {
+            ResultSet results = DatabaseSelector.getEmploymentDetails(connection, serviceId);
+            while (results.next()) {
+                builder.setRegistration(results.getBoolean("registration"))
+                        .setReferralTo(results.getString("referral_to"))
+                        .setReferralDate(results.getDate("referral_date").toString())
+                        .setEmploymentStatus(results.getString("employment_status"))
+                        .setEducationStatus(results.getString("education_status"))
+                        .setOccupationCanada(results.getString("occupation_canada"))
+                        .setOccupationIntended(results.getString("occupation_intend"))
+                        .setInterventionType(results.getString("intervention_type"))
+                        .setTimeSpentHours(results.getInt("time_spent_hours"))
+                        .setTimeSpentMinutes(results.getInt("time_spent_minutes"));
+            }
+            // get LTI responses, if any
+            results = DatabaseSelector.getEmploymentLTI(connection, serviceId);
+            while (results.next()) {
+                LongTermIntervention lti = new LongTermInterventionBuilder()
+                        .setServiceRecieved(results.getString("service_recieved"))
+                        .setStatus(results.getString("status")).setReasonForLeave(results.getString("reason_for_leave"))
+                        .setStartDate(results.getDate("start_date").toString())
+                        .setEndDate(results.getDate("end_date").toString())
+                        .setEmployerSize(results.getInt("employer_size"))
+                        .setPlacement(results.getString("placement_was"))
+                        .setAverageHoursPerWeek(results.getString("avg_hours_per_week"))
+                        .setMetMentorAt(results.getString("hours_per_week"))
+                        .setHoursPeerWeek(results.getInt("hours_per_week"))
+                        .setProfession(results.getString("profession")).build();
+                builder.setLongTermIntervention(lti);
+            }
+            // build employment service object, then add STI responses if any
+            employment = builder.create();
+            results = DatabaseSelector.getEmploymentSTI(connection, serviceId);
+            while (results.next()) {
+                String stiService = results.getString("service_recieved");
+                String stiDate = results.getDate("date").toString();
+                ShortTermIntervention sti = new ShortTermIntervention(stiService, stiDate);
+                employment.addShortTermIntervention(sti);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            employment = null;
+        }
+        return employment;
     }
 }
