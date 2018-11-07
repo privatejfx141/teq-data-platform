@@ -64,6 +64,13 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
+    protected static ResultSet getServiceNewcomerChildCare(Connection connection, int serviceId) throws SQLException {
+        String sql = "SELECT * FROM NewcomerChildCare WHERE service_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, serviceId);
+        return preparedStatement.executeQuery();
+    }
+
     /* Specific service methods */
     protected static ResultSet getAssessmentDetails(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT * FROM Assessment WHERE service_id = ?";
@@ -72,35 +79,49 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
-    protected static ResultSet getAssessmentFindEmployment(Connection connection, int assessmentId) throws SQLException {
+    protected static ResultSet getAssessmentFindEmployment(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT * FROM AssessmentFindEmployment WHERE assessment_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, assessmentId);
+        preparedStatement.setInt(1, serviceId);
         return preparedStatement.executeQuery();
     }
 
-    protected static ResultSet getAssessmentIncrease(Connection connection, int assessmentId) throws SQLException {
+    protected static ResultSet getAssessmentIncrease(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT a.description, b.referrals" + " FROM AssessmentIncrease b JOIN Increase a"
                 + " ON a.id = b.increase_id WHERE b.assessment_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, assessmentId);
+        preparedStatement.setInt(1, serviceId);
         return preparedStatement.executeQuery();
     }
 
-    protected static ResultSet getAssessmentNonIRCCService(Connection connection, int assessmentId)
-            throws SQLException {
+    protected static ResultSet getAssessmentNonIRCCService(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT description FROM NonIRCCService t WHERE t.id IN"
                 + " (SELECT DISTINCT non_ircc_service_id FROM AssessmentNonIRCCService WHERE assessment_id = ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, assessmentId);
+        preparedStatement.setInt(1, serviceId);
         return preparedStatement.executeQuery();
     }
 
-    protected static ResultSet getOrientationTopic(Connection connection, int orientationId) throws SQLException {
+    protected static ResultSet getCommunityConnectionsDetails(Connection connection, int serviceId)
+            throws SQLException {
+        String sql = "SELECT * FROM CommunityConnections WHERE service_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, serviceId);
+        return preparedStatement.executeQuery();
+    }
+
+    protected static ResultSet getOrientationDetails(Connection connection, int serviceId) throws SQLException {
+        String sql = "SELECT * FROM Orientation WHERE service_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, serviceId);
+        return preparedStatement.executeQuery();
+    }
+
+    protected static ResultSet getOrientationTopic(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT description FROM Topic t WHERE t.id IN"
                 + " (SELECT DISTINCT topic_id FROM OrientationTopic WHERE orientation_id = ?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, orientationId);
+        preparedStatement.setInt(1, serviceId);
         return preparedStatement.executeQuery();
     }
 
@@ -111,17 +132,17 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
-    protected static ResultSet getEmploymentLTI(Connection connection, int employmentId) throws SQLException {
+    protected static ResultSet getEmploymentLTI(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT * FROM LongTermIntervention WHERE employment_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, employmentId);
+        preparedStatement.setInt(1, serviceId);
         return preparedStatement.executeQuery();
     }
 
-    protected static ResultSet getEmploymentSTI(Connection connection, int employmentId) throws SQLException {
+    protected static ResultSet getEmploymentSTI(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT * FROM ShortTermIntervention WHERE employment_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setInt(1, employmentId);
+        preparedStatement.setInt(1, serviceId);
         return preparedStatement.executeQuery();
     }
 

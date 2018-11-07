@@ -3,8 +3,8 @@ package com.devlopp.teq.service;
 import java.util.List;
 
 public abstract class ServiceBuilder implements IServiceBuilder {
-    public Service service;
-    
+    protected Service service;
+
     @Override
     public IServiceBuilder setId(int id) {
         service.id = id;
@@ -68,6 +68,12 @@ public abstract class ServiceBuilder implements IServiceBuilder {
     @Override
     public IServiceBuilder setTargetGroups(List<String> targetGroups) {
         service.targetGroups = targetGroups;
+        return this;
+    }
+
+    @Override
+    public IServiceBuilder setChildCares(List<NewcomerChildCare> childCares) {
+        service.childCares = childCares;
         return this;
     }
 }

@@ -6,23 +6,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.devlopp.teq.address.Address;
-import com.devlopp.teq.address.AddressBuilder;
-import com.devlopp.teq.address.IAddressBuilder;
-import com.devlopp.teq.client.Client;
-import com.devlopp.teq.client.ClientBuilder;
-import com.devlopp.teq.client.IClientBuilder;
+import com.devlopp.teq.address.*;
+import com.devlopp.teq.client.*;
 import com.devlopp.teq.database.DatabaseSelector;
-import com.devlopp.teq.service.IServiceBuilder;
-import com.devlopp.teq.service.assessment.Assessment;
-import com.devlopp.teq.service.assessment.AssessmentBuilder;
-import com.devlopp.teq.service.assessment.IAssessmentBuilder;
-import com.devlopp.teq.service.employment.Employment;
-import com.devlopp.teq.service.employment.EmploymentBuilder;
-import com.devlopp.teq.service.employment.IEmploymentBuilder;
-import com.devlopp.teq.service.employment.LongTermIntervention;
-import com.devlopp.teq.service.employment.LongTermInterventionBuilder;
-import com.devlopp.teq.service.employment.ShortTermIntervention;
+import com.devlopp.teq.service.*;
+import com.devlopp.teq.service.assessment.*;
+import com.devlopp.teq.service.commconn.*;
+import com.devlopp.teq.service.employment.*;
+import com.devlopp.teq.service.orientation.*;
 
 public class DatabaseSelectHelper extends DatabaseSelector {
     public static List<String> getAllTypes(String tableName) {
@@ -159,26 +150,36 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                     .setReferredBy(results.getString("referred_by")).setUpdateReason(results.getString("update_reason"))
                     .setServiceType(results.getString("service_type"));
             // get essential skills
-            List<String> essentialSkills = new ArrayList<String>();
+            List<String> essentialSkills = new ArrayList<>();
             results = DatabaseSelector.getServiceEssentialSkill(connection, serviceId);
             while (results.next()) {
                 essentialSkills.add(results.getString("description"));
             }
             builder.setEssentialSkills(essentialSkills);
             // get support services
-            List<String> supportServices = new ArrayList<String>();
+            List<String> supportServices = new ArrayList<>();
             results = DatabaseSelector.getServiceSupportService(connection, serviceId);
             while (results.next()) {
                 supportServices.add(results.getString("description"));
             }
             builder.setSupportServices(supportServices);
             // get target groups
-            List<String> targetGroups = new ArrayList<String>();
+            List<String> targetGroups = new ArrayList<>();
             results = DatabaseSelector.getServiceTargetGroup(connection, serviceId);
             while (results.next()) {
                 targetGroups.add(results.getString("description"));
             }
             builder.setTargetGroups(targetGroups);
+            // get newcomer child care responses
+            List<NewcomerChildCare> childCares = new ArrayList<>();
+            results = DatabaseSelector.getServiceNewcomerChildCare(connection, serviceId);
+            while (results.next()) {
+                int childCareId = results.getInt("id");
+                String childCareAge = results.getString("age");
+                String childCareType = results.getString("care_type");
+                childCares.add(new NewcomerChildCare(childCareId, serviceId, childCareAge, childCareType));
+            }
+            builder.setChildCares(childCares);
         } catch (SQLException e) {
             builder = null;
         } finally {
@@ -203,9 +204,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     public static Assessment getAssessment(int serviceId) {
         Assessment assessment = null;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        IAssessmentBuilder builder = (IAssessmentBuilder) getServiceDetails(serviceId, new AssessmentBuilder());
         try {
             // get data for assessment service object
-            IAssessmentBuilder builder = (IAssessmentBuilder) getServiceDetails(serviceId, new AssessmentBuilder());
             ResultSet results = DatabaseSelector.getAssessmentDetails(connection, serviceId);
             builder.setStartDate(results.getDate("start_date").toString())
                     .setLanguageGoal(results.getString("language_skill_goal"))
@@ -248,6 +249,46 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return assessment;
     }
 
+    public static CommunityConnections getCommunityConnection(int communityConnection) {
+        CommunityConnections community = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        
+        
+        return community;
+    }
+    
+    public static Orientation getOrientation(int serviceId) {
+        Orientation orientation = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        IOrientationBuilder builder = (IOrientationBuilder) getServiceDetails(serviceId, new OrientationBuilder());
+        try {
+            // get orientation details
+            ResultSet results = DatabaseSelector.getOrientationDetails(connection, serviceId);
+            orientation = builder.setServiceReceived(results.getString("service_recieved"))
+                .setTotalLength(results.getString("total_length"))
+                .setLengthHours(results.getInt("length_hours"))
+                .setLengthMinutes(results.getInt("length_minutes"))
+                .setNumberOfClients(results.getInt("number_of_clients"))
+                .setEndDate(results.getDate("end_date").toString())
+                .create();
+            // add orientation topics
+            results = DatabaseSelector.getOrientationTopic(connection, serviceId);
+            while (results.next()) {
+                orientation.addTopic(results.getString("description"), results.getBoolean("referrals"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            orientation = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return orientation;
+    }
+    
     /**
      * Connects to database, obtains and returns an employment service with ID
      * number serviceId from the Employment table. Returns <code>null</code> if

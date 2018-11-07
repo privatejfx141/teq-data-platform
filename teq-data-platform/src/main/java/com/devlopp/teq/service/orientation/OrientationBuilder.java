@@ -1,10 +1,13 @@
 package com.devlopp.teq.service.orientation;
 
-public class OrientationBuilder implements IOrientationBuilder {
+import com.devlopp.teq.service.ServiceBuilder;
+
+public class OrientationBuilder extends ServiceBuilder implements IOrientationBuilder {
     private Orientation orientation;
 
     public OrientationBuilder() {
-        orientation = new Orientation();
+        service = new Orientation();
+        orientation = (Orientation) service;
     }
 
     @Override
@@ -41,5 +44,12 @@ public class OrientationBuilder implements IOrientationBuilder {
     public IOrientationBuilder setEndDate(String endDate) {
         orientation.endDate = endDate;
         return this;
+    }
+
+    
+    
+    @Override
+    public Orientation create() {
+        return orientation;
     }
 }

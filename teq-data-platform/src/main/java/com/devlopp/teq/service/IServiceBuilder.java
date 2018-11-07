@@ -90,4 +90,12 @@ public interface IServiceBuilder {
      * @return This builder object to allow for chaining of calls to set methods
      */
     public IServiceBuilder setTargetGroups(List<String> targetGroups);
+
+    /**
+     * Sets the list of newcomer child care responses for the service.
+     * 
+     * @param targetGroups The list of newcomer child care responses for the service
+     * @return This builder object to allow for chaining of calls to set methods
+     */
+    public IServiceBuilder setChildCares(List<NewcomerChildCare> childCares);
 }

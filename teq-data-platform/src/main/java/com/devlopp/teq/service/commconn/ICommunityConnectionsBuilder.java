@@ -1,6 +1,8 @@
 package com.devlopp.teq.service.commconn;
 
-public interface ICommunityConnectionsBuilder {
+import com.devlopp.teq.service.IServiceBuilder;
+
+public interface ICommunityConnectionsBuilder extends IServiceBuilder {
     public ICommunityConnectionsBuilder setEventType(String eventType);
 
     public ICommunityConnectionsBuilder setMainTopic(String mainTopic);

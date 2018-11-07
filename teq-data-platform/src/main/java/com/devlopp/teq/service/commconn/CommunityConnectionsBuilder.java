@@ -1,6 +1,8 @@
 package com.devlopp.teq.service.commconn;
 
-public class CommunityConnectionsBuilder implements ICommunityConnectionsBuilder {
+import com.devlopp.teq.service.ServiceBuilder;
+
+public class CommunityConnectionsBuilder extends ServiceBuilder implements ICommunityConnectionsBuilder {
     private CommunityConnections communityconnections;
 
     public CommunityConnectionsBuilder() {
