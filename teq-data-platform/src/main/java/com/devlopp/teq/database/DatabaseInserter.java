@@ -58,8 +58,8 @@ public class DatabaseInserter {
      * Connects to the TEQ database and inserts an address to the Address table.
      * Returns the address ID if successful, -1 otherwise.
      * 
-     * @param connection      connection to the TEQ database
-     * @param address the adress object that describes the adress
+     * @param connection connection to the TEQ database
+     * @param address    the adress object that describes the adress
      * @return the address ID number, -1 otherwise
      * @throws DatabaseInsertException if fails to insert into db
      */
@@ -314,44 +314,36 @@ public class DatabaseInserter {
      * @param connection connection to the TEQ database
      * @param course     course info to insert
      * @return courseCode (primary key) of the inserted course
-     * @throws DatabaseInsertException 
+     * @throws DatabaseInsertException
      */
     protected static String insertCourse(Connection connection, Course course) throws DatabaseInsertException {
         // insert into the course table
         String courseCode = insertCourseObject(connection, course);
         // insert relationships
-        for (String schedule : course.getSchedules()) {
-            try {
+        try {
+            for (String schedule : course.getSchedules()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "Schedule", schedule);
                 insertCourseSchedule(connection, courseCode, typeId);
-            } catch (SQLException e) {
-                throw new DatabaseInsertException();
             }
-        }
-        for (String supportService : course.getSupportServices()) {
-            try {
+            for (String supportService : course.getSupportServices()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "SupportService", supportService);
                 insertCourseSupportService(connection, courseCode, typeId);
-            } catch (SQLException e) {
-                throw new DatabaseInsertException();
             }
-        }
-        for (String targetGroup : course.getTargetGroups()) {
-            try {
+            for (String targetGroup : course.getTargetGroups()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "TargetGroup", targetGroup);
                 insertCourseTargetGroup(connection, courseCode, typeId);
-            } catch (SQLException e) {
-                throw new DatabaseInsertException();
             }
+        } catch (SQLException e) {
+            throw new DatabaseInsertException();
         }
         // return courseCode
         return courseCode;
     }
-    
+
     private static String insertCourseObject(Connection connection, Course course) throws DatabaseInsertException {
         String sql = "INSERT INTO Course (courseCode,notes,ongoingBasis,language,trainingFormat,"
-        		+ "classLocation,inpersonInstruct,onlineInstructnumberOfSpots,numberOfSpots,numberOfIRCC,"
-        		+ "enrollmentType,startDate,endDate,instructHours,weeklyHours,numWeeks,numWeeksPerYear,dominantFocus)"
+                + "classLocation,inpersonInstruct,onlineInstructnumberOfSpots,numberOfSpots,numberOfIRCC,"
+                + "enrollmentType,startDate,endDate,instructHours,weeklyHours,numWeeks,numWeeksPerYear,dominantFocus)"
                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -384,7 +376,6 @@ public class DatabaseInserter {
         }
         throw new DatabaseInsertException();
     }
-
 
     /**
      * Inserts a course contact into the TEQ database and returns the resulting ID
@@ -429,7 +420,7 @@ public class DatabaseInserter {
      * Inserts a course schedule relationship.
      * 
      * @param connection connection to the TEQ database
-     * @param courseCode   courseCode
+     * @param courseCode courseCode
      * @param scheduleId schedule ID
      * @return ID of the course schedule relationship
      * @throws DatabaseInsertException on failure of insert
@@ -485,7 +476,7 @@ public class DatabaseInserter {
      * Inserts a course target group relationship.
      * 
      * @param connection connection to the TEQ database
-     * @param courseCode   course ID
+     * @param courseCode course ID
      * @param groupId    target group ID
      * @return ID of the target group relationship
      * @throws DatabaseInsertException on failure of insert
@@ -508,7 +499,9 @@ public class DatabaseInserter {
         }
         throw new DatabaseInsertException();
     }
-    protected static int insertCommunityConnections(Connection connection, CommunityConnections communityConnections) throws DatabaseInsertException {
+
+    protected static int insertCommunityConnections(Connection connection, CommunityConnections communityConnections)
+            throws DatabaseInsertException {
         int communityConnectionsId = insertService(connection, communityConnections);
         String sql = "INSERT INTO communityConnections(service_id,eventType,mainTopic,serviceReceived,participants,hasVolunteers,reasonForLeave,status,startDate,endDate,projectedEndDate,lengthHours,lengthMinutes)"
                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -520,22 +513,20 @@ public class DatabaseInserter {
         return communityConnectionsId;
     }
 
- /**
-     * Inserts a course reading skill into the TEQ database and returns the resulting ID
-     * if insertion was successful.
+    /**
+     * Inserts a course reading skill into the TEQ database and returns the
+     * resulting ID if insertion was successful.
      * 
-     * @param connection      connection to the TEQ database
-     * @param courseCode      course code
-     * @param level           reading skill level
-     * @param value           reading skill value
+     * @param connection connection to the TEQ database
+     * @param courseCode course code
+     * @param level      reading skill level
+     * @param value      reading skill value
      * @return row ID if insertion was successful
      * @throws DatabaseInsertException on failure of insert
      */
-    protected static int insertCourseReadingSkill(Connection connection, String courseCode, int level,
-            String value)
+    protected static int insertCourseReadingSkill(Connection connection, String courseCode, int level, String value)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseReadingSkill(course_code,level,value)"
-                + " VALUES(?,?,?)";
+        String sql = "INSERT INTO CourseReadingSkill(course_code,level,value)" + " VALUES(?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
@@ -554,21 +545,19 @@ public class DatabaseInserter {
     }
 
     /**
-     * Inserts a course listening skill into the TEQ database and returns the resulting ID
-     * if insertion was successful.
+     * Inserts a course listening skill into the TEQ database and returns the
+     * resulting ID if insertion was successful.
      * 
-     * @param connection      connection to the TEQ database
-     * @param courseCode      course code
-     * @param level           listening skill level
-     * @param value           listening skill value
+     * @param connection connection to the TEQ database
+     * @param courseCode course code
+     * @param level      listening skill level
+     * @param value      listening skill value
      * @return row ID if insertion was successful
      * @throws DatabaseInsertException on failure of insert
      */
-    protected static int insertCourseListeningSkill(Connection connection, String courseCode, int level,
-            String value)
+    protected static int insertCourseListeningSkill(Connection connection, String courseCode, int level, String value)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseListeningSkill(course_code,level,value)"
-                + " VALUES(?,?,?)";
+        String sql = "INSERT INTO CourseListeningSkill(course_code,level,value)" + " VALUES(?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
@@ -587,21 +576,19 @@ public class DatabaseInserter {
     }
 
     /**
-     * Inserts a course writing skill into the TEQ database and returns the resulting ID
-     * if insertion was successful.
+     * Inserts a course writing skill into the TEQ database and returns the
+     * resulting ID if insertion was successful.
      * 
-     * @param connection      connection to the TEQ database
-     * @param courseCode      course code
-     * @param level           writing skill level
-     * @param value           writing skill value
+     * @param connection connection to the TEQ database
+     * @param courseCode course code
+     * @param level      writing skill level
+     * @param value      writing skill value
      * @return row ID if insertion was successful
      * @throws DatabaseInsertException on failure of insert
      */
-    protected static int insertCourseWritingSkill(Connection connection, String courseCode, int level,
-            String value)
+    protected static int insertCourseWritingSkill(Connection connection, String courseCode, int level, String value)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseWritingSkill(course_code,level,value)"
-                + " VALUES(?,?,?)";
+        String sql = "INSERT INTO CourseWritingSkill(course_code,level,value)" + " VALUES(?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
@@ -619,22 +606,20 @@ public class DatabaseInserter {
         throw new DatabaseInsertException();
     }
 
-     /**
-     * Inserts a course speaking skill into the TEQ database and returns the resulting ID
-     * if insertion was successful.
+    /**
+     * Inserts a course speaking skill into the TEQ database and returns the
+     * resulting ID if insertion was successful.
      * 
-     * @param connection      connection to the TEQ database
-     * @param courseCode      course code
-     * @param level           speaking skill level
-     * @param value           speaking skill value
+     * @param connection connection to the TEQ database
+     * @param courseCode course code
+     * @param level      speaking skill level
+     * @param value      speaking skill value
      * @return row ID if insertion was successful
      * @throws DatabaseInsertException on failure of insert
      */
-    protected static int insertCourseSpeakingSkill(Connection connection, String courseCode, int level,
-            String value)
+    protected static int insertCourseSpeakingSkill(Connection connection, String courseCode, int level, String value)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseSpeakingLevel(course_code,level,value)"
-                + " VALUES(?,?,?)";
+        String sql = "INSERT INTO CourseSpeakingLevel(course_code,level,value)" + " VALUES(?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
