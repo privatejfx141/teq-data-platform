@@ -204,21 +204,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         Assessment assessment = null;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
-            // get find employment responses
-            String timeFrame = "";
-            String minExp = "";
-            String skillLevel = "";
-            String intends = "";
-            ResultSet results = DatabaseSelector.getAssessmentFindEmployment(connection, serviceId);
-            while (results.next()) {
-                timeFrame = results.getString("time_frame");
-                minExp = results.getString("min_one_year");
-                skillLevel = results.getString("skill_level");
-                intends = results.getString("intends_to_obtain");
-            }
             // get data for assessment service object
             IAssessmentBuilder builder = (IAssessmentBuilder) getServiceDetails(serviceId, new AssessmentBuilder());
-            results = DatabaseSelector.getAssessmentDetails(connection, serviceId);
+            ResultSet results = DatabaseSelector.getAssessmentDetails(connection, serviceId);
             builder.setStartDate(results.getDate("start_date").toString())
                     .setLanguageGoal(results.getString("language_skill_goal"))
                     .setOtherGoal(results.getString("other_skill_goal"))
@@ -226,9 +214,16 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                     .setReqSupportServices(results.getBoolean("req_support_service"))
                     .setPlanComplete(results.getBoolean("plan_complete"))
                     .setEndDate(results.getDate("end_date").toString());
-            if (!timeFrame.isEmpty() && !minExp.isEmpty() && !skillLevel.isEmpty() && !intends.isEmpty()) {
+            // get find employment responses
+            results = DatabaseSelector.getAssessmentFindEmployment(connection, serviceId);
+            while (results.next()) {
+                String timeFrame = results.getString("time_frame");
+                String minExp = results.getString("min_one_year");
+                String skillLevel = results.getString("skill_level");
+                String intends = results.getString("intends_to_obtain");
                 builder.setFindEmployment(timeFrame, minExp, skillLevel, intends);
             }
+            // create assessment service object
             assessment = builder.create();
             // get assessment increases
             results = DatabaseSelector.getAssessmentIncrease(connection, serviceId);
@@ -298,7 +293,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                         .setProfession(results.getString("profession")).build();
                 builder.setLongTermIntervention(lti);
             }
-            // build employment service object, then add STI responses if any
+            // create employment service object, then add STI responses if any
             employment = builder.create();
             results = DatabaseSelector.getEmploymentSTI(connection, serviceId);
             while (results.next()) {
