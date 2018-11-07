@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.devlopp.teq.address.Address;
 import com.devlopp.teq.client.Client;
+import com.devlopp.teq.course.Course;
 import com.devlopp.teq.database.DatabaseInsertException;
 import com.devlopp.teq.database.DatabaseInserter;
 import com.devlopp.teq.service.assessment.Assessment;
@@ -33,6 +34,30 @@ public class DatabaseInsertHelper extends DatabaseInserter {
             }
         }
         return clientId;
+    }
+    
+    /**
+     * Inserts course details into the TEQ database and returns the courseCode if
+     * successful.
+     * 
+     * @param course course details to insert
+     * @return courseCode if successful, -1 otherwise
+     */
+    public static String insertCourse(Course course) {
+        String courseCode = "-1";
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+        	courseCode = DatabaseInserter.insertCourse(connection, course);
+        } catch (DatabaseInsertException exception) {
+        	courseCode = "-1";
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return courseCode;
     }
 
     /**

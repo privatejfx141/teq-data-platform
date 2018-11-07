@@ -71,6 +71,13 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
+    protected static ResultSet getCommunityConnections(Connection connection, int serviceId) throws SQLException {
+        String sql = "SELECT * FROM CommunityConnections service_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, serviceId);
+        return preparedStatement.executeQuery();
+    }
+
     /* Specific service methods */
     protected static ResultSet getAssessmentDetails(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT * FROM Assessment WHERE service_id = ?";
@@ -148,7 +155,7 @@ public class DatabaseSelector {
 
     /* Course methods */
     protected static ResultSet getCourse(Connection connection, String courseCode) throws SQLException {
-        String sql = "SELECT * FROM Course WHERE id = ?";
+        String sql = "SELECT * FROM Course WHERE course_code = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, courseCode);
         return preparedStatement.executeQuery();
