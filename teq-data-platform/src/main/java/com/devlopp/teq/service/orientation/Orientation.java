@@ -26,7 +26,7 @@ public class Orientation extends Service {
         return lengthHours;
     }
 
-    public int getLengthMinutesd() {
+    public int getLengthMinutes() {
         return lengthMinutes;
     }
 

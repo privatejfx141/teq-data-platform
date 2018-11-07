@@ -28,7 +28,7 @@ public class CommunityConnections extends Service {
         return serviceReceived;
     }
 
-    public int getparticipants() {
+    public int getParticipants() {
         return participants;
     }
 
