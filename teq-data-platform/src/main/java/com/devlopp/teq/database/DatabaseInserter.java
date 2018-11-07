@@ -11,6 +11,7 @@ import java.util.Map;
 import com.devlopp.teq.address.Address;
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.course.Course;
+import com.devlopp.teq.course.CourseContact;
 import com.devlopp.teq.service.NewcomerChildCare;
 import com.devlopp.teq.service.Service;
 import com.devlopp.teq.service.assessment.Assessment;
@@ -66,11 +67,7 @@ public class DatabaseInserter {
      * Returns the address ID if successful, -1 otherwise.
      * 
      * @param connection connection to the TEQ database
-<<<<<<< HEAD
      * @param address    the address object that describes the address
-=======
-     * @param address    the adress object that describes the adress
->>>>>>> course-template
      * @return the address ID number, -1 otherwise
      * @throws DatabaseInsertException on failure of insert
      */
@@ -737,9 +734,10 @@ public class DatabaseInserter {
      */
     protected static String insertCourse(Connection connection, Course course) throws DatabaseInsertException {
         // insert into the course table
-        String courseCode = insertCourseObject(connection, course);
+        String courseCode = insertCourseDetails(connection, course);
         // insert relationships
         try {
+            
             for (String schedule : course.getSchedules()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "Schedule", schedule);
                 insertCourseSchedule(connection, courseCode, typeId);
@@ -759,7 +757,7 @@ public class DatabaseInserter {
         return courseCode;
     }
 
-    private static String insertCourseObject(Connection connection, Course course) throws DatabaseInsertException {
+    private static String insertCourseDetails(Connection connection, Course course) throws DatabaseInsertException {
         String sql = "INSERT INTO Course (courseCode,notes,ongoingBasis,language,trainingFormat,"
                 + "classLocation,inpersonInstruct,onlineInstructnumberOfSpots,numberOfSpots,numberOfIRCC,"
                 + "enrollmentType,startDate,endDate,instructHours,weeklyHours,numWeeks,numWeeksPerYear,dominantFocus)"
@@ -810,19 +808,18 @@ public class DatabaseInserter {
      * @return row ID if insertion was successful
      * @throws DatabaseInsertException on failure of insert
      */
-    protected static int insertCourseContact(Connection connection, String courseCode, String contactName,
-            int addressId, String telephoneNumber, String telephoneExt, String emailAddress)
+    protected static int insertCourseContact(Connection connection, String courseCode, CourseContact courseContact)
             throws DatabaseInsertException {
         String sql = "INSERT INTO CourseContact(course_code,contact_name,address_id,telephone_number,telephone_ext,email_address)"
                 + " VALUES(?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
-            statement.setString(2, contactName);
-            statement.setInt(3, addressId);
-            statement.setString(4, telephoneNumber);
-            statement.setString(5, telephoneExt);
-            statement.setString(6, emailAddress);
+            statement.setString(2, courseContact.getName());
+            statement.setInt(3, insertAddress(connection, courseContact.getAddress()));
+            statement.setString(4, courseContact.getTelephoneNumber());
+            statement.setString(5, courseContact.getTelephoneExt());
+            statement.setString(6, courseContact.getEmailAddress());
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
                 if (uniqueKey.next()) {

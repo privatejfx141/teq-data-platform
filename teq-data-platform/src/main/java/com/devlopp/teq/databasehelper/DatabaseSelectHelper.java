@@ -8,6 +8,11 @@ import java.util.List;
 
 import com.devlopp.teq.address.*;
 import com.devlopp.teq.client.*;
+import com.devlopp.teq.course.Course;
+import com.devlopp.teq.course.CourseBuilder;
+import com.devlopp.teq.course.CourseContact;
+import com.devlopp.teq.course.CourseContactBuilder;
+import com.devlopp.teq.course.ICourseBuilder;
 import com.devlopp.teq.database.DatabaseSelector;
 import com.devlopp.teq.service.*;
 import com.devlopp.teq.service.assessment.*;
@@ -386,5 +391,54 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             employment = null;
         }
         return employment;
+    }
+
+    public static Course getCourse(String courseCode) {
+        Course course = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getCourseContact(connection, courseCode);
+            CourseContact contact = new CourseContactBuilder().setContactName(results.getString("contact_name"))
+                    .setAddress(getAddress(results.getInt("address_id")))
+                    .setTelephoneNumber(results.getString("telephone_number"))
+                    .setTelephoneExt(results.getString("telephone_ext"))
+                    .setEmailAddress(results.getString("email_address")).create();
+            ICourseBuilder builder = new CourseBuilder();
+            results = DatabaseSelector.getCourse(connection, courseCode);
+            course = builder.setCourseCode(courseCode).setNotes(results.getString("notes"))
+                    .setOngoingBasis(results.getBoolean("ongoing_basis"))
+                    .setLanguage(results.getString("language"))
+                    .setTrainingFormat(results.getString("training_format"))
+                    .setClassesHeldAt(results.getString("classes_held_at"))
+                    .setInpersonInstruct(results.getFloat("inperson_instruct"))
+                    .setOnlineInstruct(results.getFloat("online_instruct"))
+                    .setNumberOfSpots(results.getInt("number_of_spots"))
+                    .setNumberOfIRCC(results.getInt("number_of_ircc"))
+                    .setEnrollmentType(results.getString("enrollment_type"))
+                    .setStartDate(results.getDate("start_date").toString())
+                    .setEndDate(results.getDate("end_date").toString())
+                    .setInstructHours(results.getInt("instruct_hours"))
+                    .setWeeklyHours(results.getInt("hours_per_week"))
+                    .setNumWeeks(results.getInt("weeks"))
+                    .setNumWeeksPerYear(results.getInt("weeks_per_year"))
+                    .setDominantFocus(results.getString("dominant_focus"))
+                    .setCourseContact(contact).create();
+            results = DatabaseSelector.getCourseSchedule(connection, courseCode);
+            while (results.next()) {
+                course.addSchedule(results.getString("description"));
+            }
+            results = DatabaseSelector.getCourseSupportService(connection, courseCode);
+            while (results.next()) {
+                course.addSupportService(results.getString("description"));
+            }
+            results = DatabaseSelector.getCourseTargetGroup(connection, courseCode);
+            while (results.next()) {
+                course.addTargetGroup(results.getString("description"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            course = null;
+        }
+        return course;
     }
 }

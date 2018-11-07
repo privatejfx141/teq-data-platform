@@ -114,6 +114,12 @@ public class CourseBuilder implements ICourseBuilder {
         course.dominantFocus = dominantFocus;
         return this;
     }
+    
+    @Override
+    public ICourseBuilder setCourseContact(CourseContact contact) {
+        course.contact = contact;
+        return this;
+    }
 
     @Override
     public Course create() {

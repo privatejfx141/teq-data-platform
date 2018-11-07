@@ -9,7 +9,9 @@ import com.devlopp.teq.course.Course;
 import com.devlopp.teq.database.DatabaseInsertException;
 import com.devlopp.teq.database.DatabaseInserter;
 import com.devlopp.teq.service.assessment.Assessment;
+import com.devlopp.teq.service.commconn.CommunityConnections;
 import com.devlopp.teq.service.employment.Employment;
+import com.devlopp.teq.service.orientation.Orientation;
 
 public class DatabaseInsertHelper extends DatabaseInserter {
     /**
@@ -35,21 +37,21 @@ public class DatabaseInsertHelper extends DatabaseInserter {
         }
         return clientId;
     }
-    
+
     /**
-     * Inserts course details into the TEQ database and returns the courseCode if
+     * Inserts course details into the TEQ database and returns the course code if
      * successful.
      * 
      * @param course course details to insert
-     * @return courseCode if successful, -1 otherwise
+     * @return courseCode if successful, empty string otherwise
      */
     public static String insertCourse(Course course) {
-        String courseCode = "-1";
+        String courseCode = "";
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
-        	courseCode = DatabaseInserter.insertCourse(connection, course);
+            courseCode = DatabaseInserter.insertCourse(connection, course);
         } catch (DatabaseInsertException exception) {
-        	courseCode = "-1";
+            courseCode = "";
         } finally {
             try {
                 connection.close();
@@ -107,6 +109,56 @@ public class DatabaseInsertHelper extends DatabaseInserter {
             }
         }
         return assessmentId;
+    }
+
+    /**
+     * Inserts a community connections service into the TEQ database and returns the
+     * service ID.
+     * 
+     * @param community community connections service to insert
+     * @return community connections service ID if successful, -1 otherwise
+     */
+    public static int insertCommunityConnections(CommunityConnections community) {
+        int communityId = -1;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        // attempt to insert into database
+        try {
+            communityId = DatabaseInserter.insertCommunityConnections(connection, community);
+        } catch (DatabaseInsertException exception) {
+            communityId = -1;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return communityId;
+    }
+
+    /**
+     * Inserts an orientation service into the TEQ database and returns the service
+     * ID.
+     * 
+     * @param orientation orientation service to insert
+     * @return orientation service ID if successful, -1 otherwise
+     */
+    public static int insertOrientation(Orientation orientation) {
+        int orientationId = -1;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        // attempt to insert into database
+        try {
+            orientationId = DatabaseInserter.insertOrientation(connection, orientation);
+        } catch (DatabaseInsertException exception) {
+            orientationId = -1;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return orientationId;
     }
 
     /**

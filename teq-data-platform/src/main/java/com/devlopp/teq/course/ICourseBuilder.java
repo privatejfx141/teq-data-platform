@@ -37,5 +37,7 @@ public interface ICourseBuilder {
 
     public ICourseBuilder setDominantFocus(String dominantFocus);
     
+    public ICourseBuilder setCourseContact(CourseContact contact);
+    
     public Course create();
 }

@@ -24,6 +24,7 @@ public class Course {
     protected List<String> schedules;
     protected List<String> supportServices;
     protected List<String> targetGroups;
+    protected CourseContact contact;
 
     public String getCourseCode() {
         return courseCode;
@@ -101,11 +102,27 @@ public class Course {
         return schedules;
     }
 
+    public void addSchedule(String schedule) {
+        schedules.add(schedule);
+    }
+
     public List<String> getSupportServices() {
         return supportServices;
     }
 
+    public void addSupportService(String supportService) {
+        schedules.add(supportService);
+    }
+
     public List<String> getTargetGroups() {
         return targetGroups;
+    }
+
+    public void addTargetGroup(String targetGroup) {
+        schedules.add(targetGroup);
+    }
+
+    public CourseContact getContact() {
+        return contact;
     }
 }
