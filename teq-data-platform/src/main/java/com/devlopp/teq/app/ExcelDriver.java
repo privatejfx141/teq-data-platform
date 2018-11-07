@@ -15,7 +15,7 @@ import com.devlopp.teq.address.IAddressBuilder;
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.client.ClientBuilder;
 import com.devlopp.teq.client.IClientBuilder;
-import com.devlopp.teq.excel.errorCheck;
+import com.devlopp.teq.excel.ExcelReader;
 
 public class ExcelDriver {
     
@@ -44,7 +44,7 @@ public class ExcelDriver {
     public static List<Client> readClientProfile(String filePath, int sheetNumber) {
         List<Client> clients = new ArrayList<>();
         try {
-            ArrayList<ArrayList<String>> clientProfileData = errorCheck.parseForDB(sheetNumber, filePath);
+            ArrayList<ArrayList<String>> clientProfileData = ExcelReader.parseForDB(sheetNumber, filePath);
             for (ArrayList<String> clientData : clientProfileData.subList(1, clientProfileData.size())) {
                 // build the address object
                 IAddressBuilder addressBuilder = new AddressBuilder();

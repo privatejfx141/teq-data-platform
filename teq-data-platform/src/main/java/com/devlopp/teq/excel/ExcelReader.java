@@ -13,8 +13,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class errorCheck {
-    public static String INFO_FILEPATH = "/cmshome/sarranch/Documents/Team14/teq-data-platform/src/main/java/com/devlopp/teq/inputCheck/New_iCARE_Template_Comb_with_Examples.xlsx";
+public class ExcelReader {
+    public static String INFO_FILEPATH = "src/main/java/com/devlopp/teq/Excel/iCARE_Templates.xlsx";
 
     /**
      * Returns an 2D array where index i is the row of input from row i
