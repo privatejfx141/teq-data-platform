@@ -249,14 +249,54 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return assessment;
     }
 
-    public static CommunityConnections getCommunityConnection(int communityConnection) {
+    /**
+     * Connects to database, obtains and returns an community connections service
+     * with ID number serviceId from the CommunityConnections table. Returns
+     * <code>null</code> if serviceId is invalid.
+     * 
+     * @param serviceId ID of the community connections service
+     * @return Community connections service with the ID number serviceId,
+     *         <code>null</code> if invalid serviceId
+     */
+    public static CommunityConnections getCommunityConnections(int serviceId) {
         CommunityConnections community = null;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
-        
-        
+        ICommunityConnectionsBuilder builder = (ICommunityConnectionsBuilder) getServiceDetails(serviceId,
+                new CommunityConnectionsBuilder());
+        try {
+            ResultSet results = DatabaseSelector.getCommunityConnectionsDetails(connection, serviceId);
+            community = builder.setEventType(results.getString("event_type"))
+                    .setMainTopic(results.getString("main_topic"))
+                    .setServiceReceived(results.getString("service_recieved"))
+                    .setParticipants(results.getInt("participants")).setVolunteers(results.getBoolean("volunteers"))
+                    .setStatus(results.getString("status")).setReasonForLeave(results.getString("reason_for_leave"))
+                    .setStartDate(results.getDate("start_date").toString())
+                    .setEndDate(results.getDate("end_date").toString())
+                    .setProjectedEndDate(results.getDate("projected_end_date").toString())
+                    .setLengthHours(results.getInt("length_hours")).setLengthMinutes(results.getInt("length_minutes"))
+                    .create();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            community = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
         return community;
     }
-    
+
+    /**
+     * Connects to database, obtains and returns an orientation service with ID
+     * number serviceId from the Orientation table. Returns <code>null</code> if
+     * serviceId is invalid.
+     * 
+     * @param serviceId ID of the orientation service
+     * @return Orientation service with the ID number serviceId, <code>null</code>
+     *         if invalid serviceId
+     */
     public static Orientation getOrientation(int serviceId) {
         Orientation orientation = null;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
@@ -265,12 +305,10 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             // get orientation details
             ResultSet results = DatabaseSelector.getOrientationDetails(connection, serviceId);
             orientation = builder.setServiceReceived(results.getString("service_recieved"))
-                .setTotalLength(results.getString("total_length"))
-                .setLengthHours(results.getInt("length_hours"))
-                .setLengthMinutes(results.getInt("length_minutes"))
-                .setNumberOfClients(results.getInt("number_of_clients"))
-                .setEndDate(results.getDate("end_date").toString())
-                .create();
+                    .setTotalLength(results.getString("total_length")).setLengthHours(results.getInt("length_hours"))
+                    .setLengthMinutes(results.getInt("length_minutes"))
+                    .setNumberOfClients(results.getInt("number_of_clients"))
+                    .setEndDate(results.getDate("end_date").toString()).create();
             // add orientation topics
             results = DatabaseSelector.getOrientationTopic(connection, serviceId);
             while (results.next()) {
@@ -288,7 +326,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return orientation;
     }
-    
+
     /**
      * Connects to database, obtains and returns an employment service with ID
      * number serviceId from the Employment table. Returns <code>null</code> if

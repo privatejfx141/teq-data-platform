@@ -26,4 +26,6 @@ public interface ICommunityConnectionsBuilder extends IServiceBuilder {
     public ICommunityConnectionsBuilder setLengthHours(int lengthHours);
 
     public ICommunityConnectionsBuilder setLengthMinutes(int lengthMinutes);
+
+    public CommunityConnections create();
 }

@@ -3,81 +3,87 @@ package com.devlopp.teq.service.commconn;
 import com.devlopp.teq.service.ServiceBuilder;
 
 public class CommunityConnectionsBuilder extends ServiceBuilder implements ICommunityConnectionsBuilder {
-    private CommunityConnections communityconnections;
+    private CommunityConnections community;
 
     public CommunityConnectionsBuilder() {
-        communityconnections = new CommunityConnections();
+        service = new CommunityConnections();
+        community = (CommunityConnections) service;
     }
 
     @Override
     public ICommunityConnectionsBuilder setEventType(String eventType) {
-        communityconnections.eventType = eventType;
+        community.eventType = eventType;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setMainTopic(String mainTopic) {
-        communityconnections.mainTopic = mainTopic;
+        community.mainTopic = mainTopic;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setServiceReceived(String serviceReceived) {
-        communityconnections.serviceReceived = serviceReceived;
+        community.serviceReceived = serviceReceived;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setParticipants(int participants) {
-        communityconnections.participants = participants;
+        community.participants = participants;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setVolunteers(boolean hasVolunteers) {
-        communityconnections.hasVolunteers = hasVolunteers;
+        community.hasVolunteers = hasVolunteers;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setStatus(String status) {
-        communityconnections.status = status;
+        community.status = status;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setReasonForLeave(String reasonForLeave) {
-        communityconnections.reasonForLeave = reasonForLeave;
+        community.reasonForLeave = reasonForLeave;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setStartDate(String startDate) {
-        communityconnections.startDate = startDate;
+        community.startDate = startDate;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setEndDate(String endDate) {
-        communityconnections.endDate = endDate;
+        community.endDate = endDate;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setProjectedEndDate(String projectedEndDate) {
-        communityconnections.projectedEndDate = projectedEndDate;
+        community.projectedEndDate = projectedEndDate;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setLengthHours(int lengthHours) {
-        communityconnections.lengthHours = lengthHours;
+        community.lengthHours = lengthHours;
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setLengthMinutes(int lengthMinutes) {
-        communityconnections.lengthMinutes = lengthMinutes;
+        community.lengthMinutes = lengthMinutes;
         return this;
+    }
+
+    @Override
+    public CommunityConnections create() {
+        return community;
     }
 }
