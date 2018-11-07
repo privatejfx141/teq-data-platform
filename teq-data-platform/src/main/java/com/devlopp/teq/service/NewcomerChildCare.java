@@ -16,4 +16,20 @@ public class NewcomerChildCare {
         this(serviceId, age, careType);
         this.id = id;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getServiceId() {
+        return serviceId;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getCareType() {
+        return careType;
+    }
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 import com.devlopp.teq.address.Address;
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.course.Course;
+import com.devlopp.teq.service.NewcomerChildCare;
 import com.devlopp.teq.service.Service;
 import com.devlopp.teq.service.assessment.Assessment;
 import com.devlopp.teq.service.assessment.FindEmployment;
@@ -124,6 +125,10 @@ public class DatabaseInserter {
                 int typeId = DatabaseSelector.getTypeId(connection, "TargetGroup", targetGroup);
                 insertServiceTargetGroup(connection, serviceId, typeId);
             }
+            // insert all newcomer child care responses into database
+            for (NewcomerChildCare childCare : service.getNewcomerChildCare()) {
+                insertServiceNewcomerChildCare(connection, childCare);
+            }
         } catch (SQLException e) {
             throw new DatabaseInsertException();
         }
@@ -153,6 +158,35 @@ public class DatabaseInserter {
             statement.setString(5, service.getReferredBy());
             statement.setString(6, service.getUpdateReason());
             statement.setString(7, service.getServiceType());
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    /**
+     * Inserts a service newcomer child care response into the TEQ database and
+     * returns the service ID if insertion was successful.
+     * 
+     * @param connection connection to the TEQ database
+     * @param childCare  newcomer child care response to insert
+     * @return record ID of the newcomer child care response
+     * @throws DatabaseInsertException on failure of insert
+     */
+    private static int insertServiceNewcomerChildCare(Connection connection, NewcomerChildCare childCare)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO NewcomerChildCare (service_id, age, care_type) " + "VALUES (?, ?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, childCare.getServiceId());
+            statement.setString(2, childCare.getAge());
+            statement.setString(3, childCare.getCareType());
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
                 if (uniqueKey.next()) {
