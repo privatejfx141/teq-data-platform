@@ -3,7 +3,7 @@
 Create unit-test/integration tests excel reading
 
 ## T22 | assigned: Zifan
-Create acceptance test for each user story 1
+Create acceptance test for user story 1
 
 # U2
 As Marge (cousellor), I want to select a template type and upload the Excel
@@ -11,7 +11,7 @@ file to the TEQ data platform, so that I can upload data for the different
 services offered.
 
 ## T23 | assigned: Zifan
-Create acceptance test for each user story 2
+Create acceptance test for user story 2
 
 ## T24 | Dependency: T12 | assigned: Kelvin
 Develop the database insertion and selection methods for the LT course setup
@@ -21,14 +21,14 @@ Connect UI to the data backend code for template select and upload
 
 # U3:
 ## T25 | assigned: Christian 
-Create acceptance test for each user story 3
+Create acceptance test for user story 3
 
 # U4:
 As Carlos (coordinator), I want to see all the pre-set queries that I can
 use, and some helpful info about each query so that I know what it does and what I can use it for.
 
 ## T26 | assigned: Jeffrey
-Create a variety of pre-set queries that can be chosen from. Also be able to select certain clients, or entire database
+Create a variety of pre-set queries that can be chosen from. Also be able to select from certain clients, or entire database
 
 ## U5:
 As Carlos (coordinator), I want to generate basic reports from ISANS data
