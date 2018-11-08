@@ -23,7 +23,7 @@ public class ExcelReader {
      * @throws InvalidFormatException
      */
     @SuppressWarnings("resource")
-    public static ArrayList<ArrayList<String>> parseForDB(int sheetNumber, String filePath)
+    public static ArrayList<ArrayList<String>> readExcelFile(String filePath, int sheetNumber)
             throws InvalidFormatException, IOException {
         Workbook workbook = null;
         workbook = new XSSFWorkbook(new File(filePath));
