@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.devlopp.teq.service.commconn.CommunityConnections;
 import com.devlopp.teq.service.commconn.CommunityConnectionsBuilder;
 import com.devlopp.teq.service.commconn.ICommunityConnectionsBuilder;
-import com.devlopp.teq.service.orientation.IOrientationBuilder;
-import com.devlopp.teq.service.orientation.OrientationBuilder;
 
 public class CommunityConnectionsParser extends ServiceParser {
     public CommunityConnectionsParser() {
@@ -89,6 +86,9 @@ public class CommunityConnectionsParser extends ServiceParser {
         for (int i = 0; i < numRecords; i++) {
             ICommunityConnectionsBuilder builder = (ICommunityConnectionsBuilder) parseServiceData(
                     new CommunityConnectionsBuilder(), i);
+            // add yes-no responses
+            builder.setEssentialSkills(parseEssentialSkills(i)).setTargetGroups(parseTargetGroups(i));
+            // build main community connections
             builder.setEventType(FieldParser.getFieldString(allData, "TYPE OF EVENT ATTENDED", i))
                     .setMainTopic(FieldParser.getFieldString(allData, "MAIN TOPIC/FOCUS OF THE SERVICE RECEIVED", i))
                     .setServiceReceived(FieldParser.getFieldString(allData, "SERVICE RECEIVED", i))
@@ -102,7 +102,7 @@ public class CommunityConnectionsParser extends ServiceParser {
                     .setProjectedEndDate(FieldParser.getFieldString(allData, "PROJECTED END DATE (YYYY-MM-DD)", i))
                     .setLengthHours(FieldParser.getFieldInt(allData, "TOTAL LENGTH OF SERVICE: HOURS", i))
                     .setLengthMinutes(FieldParser.getFieldInt(allData, "TOTAL LENGTH OF SERVICE: MINUTES", i));
-            CommunityConnections record = builder.create();
+            Object record = builder.create();
             records.add(record);
         }
         return records;

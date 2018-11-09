@@ -112,8 +112,17 @@ public class OrientationParser extends ServiceParser {
     public List<Object> parse() {
         List<Object> records = new ArrayList<>();
         for (int i = 0; i < numRecords; i++) {
-            IOrientationBuilder builder = new OrientationBuilder();
-            builder = (IOrientationBuilder) parseServiceData(builder, i);   
+            IOrientationBuilder builder = (IOrientationBuilder) parseServiceData(new OrientationBuilder(), i);
+            // set skills
+            builder.setEssentialSkills(parseEssentialSkills(i));
+            builder.setServiceReceived(FieldParser.getFieldString(allData, "SERVICES RECEIVED", i))
+                .setTotalLength(FieldParser.getFieldString(allData, "TOTAL LENGTH OF ORIENTATION", i))
+                .setLengthHours(FieldParser.getFieldInt(allData, "TOTAL LENGTH OF ORIENTATION: HOURS", i))
+                .setLengthMinutes(FieldParser.getFieldInt(allData, "TOTAL LENGTH OF ORIENTATION: MINUTES", i))
+                .setNumberOfClients(FieldParser.getFieldInt(allData, "NUMBER OF CLIENTS IN GROUP", i))
+                .setEndDate(FieldParser.getFieldString(allData, "END DATE OF SERVICE (YYYY-MM-DD)", i));
+            Object record = builder.create();
+            records.add(record);
         }
         return records;
     }
