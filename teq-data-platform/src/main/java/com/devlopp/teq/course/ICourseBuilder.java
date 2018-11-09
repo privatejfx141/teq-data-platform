@@ -47,5 +47,7 @@ public interface ICourseBuilder {
     
     public ICourseBuilder setTargetGroups(List<String> targetGroups);
     
+    public ICourseBuilder setMaterials(List<String> materials);
+    
     public Course create();
 }

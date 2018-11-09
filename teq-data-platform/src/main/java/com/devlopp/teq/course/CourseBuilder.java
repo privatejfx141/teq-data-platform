@@ -142,6 +142,12 @@ public class CourseBuilder implements ICourseBuilder {
     }
 
     @Override
+    public ICourseBuilder setMaterials(List<String> materials) {
+        course.materials = materials;
+        return this;
+    }
+
+    @Override
     public Course create() {
         return course;
     }

@@ -273,6 +273,7 @@ public class CourseSetupParser implements TemplateParser {
                     .setSchedules(parseSchedules(i))
                     .setSupportServices(parseSupportServices(i))
                     .setTargetGroups(parseTargetGroups(i))
+                    .setMaterials(parseMaterials(i))
                     .create();
             courses.add(course);
         }

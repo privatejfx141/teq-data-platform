@@ -32,10 +32,11 @@ public class ExcelReader {
         int lastRow = sheet.getLastRowNum();
         ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
         for (Row row : sheet) {
-            if (row.getRowNum() == 0 || row.getRowNum() == 1 || row.getRowNum() == lastRow) {
+            if (row.getRowNum() == 0 || row.getRowNum() == 1 ) {
                 continue;
             }
             if (isRowEmpty(row)) {
+                System.out.println("Reached empty row");
                 break;
             }
             ArrayList<String> cells = new ArrayList<String>();

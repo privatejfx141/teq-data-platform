@@ -1,7 +1,9 @@
 package com.devlopp.teq.parser;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class FieldParser {
-    
     public static int parseInt(String value) {
         try {
             return Integer.parseInt(value);
@@ -9,7 +11,7 @@ public class FieldParser {
             return -1;
         }
     }
-    
+
     public static float parseFloat(String value) {
         try {
             return Float.parseFloat(value);
@@ -17,5 +19,27 @@ public class FieldParser {
             return -1;
         }
     }
-    
+
+    public static String getFieldString(HashMap<String, ArrayList<String>> readData, String attribute,
+            int recordIndex) {
+        try {
+            return readData.get(attribute).get(recordIndex);
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
+    public static int getFieldInt(HashMap<String, ArrayList<String>> readData, String attribute, int recordIndex) {
+        try {
+            return parseInt(readData.get(attribute).get(recordIndex));
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
+            return -1;
+        }
+    }
+
+    public static boolean getFieldBoolean(HashMap<String, ArrayList<String>> readData, String attribute,
+            int recordIndex) {
+        String value = readData.get(attribute).get(recordIndex);
+        return value.toUpperCase().equals("YES");
+    }
 }
