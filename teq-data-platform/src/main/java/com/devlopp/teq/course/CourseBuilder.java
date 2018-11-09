@@ -1,5 +1,7 @@
 package com.devlopp.teq.course;
 
+import java.util.List;
+
 public class CourseBuilder implements ICourseBuilder {
     private Course course;
 
@@ -114,10 +116,28 @@ public class CourseBuilder implements ICourseBuilder {
         course.dominantFocus = dominantFocus;
         return this;
     }
-    
+
     @Override
     public ICourseBuilder setCourseContact(CourseContact contact) {
         course.contact = contact;
+        return this;
+    }
+
+    @Override
+    public ICourseBuilder setSchedules(List<String> schedules) {
+        course.schedules = schedules;
+        return this;
+    }
+
+    @Override
+    public ICourseBuilder setSupportServices(List<String> supportServices) {
+        course.supportServices = supportServices;
+        return this;
+    }
+
+    @Override
+    public ICourseBuilder setTargetGroups(List<String> targetGroups) {
+        course.targetGroups = targetGroups;
         return this;
     }
 

@@ -5,7 +5,7 @@ CREATE TABLE Address (
     street_number       INTEGER,
     street_name         VARCHAR(32),
     street_type         VARCHAR(32),
-    street_direction    VARCHAR(2),
+    street_direction    VARCHAR(16),
     city                VARCHAR(32),
     province            VARCHAR(32)
 );
