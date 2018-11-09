@@ -144,7 +144,7 @@ public class CourseSetupParser implements TemplateParser {
     @Override
     public void read(String filePath, int sheetNumber) {
         try {
-            ArrayList<ArrayList<String>> data = ExcelReader.parseForDB(sheetNumber, filePath);
+            ArrayList<ArrayList<String>> data = ExcelReader.readExcelFile(filePath, sheetNumber);
             ArrayList<String> header = data.get(0);
             for (ArrayList<String> recordData : data.subList(1, data.size())) {
                 for (int i = 0; i < recordData.size(); i++) {

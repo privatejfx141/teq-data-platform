@@ -21,7 +21,7 @@ public class AssessmentParser implements TemplateParser {
     @Override
     public void read(String filePath, int sheetNumber) {
         try {
-            data = ExcelReader.parseForDB(sheetNumber, filePath);
+            data = ExcelReader.readExcelFile(filePath, sheetNumber);
         } catch (InvalidFormatException | IOException e) {
             e.printStackTrace();
         }

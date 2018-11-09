@@ -1,7 +1,6 @@
 package com.devlopp.teq.app;
 
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
-import ui.Main;
 
 public class App {
    

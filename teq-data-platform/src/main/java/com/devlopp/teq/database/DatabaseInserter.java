@@ -17,6 +17,8 @@ import com.devlopp.teq.service.Service;
 import com.devlopp.teq.service.assessment.Assessment;
 import com.devlopp.teq.service.assessment.FindEmployment;
 import com.devlopp.teq.service.commconn.CommunityConnections;
+import com.devlopp.teq.service.courseenroll.CourseEnroll;
+import com.devlopp.teq.service.courseexit.CourseExit;
 import com.devlopp.teq.service.employment.Employment;
 import com.devlopp.teq.service.employment.LongTermIntervention;
 import com.devlopp.teq.service.employment.ShortTermIntervention;
@@ -1037,6 +1039,14 @@ public class DatabaseInserter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        throw new DatabaseInsertException();
+    }
+
+    public static int insertCourseEnroll(Connection connection, CourseEnroll courseEnroll) throws DatabaseInsertException {
+        throw new DatabaseInsertException();
+    }
+
+    public static int insertCourseExit(Connection connection, CourseExit courseExit) throws DatabaseInsertException {
         throw new DatabaseInsertException();
     }
 }

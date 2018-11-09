@@ -44,7 +44,7 @@ public class ExcelDriver {
     public static List<Client> readClientProfile(String filePath, int sheetNumber) {
         List<Client> clients = new ArrayList<>();
         try {
-            ArrayList<ArrayList<String>> clientProfileData = ExcelReader.parseForDB(sheetNumber, filePath);
+            ArrayList<ArrayList<String>> clientProfileData = ExcelReader.readExcelFile(filePath, sheetNumber);
             for (ArrayList<String> clientData : clientProfileData.subList(1, clientProfileData.size())) {
                 // build the address object
                 IAddressBuilder addressBuilder = new AddressBuilder();

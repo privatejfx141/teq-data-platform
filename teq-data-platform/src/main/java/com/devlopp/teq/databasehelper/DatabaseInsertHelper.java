@@ -10,6 +10,8 @@ import com.devlopp.teq.database.DatabaseInsertException;
 import com.devlopp.teq.database.DatabaseInserter;
 import com.devlopp.teq.service.assessment.Assessment;
 import com.devlopp.teq.service.commconn.CommunityConnections;
+import com.devlopp.teq.service.courseenroll.CourseEnroll;
+import com.devlopp.teq.service.courseexit.CourseExit;
 import com.devlopp.teq.service.employment.Employment;
 import com.devlopp.teq.service.orientation.Orientation;
 
@@ -184,5 +186,41 @@ public class DatabaseInsertHelper extends DatabaseInserter {
             }
         }
         return employmentId;
+    }
+
+    public static int insertCourseEnroll(CourseEnroll courseEnroll) {
+        int enrollId = -1;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        // attempt to insert into database
+        try {
+            enrollId = DatabaseInserter.insertCourseEnroll(connection, courseEnroll);
+        } catch (DatabaseInsertException exception) {
+            enrollId = -1;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return enrollId;
+    }
+    
+    public static int insertCourseExit(CourseExit courseExit) {
+        int exitId = -1;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        // attempt to insert into database
+        try {
+            exitId = DatabaseInserter.insertCourseExit(connection, courseExit);
+        } catch (DatabaseInsertException exception) {
+            exitId = -1;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return exitId;
     }
 }
