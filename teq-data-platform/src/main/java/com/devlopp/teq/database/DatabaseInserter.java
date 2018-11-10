@@ -1043,10 +1043,50 @@ public class DatabaseInserter {
     }
 
     public static int insertCourseEnroll(Connection connection, CourseEnroll courseEnroll) throws DatabaseInsertException {
+        String sql = "INSERT INTO CourseEnroll("
+                + "service_id,course_code,first_class_date"
+                + ") VALUES (?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, courseEnroll.getId());
+            statement.setString(2, courseEnroll.getCourseCode());
+            statement.setDate(3, SQLDriver.parseDate(courseEnroll.getFirstClassDate()));
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
         throw new DatabaseInsertException();
     }
 
     public static int insertCourseExit(Connection connection, CourseExit courseExit) throws DatabaseInsertException {
+        String sql = "INSERT INTO CourseExit("
+                + "service_id,course_code,exit_date,reason,listening_level,reading_level,speaking_level,writing_level"
+                + ") VALUES (?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, courseExit.getId());
+            statement.setString(2, courseExit.getCourseCode());
+            statement.setDate(3, SQLDriver.parseDate(courseExit.getExitDate()));
+            statement.setString(4, courseExit.getReason());
+            statement.setInt(5, courseExit.getListeningLevel());
+            statement.setInt(6, courseExit.getReadingLevel());
+            statement.setInt(7, courseExit.getSpeakingLevel());
+            statement.setInt(8, courseExit.getWritingLevel());
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
         throw new DatabaseInsertException();
+        
     }
 }
