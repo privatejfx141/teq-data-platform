@@ -212,4 +212,20 @@ public class DatabaseSelector {
         preparedStatement.setInt(1, addressId);
         return preparedStatement.executeQuery();
     }
+
+    protected static ResultSet getCourseEnroll(Connection connection, int serviceId, String courseCode) throws SQLException {
+        String sql = "SELECT * FROM CourseEnroll WHERE course_code = ? AND serviceId = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, courseCode);
+        preparedStatement.setInt(2, serviceId);
+        return preparedStatement.executeQuery();
+    }
+
+    protected static ResultSet getCourseExit(Connection connection, int serviceId, String courseCode) throws SQLException {
+        String sql = "SELECT * FROM CourseExit WHERE course_code = ? AND serviceId = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, courseCode);
+        preparedStatement.setInt(2, serviceId);
+        return preparedStatement.executeQuery();
+    }
 }

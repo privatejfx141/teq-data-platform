@@ -17,6 +17,9 @@ import com.devlopp.teq.service.courseenroll.*;
 import com.devlopp.teq.service.courseexit.*;
 import com.devlopp.teq.service.employment.*;
 import com.devlopp.teq.service.orientation.*;
+import com.devlopp.teq.service.courseenroll.*;
+import com.devlopp.teq.service.courseexit.*;
+
 
 public class DatabaseSelectHelper extends DatabaseSelector {
     public static List<String> getAllTypes(String tableName) {
@@ -485,5 +488,65 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             course = null;
         }
         return course;
+    }
+   /**
+     * Connects to database, obtains and returns a CourseEnroll with PKs serviceId and courseCode
+     * from the CourseEnroll table. Returns <code>null</code> if serviceId/courseCode is invalid.
+     * 
+     * @param courseCode unique course code of the course
+     * @param serviceId  unique ID of the service
+     * @return courseEnroll with the ID number addressId, <code>null</code> if invalid
+     */
+    public static CourseEnroll getCourseEnroll(int serviceId, String courseCode) {
+        CourseEnroll courseEnroll = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getCourseContact(connection, courseCode);
+            courseEnroll = new CourseEnrollBuilder().setCourseCode(results.getString("course_code"))
+                    .setFirstClassDate(results.getDate("first_class_date").toString()).create();
+
+        } catch (SQLException e) {
+            courseEnroll = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return courseEnroll;
+    }
+
+     /**
+     * Connects to database, obtains and returns a CourseExit with PKs serviceId and courseCode
+     * from the CourseEnroll table. Returns <code>null</code> if serviceId/courseCode is invalid.
+     * 
+     * @param courseCode unique course code of the course
+     * @param serviceId  unique ID of the service
+     * @return courseExit with the ID number addressId, <code>null</code> if invalid
+     */
+    public static CourseExit getCourseExit(int serviceId, String courseCode) {
+        CourseExit courseExit = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getCourseExit(connection, serviceId, courseCode);
+            courseExit = new CourseExitBuilder().setCourseCode(results.getString("course_code"))
+                    .setExitDate(results.getDate("exit_date").toString())
+                    .setReason(results.getString("reason"))
+                    .setListeningLevel(results.getInt("listening_level"))
+                    .setReadingLevel(results.getInt("reading_level"))
+                    .setSpeakingLevel(results.getInt("speaking_level"))
+                    .setWritingLevel(results.getInt("writing_level")).create();
+
+        } catch (SQLException e) {
+            courseExit = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return courseExit;
     }
 }
