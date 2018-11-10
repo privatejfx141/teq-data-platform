@@ -7,6 +7,7 @@ public class OrientationBuilder extends ServiceBuilder implements IOrientationBu
 
     public OrientationBuilder() {
         service = new Orientation();
+        setServiceType("O");
         orientation = (Orientation) service;
     }
 

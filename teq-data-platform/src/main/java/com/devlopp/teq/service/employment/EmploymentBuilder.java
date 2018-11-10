@@ -7,6 +7,7 @@ public class EmploymentBuilder extends ServiceBuilder implements IEmploymentBuil
 
     public EmploymentBuilder() {
         service = new Employment();
+        setServiceType("E");
         employment = (Employment) service;
     }
 

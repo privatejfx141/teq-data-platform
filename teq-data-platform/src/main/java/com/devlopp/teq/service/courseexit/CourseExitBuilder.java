@@ -8,6 +8,7 @@ public class CourseExitBuilder extends ServiceBuilder implements ICourseExitBuil
 
     public CourseExitBuilder() {
         service = new CourseExit();
+        setServiceType("X");
         courseExit = (CourseExit) service;
     }
 

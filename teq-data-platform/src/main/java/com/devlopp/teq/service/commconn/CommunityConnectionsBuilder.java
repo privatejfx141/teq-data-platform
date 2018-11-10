@@ -7,6 +7,7 @@ public class CommunityConnectionsBuilder extends ServiceBuilder implements IComm
 
     public CommunityConnectionsBuilder() {
         service = new CommunityConnections();
+        setServiceType("C");
         community = (CommunityConnections) service;
     }
 

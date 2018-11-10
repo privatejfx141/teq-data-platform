@@ -10,7 +10,9 @@ public class AssessmentBuilder extends ServiceBuilder implements IAssessmentBuil
 
     public AssessmentBuilder() {
         service = new Assessment();
+        setServiceType("A");
         assessment = (Assessment)service;
+        
     }
 
     @Override

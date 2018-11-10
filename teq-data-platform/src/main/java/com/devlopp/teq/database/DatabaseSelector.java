@@ -32,6 +32,13 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
+    protected static ResultSet getServicesTaken(Connection connection, int clientId) throws SQLException {
+        String sql = "SELECT service_id FROM Service WHERE client_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, clientId);
+        return preparedStatement.executeQuery();
+    }
+
     /* Service methods */
     protected static ResultSet getServiceDetails(Connection connection, int serviceId) throws SQLException {
         String sql = "SELECT * FROM Service WHERE id = ?";
@@ -213,7 +220,8 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
-    protected static ResultSet getCourseEnroll(Connection connection, int serviceId, String courseCode) throws SQLException {
+    protected static ResultSet getCourseEnroll(Connection connection, int serviceId, String courseCode)
+            throws SQLException {
         String sql = "SELECT * FROM CourseEnroll WHERE course_code = ? AND serviceId = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, courseCode);
@@ -221,7 +229,8 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
-    protected static ResultSet getCourseExit(Connection connection, int serviceId, String courseCode) throws SQLException {
+    protected static ResultSet getCourseExit(Connection connection, int serviceId, String courseCode)
+            throws SQLException {
         String sql = "SELECT * FROM CourseExit WHERE course_code = ? AND serviceId = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, courseCode);

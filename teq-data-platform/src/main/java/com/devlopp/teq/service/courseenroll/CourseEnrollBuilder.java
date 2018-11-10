@@ -8,6 +8,7 @@ public class CourseEnrollBuilder extends ServiceBuilder implements ICourseEnroll
 
     public CourseEnrollBuilder() {
         service = new CourseEnroll();
+        setServiceType("N");
         courseEnroll = (CourseEnroll) service;
     }
 
