@@ -105,6 +105,20 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return client;
     }
 
+    public static List<Integer> getClientServices(int clientId) {
+        List<Integer> services = new ArrayList<>();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getClientServices(connection, clientId);
+            int serviceId = results.getInt(1);
+            services.add(serviceId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            services.clear();
+        }
+        return services;
+    }
+    
     /**
      * Connects to database, obtains and returns an address with ID number addressId
      * from the Address table. Returns <code>null</code> if addressId is invalid.

@@ -32,7 +32,7 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
-    protected static ResultSet getServicesTaken(Connection connection, int clientId) throws SQLException {
+    protected static ResultSet getClientServices(Connection connection, int clientId) throws SQLException {
         String sql = "SELECT service_id FROM Service WHERE client_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, clientId);
