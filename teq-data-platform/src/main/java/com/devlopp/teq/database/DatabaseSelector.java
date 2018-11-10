@@ -153,6 +153,20 @@ public class DatabaseSelector {
         return preparedStatement.executeQuery();
     }
 
+    protected static ResultSet getCourseEnroll(Connection connection, int serviceId) throws SQLException {
+        String sql = "SELECT * FROM CourseEnroll WHERE service_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, serviceId);
+        return preparedStatement.executeQuery();
+    }
+
+    protected static ResultSet getCourseExit(Connection connection, int serviceId) throws SQLException {
+        String sql = "SELECT * FROM CourseExit WHERE service_id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, serviceId);
+        return preparedStatement.executeQuery();
+    }
+
     /* Course methods */
     protected static ResultSet getCourse(Connection connection, String courseCode) throws SQLException {
         String sql = "SELECT * FROM Course WHERE course_code = ?";

@@ -725,6 +725,65 @@ public class DatabaseInserter {
         throw new DatabaseInsertException();
     }
 
+    protected static int insertCourseEnroll(Connection connection, CourseEnroll courseEnroll)
+            throws DatabaseInsertException {
+        int enrolId = insertCourseEnrollDetails(connection, courseEnroll);
+        return enrolId;
+    }
+
+    private static int insertCourseEnrollDetails(Connection connection, CourseEnroll courseEnroll)
+            throws DatabaseInsertException {
+        int serviceId = insertService(connection, courseEnroll);
+        String sql = "INSERT INTO CourseEnroll (service_id, course_code, first_class_date) " + "VALUES (?, ?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, serviceId);
+            statement.setString(2, courseEnroll.getCourseCode());
+            statement.setDate(3, SQLDriver.parseDate(courseEnroll.getFirstClassDate()));
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
+    protected static int insertCourseExit(Connection connection, CourseExit courseExit) throws DatabaseInsertException {
+        int exitId = insertCourseExitDetails(connection, courseExit);
+        return exitId;
+    }
+
+    private static int insertCourseExitDetails(Connection connection, CourseExit courseExit)
+            throws DatabaseInsertException {
+        int serviceId = insertService(connection, courseExit);
+        String sql = "INSERT INTO CourseExit (service_id, course_code, exit_date, reason, "
+                + "listening_level, reading_level, speaking_level, writing_level) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, serviceId);
+            statement.setString(2, courseExit.getCourseCode());
+            statement.setDate(3, SQLDriver.parseDate(courseExit.getExitDate()));
+            statement.setString(4, courseExit.getReason());
+            statement.setInt(5, courseExit.getListeningLevel());
+            statement.setInt(6, courseExit.getReadingLevel());
+            statement.setInt(7, courseExit.getSpeakingLevel());
+            statement.setInt(8, courseExit.getWritingLevel());
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException | ParseException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
     /**
      * Inserts a course into the TEQ database and returns the course code if
      * insertion was successful.
@@ -739,7 +798,6 @@ public class DatabaseInserter {
         String courseCode = insertCourseDetails(connection, course);
         // insert relationships
         try {
-            
             for (String schedule : course.getSchedules()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "Schedule", schedule);
                 insertCourseSchedule(connection, courseCode, typeId);
@@ -1039,14 +1097,6 @@ public class DatabaseInserter {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new DatabaseInsertException();
-    }
-
-    public static int insertCourseEnroll(Connection connection, CourseEnroll courseEnroll) throws DatabaseInsertException {
-        throw new DatabaseInsertException();
-    }
-
-    public static int insertCourseExit(Connection connection, CourseExit courseExit) throws DatabaseInsertException {
         throw new DatabaseInsertException();
     }
 }

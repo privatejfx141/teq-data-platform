@@ -13,6 +13,8 @@ import com.devlopp.teq.service.NewcomerChildCare;
 import com.devlopp.teq.service.ServiceBuilder;
 
 public abstract class ServiceParser implements TemplateParser {
+    
+    // protected ExcelTable dataTable = new ExcelTable();
     protected HashMap<String, ArrayList<String>> allData;
     protected ArrayList<ArrayList<String>> excelData;
     protected int numRecords = 0;

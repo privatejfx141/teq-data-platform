@@ -8,15 +8,13 @@ import java.util.List;
 
 import com.devlopp.teq.address.*;
 import com.devlopp.teq.client.*;
-import com.devlopp.teq.course.Course;
-import com.devlopp.teq.course.CourseBuilder;
-import com.devlopp.teq.course.CourseContact;
-import com.devlopp.teq.course.CourseContactBuilder;
-import com.devlopp.teq.course.ICourseBuilder;
+import com.devlopp.teq.course.*;
 import com.devlopp.teq.database.DatabaseSelector;
 import com.devlopp.teq.service.*;
 import com.devlopp.teq.service.assessment.*;
 import com.devlopp.teq.service.commconn.*;
+import com.devlopp.teq.service.courseenroll.*;
+import com.devlopp.teq.service.courseexit.*;
 import com.devlopp.teq.service.employment.*;
 import com.devlopp.teq.service.orientation.*;
 
@@ -389,8 +387,59 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         } catch (SQLException e) {
             e.printStackTrace();
             employment = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
         }
         return employment;
+    }
+
+    public static CourseEnroll getCourseEnroll(int serviceId) {
+        CourseEnroll enroll = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        ICourseEnrollBuilder builder = (ICourseEnrollBuilder) getServiceDetails(serviceId, new CourseEnrollBuilder());
+        try {
+            ResultSet results = DatabaseSelector.getCourseEnroll(connection, serviceId);
+            enroll = builder.setCourseCode(results.getString("course_code"))
+                    .setFirstClassDate(results.getDate("first_class_date").toString()).create();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            enroll = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return enroll;
+    }
+
+    public static CourseExit getCourseExit(int serviceId) {
+        CourseExit exit = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        ICourseExitBuilder builder = (ICourseExitBuilder) getServiceDetails(serviceId, new CourseExitBuilder());
+        try {
+            ResultSet results = DatabaseSelector.getCourseExit(connection, serviceId);
+            exit = builder.setCourseCode(results.getString("course_code"))
+                    .setExitDate(results.getDate("exit_date").toString()).setReason(results.getString("reason"))
+                    .setListeningLevel(results.getInt("listening_level"))
+                    .setReadingLevel(results.getInt("reading_level")).setSpeakingLevel(results.getInt("speaking_level"))
+                    .setWritingLevel(results.getInt("writing_level")).create();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            exit = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return exit;
     }
 
     public static Course getCourse(String courseCode) {
@@ -406,8 +455,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             ICourseBuilder builder = new CourseBuilder();
             results = DatabaseSelector.getCourse(connection, courseCode);
             course = builder.setCourseCode(courseCode).setNotes(results.getString("notes"))
-                    .setOngoingBasis(results.getBoolean("ongoing_basis"))
-                    .setLanguage(results.getString("language"))
+                    .setOngoingBasis(results.getBoolean("ongoing_basis")).setLanguage(results.getString("language"))
                     .setTrainingFormat(results.getString("training_format"))
                     .setClassesHeldAt(results.getString("classes_held_at"))
                     .setInpersonInstruct(results.getFloat("inperson_instruct"))
@@ -417,12 +465,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                     .setEnrollmentType(results.getString("enrollment_type"))
                     .setStartDate(results.getDate("start_date").toString())
                     .setEndDate(results.getDate("end_date").toString())
-                    .setInstructHours(results.getInt("instruct_hours"))
-                    .setWeeklyHours(results.getInt("hours_per_week"))
-                    .setNumWeeks(results.getInt("weeks"))
-                    .setNumWeeksPerYear(results.getInt("weeks_per_year"))
-                    .setDominantFocus(results.getString("dominant_focus"))
-                    .setCourseContact(contact).create();
+                    .setInstructHours(results.getInt("instruct_hours")).setWeeklyHours(results.getInt("hours_per_week"))
+                    .setNumWeeks(results.getInt("weeks")).setNumWeeksPerYear(results.getInt("weeks_per_year"))
+                    .setDominantFocus(results.getString("dominant_focus")).setCourseContact(contact).create();
             results = DatabaseSelector.getCourseSchedule(connection, courseCode);
             while (results.next()) {
                 course.addSchedule(results.getString("description"));
