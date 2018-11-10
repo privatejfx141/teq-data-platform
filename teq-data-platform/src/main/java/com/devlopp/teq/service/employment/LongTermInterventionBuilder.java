@@ -63,7 +63,7 @@ public class LongTermInterventionBuilder {
         return this;
     }
 
-    public LongTermIntervention build() {
+    public LongTermIntervention create() {
         return intervention;
     }
 

@@ -113,8 +113,11 @@ public class OrientationParser extends ServiceParser {
         List<Object> records = new ArrayList<>();
         for (int i = 0; i < numRecords; i++) {
             IOrientationBuilder builder = (IOrientationBuilder) parseServiceData(new OrientationBuilder(), i);
-            // set skills
-            builder.setEssentialSkills(parseEssentialSkills(i));
+            // get yes-no responses
+            builder.setTargetGroups(parseTargetGroups(i))
+                .setEssentialSkills(parseEssentialSkills(i))
+                .setChildCares(parseChildCares(i));
+            // build the orientation service object
             builder.setServiceReceived(FieldParser.getFieldString(allData, "SERVICES RECEIVED", i))
                 .setTotalLength(FieldParser.getFieldString(allData, "TOTAL LENGTH OF ORIENTATION", i))
                 .setLengthHours(FieldParser.getFieldInt(allData, "TOTAL LENGTH OF ORIENTATION: HOURS", i))

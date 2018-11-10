@@ -374,7 +374,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                         .setAverageHoursPerWeek(results.getString("avg_hours_per_week"))
                         .setMetMentorAt(results.getString("hours_per_week"))
                         .setHoursPeerWeek(results.getInt("hours_per_week"))
-                        .setProfession(results.getString("profession")).build();
+                        .setProfession(results.getString("profession")).create();
                 builder.setLongTermIntervention(lti);
             }
             // create employment service object, then add STI responses if any

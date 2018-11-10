@@ -14,21 +14,24 @@ import com.devlopp.teq.service.ServiceBuilder;
 
 public abstract class ServiceParser implements TemplateParser {
     protected HashMap<String, ArrayList<String>> allData;
+    protected ArrayList<ArrayList<String>> excelData;
     protected int numRecords = 0;
 
     @Override
     public void read(String filePath, int sheetNumber) {
         try {
-            ArrayList<ArrayList<String>> data = ExcelReader.readExcelFile(filePath, sheetNumber);
-            ArrayList<String> header = data.get(0);
-            for (ArrayList<String> recordData : data.subList(1, data.size())) {
+            ArrayList<ArrayList<String>> excelData = ExcelReader.readExcelFile(filePath, sheetNumber);
+            ArrayList<String> header = excelData.get(0);
+            for (ArrayList<String> recordData : excelData.subList(1, excelData.size())) {
                 for (int i = 0; i < recordData.size(); i++) {
                     String field = header.get(i).trim().toUpperCase();
                     String value = recordData.get(i).trim();
-                    allData.get(field).add(value);
+                    if (allData.containsKey(field)) {
+                        allData.get(field).add(value);
+                    }
                 }
             }
-            numRecords = data.size() - 1;
+            numRecords = excelData.size() - 1;
         } catch (InvalidFormatException | IOException e) {
             e.printStackTrace();
         }
