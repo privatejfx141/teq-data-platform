@@ -62,7 +62,7 @@ public class ExcelReader {
     }
 
     @SuppressWarnings("resource")
-    public static Boolean errorChecking(int sheetNumber, String filePath, int template)
+    public static String errorChecking(int sheetNumber, String filePath, int template)
             throws InvalidFormatException, IOException {
         HashMap<String, ArrayList<String>> map = createAllowedValues();
         ArrayList<String> allHeaders = getAllHeaders(template);
@@ -74,6 +74,7 @@ public class ExcelReader {
         ArrayList<String> mandatoryColumns = getMandatoryColumns();
         ArrayList<String> headerArray = new ArrayList<String>();
         ArrayList<String> newArray = new ArrayList<String>();
+        String output = "";
         // for each row,
         for (Row row : sheet) {
             // skip the first and second rows
@@ -98,8 +99,8 @@ public class ExcelReader {
                         System.out.println(headerArray.toString());
                         if (mandatoryColumns.contains(headerArray.get(cellNum)) && input.isEmpty()) {
                             noErrors = false;
-                            System.out.println("Error, Column " + cellNum + " Row" + " " + row.getRowNum()
-                                    + " is mandatory, but is not filled in");
+                             output =  output + "\n" + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                                    + " is mandatory, but is not filled in";
                         } else if (allHeaders.contains(headerArray.get(cellNum)) == false
                                 && !(headerArray.get(cellNum).equals(""))) {
                             System.out.println(
@@ -108,16 +109,16 @@ public class ExcelReader {
                             cells.add(input);
                         }
                     } else {
-                        System.out.println("Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                    	 output =  output + "\n" + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
                                 + " does not contain an allowed value: " + input + " and expected: "
-                                + map.get(headerArray.get(cellNum)));
+                                + map.get(headerArray.get(cellNum));
                         noErrors = false;
                     }
                 }
             }
         }
         workbook.close();
-        return noErrors;
+        return output;
     }
 
     private static ArrayList<String> getMandatoryColumns() throws InvalidFormatException, IOException {
