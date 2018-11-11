@@ -34,9 +34,9 @@ Create methods that verify if the format of the data inserted (telephone number,
 
 Include some tasks for logging in.
 
-## T17 | Dependency: T12
+## T## | Dependency: T12
 Develop the database insertion and selection methods for the Employment template.
 
-## T18 | Dependency: T12
+## T## | Dependency: T12
 Develop the database insertion and selection methods for the Course Enrol and Exit templates.
 

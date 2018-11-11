@@ -34,3 +34,6 @@ contains all documentation for the sprints we have done and are currently doing.
 This includes task breakdowns, plan, execution and burndown charts for the plan
 and execution. The folder `teq-data-platform` contains the code we have written
 for this project.
+
+## Code Review
+Our code review video for deliverable 4 is uploaded here: [CSCC01 Fall 2018 - Team 14 Code Review](https://www.youtube.com/watch?v=Iw1jfMi9qr8)
