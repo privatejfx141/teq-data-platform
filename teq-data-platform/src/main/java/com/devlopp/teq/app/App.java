@@ -1,22 +1,14 @@
 package com.devlopp.teq.app;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import com.devlopp.teq.address.Address;
-import com.devlopp.teq.client.Client;
+import com.devlopp.teq.course.Course;
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
-import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
-import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
+import com.devlopp.teq.parser.CommunityConnectionsParser;
+import com.devlopp.teq.parser.CourseSetupParser;
+import com.devlopp.teq.parser.TemplateParser;
+import com.devlopp.teq.service.commconn.CommunityConnections;
 
 public class App {
-    
-    // temporary value for testing
-    public static String filePath = "client_profile.xlsx";
-    
+   
     public static void main(String[] args) {
         System.out.println("TEQ LIP data platform");
         
@@ -25,25 +17,16 @@ public class App {
         if (!dbExists) {
             DatabaseDriverHelper.initializeDatabase();
         }
-
-        List<Client> clients = ExcelDriver.readClientProfile(filePath);
-        for (Client client : clients) {
-            
-            // insert address first
-            Address address = client.getAddress();
-            int addressId = DatabaseInsertHelper.insertAddress(address);
-            System.out.println("New address ID at: " + addressId);
-            
-            // insert client next
-            client.setAddressId(addressId);
-            int clientId = DatabaseInsertHelper.insertClient(client);
-            System.out.println("New client ID at: " + clientId);
-            
-            // get client and its address from database
-            client = DatabaseSelectHelper.getClient(clientId);
-            System.out.println("Retrieved results from database:");
-            System.out.println(client);
-            System.out.println(client.getAddress());
+        
+        String filePath = "iCARE_Templates.xlsx";
+        TemplateParser parser = new CommunityConnectionsParser();
+        parser.read(filePath, 4);
+        for (Object record : parser.parse()) {
+            CommunityConnections comm = (CommunityConnections) record;
+            System.out.println(comm.getClientId());
+            System.out.println(comm.getReasonForLeave());
+            System.out.println(comm.getEssentialSkills());
+            System.out.println(comm.getTargetGroups());
         }
         
     }

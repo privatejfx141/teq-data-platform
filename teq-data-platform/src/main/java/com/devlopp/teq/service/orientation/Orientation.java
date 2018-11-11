@@ -1,4 +1,9 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.orientation;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.devlopp.teq.service.Service;
 
 public class Orientation extends Service {
     protected String serviceReceived;
@@ -7,6 +12,7 @@ public class Orientation extends Service {
     protected int lengthMinutes;
     protected int numberOfClients;
     protected String endDate;
+    protected Map<String, Boolean> topics = new HashMap<>();
 
     public String getServiceReceived() {
         return serviceReceived;
@@ -20,7 +26,7 @@ public class Orientation extends Service {
         return lengthHours;
     }
 
-    public int getLengthMinutesd() {
+    public int getLengthMinutes() {
         return lengthMinutes;
     }
 
@@ -30,5 +36,13 @@ public class Orientation extends Service {
 
     public String getEndDate() {
         return endDate;
+    }
+
+    public Map<String, Boolean> getTopics() {
+        return topics;
+    }
+
+    public void addTopic(String topic, boolean referrals) {
+        topics.put(topic, referrals);
     }
 }

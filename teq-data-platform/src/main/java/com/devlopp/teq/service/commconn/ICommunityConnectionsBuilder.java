@@ -1,7 +1,8 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.commconn;
 
-public interface ICommunityConnectionsBuilder {
-	
+import com.devlopp.teq.service.IServiceBuilder;
+
+public interface ICommunityConnectionsBuilder extends IServiceBuilder {
     public ICommunityConnectionsBuilder setEventType(String eventType);
 
     public ICommunityConnectionsBuilder setMainTopic(String mainTopic);
@@ -25,5 +26,6 @@ public interface ICommunityConnectionsBuilder {
     public ICommunityConnectionsBuilder setLengthHours(int lengthHours);
 
     public ICommunityConnectionsBuilder setLengthMinutes(int lengthMinutes);
-    
+
+    public CommunityConnections create();
 }

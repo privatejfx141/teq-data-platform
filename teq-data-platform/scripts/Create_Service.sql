@@ -17,6 +17,7 @@ VALUES
 CREATE TABLE Service (
     id                  INTEGER PRIMARY KEY NOT NULL,
     client_id           INTEGER NOT NULL,
+    postal_code         CHAR(6),
     language            CHAR(3),
     organization_type   VARCHAR(32),
     referred_by         VARCHAR(32),
