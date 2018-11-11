@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.parser.TemplateParser;
 import com.devlopp.teq.parser.TemplateParserFactory;
 
@@ -52,5 +53,11 @@ public class Controller {
         System.out.println("File path: " + filePath);
         System.out.println("Template:  " + templateType);
         TemplateParser templateParser = TemplateParserFactory.getParser(templateType);
+        templateParser.read(filePath, 0);
+        for (Object record: templateParser.parse()) {
+            int recordId = DatabaseInsertHelper.insertRecord(record);
+            System.out.println("Template type: " + templateType);
+            System.out.println("New record ID: " + recordId);
+        }
     }
 }

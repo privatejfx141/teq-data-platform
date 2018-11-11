@@ -16,6 +16,26 @@ import com.devlopp.teq.service.employment.Employment;
 import com.devlopp.teq.service.orientation.Orientation;
 
 public class DatabaseInsertHelper extends DatabaseInserter {
+    public static int insertRecord(Object record) {
+        int recordId = -1;
+        if (record instanceof Client) {
+            recordId = insertClient((Client) record);
+        } else if (record instanceof Assessment) {
+            recordId = insertAssessment((Assessment) record);
+        } else if (record instanceof CommunityConnections) {
+            recordId = insertCommunityConnections((CommunityConnections) record);
+        } else if (record instanceof Orientation) {
+            recordId = insertOrientation((Orientation) record);
+        } else if (record instanceof Employment) {
+            recordId = insertEmployment((Employment) record);
+        } else if (record instanceof CourseEnroll) {
+            recordId = insertCourseEnroll((CourseEnroll) record);
+        } else if (record instanceof CourseExit) {
+            recordId = insertCourseExit((CourseExit) record);
+        }
+        return recordId;
+    }
+    
     /**
      * Inserts client details into the TEQ database and returns the client ID if
      * successful.
