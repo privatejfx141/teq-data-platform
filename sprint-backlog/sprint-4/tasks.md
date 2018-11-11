@@ -20,7 +20,7 @@ Develop the database insertion and selection methods for the LT course setup.
 ## T25 | assigned: Anton
 Connect UI to the data backend code for template select and upload.
 
-# U3:
+# U3
 As Marge (counsellor), I want to be notified of any errors in the data that I am uploading so that I can quickly fix them to prevent incorrect conclusions.
 ## T26 | assigned: Christian 
 Create acceptance test for user story 3.
