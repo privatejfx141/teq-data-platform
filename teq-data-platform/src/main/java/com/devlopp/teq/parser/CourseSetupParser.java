@@ -157,6 +157,7 @@ public class CourseSetupParser implements TemplateParser {
         } catch (InvalidFormatException | IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Reading completed!");
     }
 
     private List<String> parseTargetGroups(int recordIndex) {

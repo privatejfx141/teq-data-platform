@@ -7,7 +7,7 @@ public class TemplateParserFactory {
         templateType = templateType.toUpperCase();
         if (templateType.contains("CLIENT")) {
             parser = new ClientProfileParser();
-        } else if (templateType.contains("ASSESSMENT")) {
+        } else if (templateType.contains("ASSESS")) {
             parser = new AssessmentParser();
         } else if (templateType.contains("COMMUNITY")) {
             parser = new CommunityConnectionsParser();
@@ -21,6 +21,8 @@ public class TemplateParserFactory {
             parser = new CourseEnrollParser();
         } else if (templateType.contains("EXIT")) {
             parser = new CourseExitParser();
+        } else {
+            System.out.println("Error: invalid template type");
         }
         return parser;
     }

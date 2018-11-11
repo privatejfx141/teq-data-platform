@@ -64,10 +64,10 @@ public class CourseExitParser extends ServiceParser {
             builder.setCourseCode(FieldParser.getFieldString(allData, "COURSE CODE", i))
                 .setExitDate(FieldParser.getFieldString(allData, "DATE CLIENT EXITED COURSE (YYYY-MM-DD)", i))
                 .setReason(FieldParser.getFieldString(allData, "REASON FOR EXITING COURSE", i))
-                .setListeningLevel(FieldParser.getFieldInt(allData, "LISTENING CLB LEVEL", i))
-                .setReadingLevel(FieldParser.getFieldInt(allData, "READING CLB LEVEL", i))
-                .setSpeakingLevel(FieldParser.getFieldInt(allData, "SPEAKING CLB LEVEL", i))
-                .setWritingLevel(FieldParser.getFieldInt(allData, "WRITING CLB LEVEL", i));
+                .setListeningLevel(FieldParser.getFieldString(allData, "LISTENING CLB LEVEL", i))
+                .setReadingLevel(FieldParser.getFieldString(allData, "READING CLB LEVEL", i))
+                .setSpeakingLevel(FieldParser.getFieldString(allData, "SPEAKING CLB LEVEL", i))
+                .setWritingLevel(FieldParser.getFieldString(allData, "WRITING CLB LEVEL", i));
             records.add(builder.create());
         }
         return records;

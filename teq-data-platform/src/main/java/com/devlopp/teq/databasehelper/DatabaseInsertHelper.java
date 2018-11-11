@@ -16,8 +16,8 @@ import com.devlopp.teq.service.employment.Employment;
 import com.devlopp.teq.service.orientation.Orientation;
 
 public class DatabaseInsertHelper extends DatabaseInserter {
-    public static int insertRecord(Object record) {
-        int recordId = -1;
+    public static Object insertRecord(Object record) {
+        Object recordId = -1;
         if (record instanceof Client) {
             recordId = insertClient((Client) record);
         } else if (record instanceof Assessment) {
@@ -28,6 +28,8 @@ public class DatabaseInsertHelper extends DatabaseInserter {
             recordId = insertOrientation((Orientation) record);
         } else if (record instanceof Employment) {
             recordId = insertEmployment((Employment) record);
+        } else if (record instanceof Course) {
+            recordId = insertCourse((Course) record);
         } else if (record instanceof CourseEnroll) {
             recordId = insertCourseEnroll((CourseEnroll) record);
         } else if (record instanceof CourseExit) {

@@ -10,13 +10,13 @@ public interface ICourseExitBuilder extends IServiceBuilder {
 
     public ICourseExitBuilder setReason(String reason);
 
-    public ICourseExitBuilder setListeningLevel(int level);
+    public ICourseExitBuilder setListeningLevel(String level);
 
-    public ICourseExitBuilder setReadingLevel(int level);
+    public ICourseExitBuilder setReadingLevel(String level);
 
-    public ICourseExitBuilder setSpeakingLevel(int level);
+    public ICourseExitBuilder setSpeakingLevel(String level);
 
-    public ICourseExitBuilder setWritingLevel(int level);
+    public ICourseExitBuilder setWritingLevel(String level);
 
     public CourseExit create();
 

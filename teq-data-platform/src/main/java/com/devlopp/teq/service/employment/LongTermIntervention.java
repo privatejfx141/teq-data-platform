@@ -7,11 +7,11 @@ public class LongTermIntervention {
     protected String reasonForLeave;
     protected String startDate;
     protected String endDate;
-    protected int employerSize;
+    protected String employerSize;
     protected String placement;
     protected String averageHoursPerWeek;
     protected String metMentorAt;
-    protected int hoursPerWeek;
+    protected String hoursPerWeek;
     protected String profession;
 
     public String getServiceRecieved() {
@@ -34,7 +34,7 @@ public class LongTermIntervention {
         return endDate;
     }
 
-    public int getEmployerSize() {
+    public String getEmployerSize() {
         return employerSize;
     }
 
@@ -50,7 +50,7 @@ public class LongTermIntervention {
         return metMentorAt;
     }
 
-    public int getHoursPerWeek() {
+    public String getHoursPerWeek() {
         return hoursPerWeek;
     }
 

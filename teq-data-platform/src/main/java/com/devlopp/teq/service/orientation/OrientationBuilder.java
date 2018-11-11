@@ -36,7 +36,7 @@ public class OrientationBuilder extends ServiceBuilder implements IOrientationBu
     }
 
     @Override
-    public IOrientationBuilder setNumberOfClients(int numberOfClients) {
+    public IOrientationBuilder setNumberOfClients(String numberOfClients) {
         orientation.numberOfClients = numberOfClients;
         return this;
     }

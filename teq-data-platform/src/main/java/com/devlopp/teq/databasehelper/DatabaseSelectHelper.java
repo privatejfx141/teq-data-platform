@@ -288,7 +288,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             community = builder.setEventType(results.getString("event_type"))
                     .setMainTopic(results.getString("main_topic"))
                     .setServiceReceived(results.getString("service_recieved"))
-                    .setParticipants(results.getInt("participants")).setVolunteers(results.getBoolean("volunteers"))
+                    .setParticipants(results.getString("participants")).setVolunteers(results.getBoolean("volunteers"))
                     .setStatus(results.getString("status")).setReasonForLeave(results.getString("reason_for_leave"))
                     .setStartDate(results.getDate("start_date").toString())
                     .setEndDate(results.getDate("end_date").toString())
@@ -327,7 +327,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             orientation = builder.setServiceReceived(results.getString("service_recieved"))
                     .setTotalLength(results.getString("total_length")).setLengthHours(results.getInt("length_hours"))
                     .setLengthMinutes(results.getInt("length_minutes"))
-                    .setNumberOfClients(results.getInt("number_of_clients"))
+                    .setNumberOfClients(results.getString("number_of_clients"))
                     .setEndDate(results.getDate("end_date").toString()).create();
             // add orientation topics
             results = DatabaseSelector.getOrientationTopic(connection, serviceId);
@@ -384,11 +384,11 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                         .setStatus(results.getString("status")).setReasonForLeave(results.getString("reason_for_leave"))
                         .setStartDate(results.getDate("start_date").toString())
                         .setEndDate(results.getDate("end_date").toString())
-                        .setEmployerSize(results.getInt("employer_size"))
+                        .setEmployerSize(results.getString("employer_size"))
                         .setPlacement(results.getString("placement_was"))
                         .setAverageHoursPerWeek(results.getString("avg_hours_per_week"))
                         .setMetMentorAt(results.getString("hours_per_week"))
-                        .setHoursPeerWeek(results.getInt("hours_per_week"))
+                        .setHoursPeerWeek(results.getString("hours_per_week"))
                         .setProfession(results.getString("profession")).create();
                 builder.setLongTermIntervention(lti);
             }
@@ -443,9 +443,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             ResultSet results = DatabaseSelector.getCourseExit(connection, serviceId);
             exit = builder.setCourseCode(results.getString("course_code"))
                     .setExitDate(results.getDate("exit_date").toString()).setReason(results.getString("reason"))
-                    .setListeningLevel(results.getInt("listening_level"))
-                    .setReadingLevel(results.getInt("reading_level")).setSpeakingLevel(results.getInt("speaking_level"))
-                    .setWritingLevel(results.getInt("writing_level")).create();
+                    .setListeningLevel(results.getString("listening_level"))
+                    .setReadingLevel(results.getString("reading_level")).setSpeakingLevel(results.getString("speaking_level"))
+                    .setWritingLevel(results.getString("writing_level")).create();
         } catch (SQLException e) {
             e.printStackTrace();
             exit = null;
@@ -547,10 +547,10 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             courseExit = new CourseExitBuilder().setCourseCode(results.getString("course_code"))
                     .setExitDate(results.getDate("exit_date").toString())
                     .setReason(results.getString("reason"))
-                    .setListeningLevel(results.getInt("listening_level"))
-                    .setReadingLevel(results.getInt("reading_level"))
-                    .setSpeakingLevel(results.getInt("speaking_level"))
-                    .setWritingLevel(results.getInt("writing_level")).create();
+                    .setListeningLevel(results.getString("listening_level"))
+                    .setReadingLevel(results.getString("reading_level"))
+                    .setSpeakingLevel(results.getString("speaking_level"))
+                    .setWritingLevel(results.getString("writing_level")).create();
 
         } catch (SQLException e) {
             courseExit = null;

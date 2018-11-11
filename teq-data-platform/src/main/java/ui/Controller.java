@@ -55,7 +55,7 @@ public class Controller {
         TemplateParser templateParser = TemplateParserFactory.getParser(templateType);
         templateParser.read(filePath, 0);
         for (Object record: templateParser.parse()) {
-            int recordId = DatabaseInsertHelper.insertRecord(record);
+            Object recordId = DatabaseInsertHelper.insertRecord(record);
             System.out.println("Template type: " + templateType);
             System.out.println("New record ID: " + recordId);
         }

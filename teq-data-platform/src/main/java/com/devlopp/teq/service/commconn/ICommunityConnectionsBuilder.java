@@ -9,7 +9,7 @@ public interface ICommunityConnectionsBuilder extends IServiceBuilder {
 
     public ICommunityConnectionsBuilder setServiceReceived(String serviceReceived);
 
-    public ICommunityConnectionsBuilder setParticipants(int participants);
+    public ICommunityConnectionsBuilder setParticipants(String participants);
 
     public ICommunityConnectionsBuilder setVolunteers(boolean hasVolunteers);
 

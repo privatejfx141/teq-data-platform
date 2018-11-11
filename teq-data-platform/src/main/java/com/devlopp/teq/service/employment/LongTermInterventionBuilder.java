@@ -33,7 +33,7 @@ public class LongTermInterventionBuilder {
         return this;
     }
 
-    public LongTermInterventionBuilder setEmployerSize(int size) {
+    public LongTermInterventionBuilder setEmployerSize(String size) {
         intervention.employerSize = size;
         return this;
     }
@@ -53,7 +53,7 @@ public class LongTermInterventionBuilder {
         return this;
     }
 
-    public LongTermInterventionBuilder setHoursPeerWeek(int hours) {
+    public LongTermInterventionBuilder setHoursPeerWeek(String hours) {
         intervention.hoursPerWeek = hours;
         return this;
     }

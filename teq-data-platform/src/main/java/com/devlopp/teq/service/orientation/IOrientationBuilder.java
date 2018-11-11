@@ -11,7 +11,7 @@ public interface IOrientationBuilder extends IServiceBuilder {
 
     public IOrientationBuilder setLengthMinutes(int lengthMinutes);
 
-    public IOrientationBuilder setNumberOfClients(int numberOfClients);
+    public IOrientationBuilder setNumberOfClients(String numberOfClients);
 
     public IOrientationBuilder setEndDate(String endDate);
 

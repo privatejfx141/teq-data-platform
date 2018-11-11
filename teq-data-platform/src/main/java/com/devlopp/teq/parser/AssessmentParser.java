@@ -1,19 +1,13 @@
 package com.devlopp.teq.parser;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-
-import com.devlopp.teq.excel.ExcelReader;
 import com.devlopp.teq.service.assessment.AssessmentBuilder;
 import com.devlopp.teq.service.assessment.IAssessmentBuilder;
 
 public class AssessmentParser extends ServiceParser {
-    private ArrayList<ArrayList<String>> data;
-    private int numRecords = 0;
 
     public AssessmentParser() {
         allData = new HashMap<>();
@@ -129,15 +123,21 @@ public class AssessmentParser extends ServiceParser {
         }
         return builder;
     }
-
+    
+    protected List<String> parseNonIRCCServices(int recordIndex) {
+        List<String> services = new ArrayList<>();
+        return services;
+    }
+    
     @Override
     public List<Object> parse() {
         List<Object> records = new ArrayList<>();
         for (int i = 0; i < numRecords; i++) {
             IAssessmentBuilder builder = (IAssessmentBuilder) parseServiceData(new AssessmentBuilder(), i);
             // parse yes-no responses
-            builder.setSupportServices(parseSupportServices(i))
-                .setChildCares(parseChildCares(i));
+            builder.setSupportServices(parseSupportServices(i));
+            builder.setChildCares(parseChildCares(i));
+            builder.setNonIRCCServices(parseNonIRCCServices(i));
             // parse assessment details
             builder.setStartDate(FieldParser.getFieldString(allData, "START DATE OF ASSESSMENT (YYYY-MM-DD)", i))
                     .setLanguageGoal(FieldParser.getFieldString(allData, "IMPROVE LANGUAGE SKILLS TO", i))
@@ -146,11 +146,11 @@ public class AssessmentParser extends ServiceParser {
                             FieldParser.getFieldBoolean(allData, "CLIENT INTENDS TO BECOME A CANADIAN CITIZEN?", i))
                     .setReqSupportServices(FieldParser.getFieldBoolean(allData, "SUPPORT SERVICES MAY BE REQUIRED", i))
                     .setPlanComplete(FieldParser.getFieldBoolean(allData,
-                            "SETTLEMENT PLAN COMPLETED AND SHARED WITH CLIENT", i));
+                            "SETTLEMENT PLAN COMPLETED AND SHARED WITH CLIENT", i))
+                    .setEndDate(FieldParser.getFieldString(allData, "END DATE OF ASSESSMENT (YYYY-MM-DD)", i));
             // parse find employment value
             builder = parseFindEmployment(builder, i);
-            Object record = builder.create();
-            records.add(record);
+            records.add(builder.create());
         }
         return records;
     }

@@ -3,7 +3,7 @@ CREATE TABLE CommunityConnections (
     event_type          VARCHAR(32),
     main_topic          VARCHAR(32) NOT NULL,
     service_recieved    VARCHAR(32) NOT NULL,
-    participants        INTEGER,
+    participants        VARCHAR(32),
     volunteers          BOOLEAN,
     status              VARCHAR(32) NOT NULL,
     reason_for_leave    VARCHAR(32),

@@ -33,11 +33,11 @@ CREATE TABLE LongTermIntervention (
     reason_for_leave    VARCHAR(32),
     start_date          DATE,
     end_date            DATE,
-    employer_size       INTEGER,
+    employer_size       VARCHAR(32),
     placement_was       VARCHAR(32),
     avg_hours_per_week  VARCHAR(32),
     met_mentor_at       VARCHAR(32),
-    hours_per_week      INTEGER,
+    hours_per_week      VARCHAR(32),
     profession          VARCHAR(32),
     FOREIGN KEY(employment_id) REFERENCES Employment(service_id)
 );
