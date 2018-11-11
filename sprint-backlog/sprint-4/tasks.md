@@ -1,4 +1,5 @@
 # U1
+As Marge (counsellor), I want to upload the Client Profile template to the TEQ data platform so that we have data on the client that can be analyzed and used to keep track of the client.
 ## T21 | assigned: Christian
 Create unit-test/integration tests excel reading.
 
@@ -20,6 +21,7 @@ Develop the database insertion and selection methods for the LT course setup.
 Connect UI to the data backend code for template select and upload.
 
 # U3:
+As Marge (counsellor), I want to be notified of any errors in the data that I am uploading so that I can quickly fix them to prevent incorrect conclusions.
 ## T26 | assigned: Christian 
 Create acceptance test for user story 3.
 
