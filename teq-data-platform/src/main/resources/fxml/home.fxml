@@ -6,9 +6,12 @@
 <GridPane fx:controller="ui.Controller"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10"
           vgap="10">
-    <ComboBox GridPane.columnIndex="5" promptText="Select Template Type">
+    <ComboBox fx:id="templateTypes" GridPane.columnIndex="5" promptText="Select Template Type">
         <items>
             <FXCollections fx:factory="observableArrayList">
+            	<String fx:value="Client Profile"/>
+            	<String fx:value="Needs Assessment and Referrals"/>
+            	<String fx:value="Community Connections"/>
                 <String fx:value="Info and Orientation"/>
                 <String fx:value="Employment"/>
                 <String fx:value="LT Client Enrol"/>
@@ -17,6 +20,6 @@
             </FXCollections>
         </items>
     </ComboBox>
-    <Button GridPane.columnIndex="0" text="Add file"
+    <Button fx:id="addFileButton" GridPane.columnIndex="0" text="Add file"
             onAction="#handleAddFileAction"/>
 </GridPane>

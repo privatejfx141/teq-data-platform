@@ -18,7 +18,7 @@ public class Main extends Application {
         Parent root = FXMLLoader
                 .load(getClass().getResource("/fxml/home.fxml"));
         primaryStage.setTitle("TEQ data platform");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 360, 275));
         primaryStage.show();
     }
 }
