@@ -14,14 +14,14 @@ As Marge (cousellor), I want to select a template type and upload the Excel
 file to the TEQ data platform, so that I can upload data for the different
 services offered.
 
-## T24 | assigned: Zifan
-Create acceptance test for user story 2.
-
-## T25 | Dependency: T12 | assigned: Kelvin
+## T24 | Dependency: T12 | assigned: Kelvin
 Develop the database insertion and selection methods for the LT course setup.
 
-## T26 | assigned: Anton
+## T25 | assigned: Anton
 Connect UI to the data backend code for template select and upload.
+
+## T26 | Dependency: T24 T25 |assigned: Zifan
+Create acceptance test for user story 2.
 
 # U3
 As Marge (counsellor), I want to be notified of any errors in the data that I am uploading so that I can quickly fix them to prevent incorrect conclusions.
