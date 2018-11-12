@@ -18,7 +18,7 @@ public class App {
             DatabaseDriverHelper.initializeDatabase();
         }
         
-        String filePath = "iCARE_Templates.xlsx";
+        String filePath = "src/main/java/com/devlopp/teq/excel/iCARE_Templates.xlsx";
         TemplateParser parser = new CommunityConnectionsParser();
         parser.read(filePath, 4);
         for (Object record : parser.parse()) {
