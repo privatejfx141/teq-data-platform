@@ -14,7 +14,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelReader {
-    public static String INFO_FILEPATH = "src/main/java/com/devlopp/teq/Excel/iCARE_Templates.xlsx";
+    public static String INFO_FILEPATH = "src/main/java/com/devlopp/teq/excel/iCARE_Templates.xlsx";
 
     /**
      * Returns an 2D array where index i is the row of input from row i
@@ -62,7 +62,7 @@ public class ExcelReader {
     }
 
     @SuppressWarnings("resource")
-    public static Boolean errorChecking(int sheetNumber, String filePath, int template)
+    public static String errorChecking(int sheetNumber, String filePath, int template)
             throws InvalidFormatException, IOException {
         HashMap<String, ArrayList<String>> map = createAllowedValues();
         ArrayList<String> allHeaders = getAllHeaders(template);
@@ -74,6 +74,7 @@ public class ExcelReader {
         ArrayList<String> mandatoryColumns = getMandatoryColumns();
         ArrayList<String> headerArray = new ArrayList<String>();
         ArrayList<String> newArray = new ArrayList<String>();
+        String output = "";
         // for each row,
         for (Row row : sheet) {
             // skip the first and second rows
@@ -94,12 +95,11 @@ public class ExcelReader {
                 } else {
                     if (map.get(headerArray.get(cellNum)) == null || map.get(headerArray.get(cellNum)).equals(newArray)
                             || map.get(headerArray.get(cellNum)).contains(input)) {
-                        System.out.println(allHeaders.toString());
-                        System.out.println(headerArray.toString());
+
                         if (mandatoryColumns.contains(headerArray.get(cellNum)) && input.isEmpty()) {
                             noErrors = false;
-                            System.out.println("Error, Column " + cellNum + " Row" + " " + row.getRowNum()
-                                    + " is mandatory, but is not filled in");
+                             output =  output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                                    + " is mandatory, but is not filled in \n";
                         } else if (allHeaders.contains(headerArray.get(cellNum)) == false
                                 && !(headerArray.get(cellNum).equals(""))) {
                             System.out.println(
@@ -108,16 +108,16 @@ public class ExcelReader {
                             cells.add(input);
                         }
                     } else {
-                        System.out.println("Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                    	 output =  output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
                                 + " does not contain an allowed value: " + input + " and expected: "
-                                + map.get(headerArray.get(cellNum)));
+                                + map.get(headerArray.get(cellNum)) + "\n";
                         noErrors = false;
                     }
                 }
             }
         }
         workbook.close();
-        return noErrors;
+        return output;
     }
 
     private static ArrayList<String> getMandatoryColumns() throws InvalidFormatException, IOException {
@@ -236,13 +236,4 @@ public class ExcelReader {
         return map;
     }
 
-    public static void main(String[] args) throws InvalidFormatException, IOException {
-        // createAllowedValues();
-        // errorChecking(2,
-        // "/cmshome/sarranch/Documents/Team14/teq-data-platform/src/main/java/com/devlopp/teq/inputCheck/New_iCARE_Template_Comb_with_Examples.xlsx",
-        // 2);
-        // getAllHeaders(2);
-        // parseForDB(2,
-        // "/cmshome/sarranch/Documents/Team14/teq-data-platform/src/main/java/com/devlopp/teq/inputCheck/New_iCARE_Template_Comb_with_Examples.xlsx");
-    }
 }
