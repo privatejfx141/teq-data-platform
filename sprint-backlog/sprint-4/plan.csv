@@ -1,7 +1,7 @@
 User Story,Task,Dependency,Story Points,1: November 7,2,3,4,5: November 11
 U1,21,,3,C:3,,,,
 U1,22,,5,Z:1,Z:1,Z:1,Z:1,Z:1
-U1,23,,7,J:2,J:2,J:3,,
+U1,23,,7,J:1,J:1,J:2,J:3,
 U2,24,T12,4,K:1,K:2,K:1,,
 U2,25,,5,A:1,A:2,A:2,,
 U2,26,,3,,,,Z:2,Z:1
