@@ -12,18 +12,34 @@ import org.junit.jupiter.api.Test;
 
 public class ExcelReaderTest {
 	
-		ArrayList<ArrayList<String>> test = new ArrayList<ArrayList<String>>();
-		
-		@BeforeAll public void initialize() {
+		static ArrayList<ArrayList<String>> test = new ArrayList<ArrayList<String>>();
+		String FILEPATH_TEMPLATES = "src/test/java/com/devlopp/teq/excel/iCARE_Templates.xlsx";
+		String FILEPATH_TEST_FILE = "src/test/java/com/devlopp/teq/excel/TestTemplate.xlsx";
+		@BeforeAll static public void initialize() {
 	    	test = new ArrayList<ArrayList<String>>();
 	    	ArrayList<String> one = new ArrayList<String>();
-	    	one = (ArrayList<String>) Arrays.asList("Processing Details	Unique Identifier",	"Unique Identifier Value",	"Date of Birth (YYYY-MM-DD)",	"Phone Number",	"Does the Client Have an Email Address");
+	    	one.add("Processing Details");
+	    	one.add("Unique Identifier");
+	    	one.add("Unique Identifier Value");
+	    	one.add("Date of Birth (YYYY-MM-DD)");
+	    	one.add("Phone Number");
+	    	one.add("Does the Client Have an Email Address");
+	    	
 	    	ArrayList<String> two = new ArrayList<String>();
-	    	two = (ArrayList<String>) Arrays.asList("",	"FOSS/GCMS Client ID", "12345678",	"1978-05-20",	"902-628-1285",	"Yes");
+	    	two.add("");
+	    	two.add("FOSS/GCMS Client ID");
+	    	two.add("12345678");
+	    	two.add("1978-05-20");
+	    	two.add("902-628-1285");
+	    	two.add("Yes");
 	    	ArrayList<String> three = new ArrayList<String>();
-	    	three = (ArrayList<String>) Arrays.asList("",	"FOSS/GCMS ", "123wer8",	"1978-23-21",	"992-628-1285",	"No");
-	    	ArrayList<String> four = new ArrayList<String>();
-	    	four = (ArrayList<String>) Arrays.asList("", "", "", "", "", "", "");
+	    	three.add("");
+	    	three.add("FOSS/GCMS");
+	    	three.add("123wer8");
+	    	three.add("1978-23-21");
+	    	three.add("992-628-1285");
+	    	three.add("No");
+
 	    	test.add(one);
 	    	test.add(two);
 	    	test.add(three);
@@ -33,39 +49,20 @@ public class ExcelReaderTest {
 	    @Test
 		@DisplayName("readExcelFile gives appropriate multi-line output with missing fields in file")
 		public void multiLinedEmptyFieldsTest() throws InvalidFormatException, IOException {
-	    	String v = "\\src\\test\\java\\com\\devlopp\\teq\\excel\\TestTemplate.xlsx";
-			ArrayList<ArrayList<String>>  output =ExcelReader.readExcelFile(v,0);
+			ArrayList<ArrayList<String>>  output = ExcelReader.readExcelFile(FILEPATH_TEST_FILE,0);
 
 	    	assertEquals(output, test);
 
 		}
-/*
-	    @Test
-		@DisplayName("readExcelFile with wrong sheet number")
-		void MediumTruckNoOptionTest() {
-	    	Offer output =new Offer("truck", "medium", new String[0]);
-	    	assertEquals(b.toString(), "[medium] truck");
-	    	assertEquals(b.getPrice(), 60, 0.01);
-		}
-	    
-	    @Test
-		@DisplayName("readExcelFile with wrong file path")
-		void MediumTruckNoOptionTest() {
-	    	Offer output =new Offer("truck", "medium", new String[0]);
-	    	assertEquals(b.toString(), "[medium] truck");
-	    	assertEquals(b.getPrice(), 60, 0.01);
-		}
-	    
-	    */
+
 	   
 	    
 	    @Test
 		@DisplayName("errorChecking gives appropriate error with bad entries")
 		void errorCheckBadEntriesTest() {
-	    	String v = "\\src\\test\\java\\com\\devlopp\\teq\\excel\\TestTemplate.xlsx";
 	    	String output ="";
 			try {
-				output =ExcelReader.errorChecking(0, v, 2);
+				output = ExcelReader.errorChecking(1, FILEPATH_TEST_FILE, 2);
 			} catch (InvalidFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,33 +70,20 @@ public class ExcelReaderTest {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	assertEquals(output, false);
+			
+	    	assertEquals(output, "Error, Column 1 Row 3 does not contain an allowed value:"
+	    			+ " FOSS/GCMS Client ID1 and expected: [FOSS/GCMS Client ID, Temporary Resident"
+	    			+ " or Minister’s Permit Number, IMM5292, IMM5509, IMM1000 Number]\n");
 		}
-	    
-	    @Test
-		@DisplayName("errorChecking gives appropriate error with wrong template")
-		void errorCheckWrongTemplateUploadedTest() {
-	    	String v = "\\src\\test\\java\\com\\devlopp\\teq\\excel\\iCare_Template.xlsx";
-	    	String output ="";
-			try {
-				output =ExcelReader.errorChecking(1, v, 2);
-			} catch (InvalidFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    	assertEquals(output, false);
-		}
+
 	    
 	    @Test
 		@DisplayName("errorChecking gives appropriate error with correct entry")
 		void errorCheckGoodEntryTest() {
-	    	String v = "\\src\\test\\java\\com\\devlopp\\teq\\excel\\iCare_Template.xlsx";
+
 	    	String output ="";
 			try {
-				output =ExcelReader.errorChecking(5, v, 5);
+				output =ExcelReader.errorChecking(5, FILEPATH_TEMPLATES, 5);
 			} catch (InvalidFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -109,48 +93,17 @@ public class ExcelReaderTest {
 			}
 	    	assertEquals(output, "");
 		}
-	/*
-	    @Test
-		@DisplayName("errorChecking with wrong sheet number")
-		void MediumTruckNoOptionTest() {
-	    	Offer output =new Offer("truck", "medium", new String[0]);
-	    	assertEquals(b.toString(), "[medium] truck");
-	    	assertEquals(b.getPrice(), 60, 0.01);
-		}
+	
 	    
-	    @Test
-		@DisplayName("errorChecking with wrong file path")
-		void MediumTruckNoOptionTest() {
-	    	Offer output =new Offer("truck", "medium", new String[0]);
-	    	assertEquals(b.toString(), "[medium] truck");
-	    	assertEquals(b.getPrice(), 60, 0.01);
-		}
-	    */
-	    
-	    @Test
-		@DisplayName("errorChecking good entry for Template 1 ")
-		void errorCheckTemplate1GoodTest() {
-	    	String v = "\\src\\test\\java\\com\\devlopp\\teq\\excel\\iCare_Template.xlsx";
-	    	String output ="";
-			try {
-				output =ExcelReader.errorChecking(1, v, 1);
-			} catch (InvalidFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    	assertEquals(output, "");
-		}
+
 		
 	    @Test
 		@DisplayName("errorChecking good entry for Template 2 ")
 		void errorCheckTemplate2GoodTest() {
-	    	String v = "\\src\\test\\java\\com\\devlopp\\teq\\excel\\iCare_Template.xlsx";
+
 	    	String output ="";
 			try {
-				output =ExcelReader.errorChecking(2, v, 2);
+				output =ExcelReader.errorChecking(2, FILEPATH_TEMPLATES, 2);
 			} catch (InvalidFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -164,10 +117,10 @@ public class ExcelReaderTest {
 	    @Test
 		@DisplayName("errorChecking good entry for Template 3 ")
 		void errorCheckTemplate3GoodTest() {
-	    	String v = "\\src\\test\\java\\com\\devlopp\\teq\\excel\\iCare_Template.xlsx";
+
 	    	String output ="";
 			try {
-				output =ExcelReader.errorChecking(3, v, 3);
+				output =ExcelReader.errorChecking(3, FILEPATH_TEMPLATES, 3);
 			} catch (InvalidFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -181,10 +134,10 @@ public class ExcelReaderTest {
 	    @Test
 		@DisplayName("errorChecking good entry for Template 4 ")
 		void errorCheckTemplate4GoodTest() {
-	    	String v = "\\src\\test\\java\\com\\devlopp\\teq\\excel\\iCare_Template.xlsx";
+
 	    	String output = "";
 			try {
-				output = ExcelReader.errorChecking(4, v, 4);
+				output = ExcelReader.errorChecking(4, FILEPATH_TEMPLATES, 4);
 			} catch (InvalidFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -200,10 +153,10 @@ public class ExcelReaderTest {
 	    @Test
 		@DisplayName("errorChecking good entry for Template 5 ")
 		void errorCheckTemplate5GoodTest() {
-	    	String v = "\\src\\test\\java\\com\\devlopp\\teq\\excel\\iCare_Template.xlsx";
+
 	    	String output = "";
 			try {
-				output = ExcelReader.errorChecking(5, v, 5);
+				output = ExcelReader.errorChecking(5, FILEPATH_TEMPLATES, 5);
 			} catch (InvalidFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -213,4 +166,91 @@ public class ExcelReaderTest {
 			}
 	    	assertEquals(output, "");
 		}
+	    
+	    @Test
+		@DisplayName("errorChecking good entry for Template 6 ")
+		void errorCheckTemplate6GoodTest() {
+
+	    	String output = "";
+			try {
+				output = ExcelReader.errorChecking(6, FILEPATH_TEMPLATES, 6);
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	assertEquals(output, "");
+		}
+	    
+	    @Test
+		@DisplayName("errorChecking good entry for Template 7 ")
+		void errorCheckTemplate7GoodTest() {
+
+	    	String output = "";
+			try {
+				output = ExcelReader.errorChecking(7, FILEPATH_TEMPLATES, 7);
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	assertEquals(output, "");
+		}
+	    
+	    @Test
+		@DisplayName("errorChecking good entry for Template 8 ")
+		void errorCheckTemplate8GoodTest() {
+
+	    	String output = "";
+			try {
+				output = ExcelReader.errorChecking(8, FILEPATH_TEMPLATES, 8);
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	assertEquals(output, "");
+		}
+	    
+	    @Test
+		@DisplayName("errorChecking good entry for Template 9 ")
+		void errorCheckTemplate9GoodTest() {
+
+	    	String output = "";
+			try {
+				output = ExcelReader.errorChecking(9, FILEPATH_TEMPLATES, 9);
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	assertEquals(output, "");
+		}
+	    
+	    @Test
+		@DisplayName("errorChecking with empty mandatory column  ")
+		void errorCheckMandatoryColumnTest() {
+
+	    	String output = "";
+			try {
+				output = ExcelReader.errorChecking(3, FILEPATH_TEST_FILE, 2);
+			} catch (InvalidFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	assertEquals(output, "Error, Column 1 Row 3 does not contain an allowed value:  and expected: [FOSS/GCMS Client ID, Temporary Resident or Minister’s Permit Number, IMM5292, IMM5509, IMM1000 Number]\n");
+		}
+
+	    
 }

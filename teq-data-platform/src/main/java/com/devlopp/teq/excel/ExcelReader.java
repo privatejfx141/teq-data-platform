@@ -14,7 +14,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelReader {
-    public static String INFO_FILEPATH = "src\\main\\java\\com\\devlopp\\teq\\excel\\iCARE_Templates.xlsx";
+    public static String INFO_FILEPATH = "src/main/java/com/devlopp/teq/excel/iCARE_Templates.xlsx";
 
     /**
      * Returns an 2D array where index i is the row of input from row i
@@ -98,8 +98,8 @@ public class ExcelReader {
 
                         if (mandatoryColumns.contains(headerArray.get(cellNum)) && input.isEmpty()) {
                             noErrors = false;
-                             output =  output + "\n" + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
-                                    + " is mandatory, but is not filled in";
+                             output =  output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                                    + " is mandatory, but is not filled in \n";
                         } else if (allHeaders.contains(headerArray.get(cellNum)) == false
                                 && !(headerArray.get(cellNum).equals(""))) {
                             System.out.println(
@@ -108,9 +108,9 @@ public class ExcelReader {
                             cells.add(input);
                         }
                     } else {
-                    	 output =  output + "\n" + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                    	 output =  output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
                                 + " does not contain an allowed value: " + input + " and expected: "
-                                + map.get(headerArray.get(cellNum));
+                                + map.get(headerArray.get(cellNum)) + "\n";
                         noErrors = false;
                     }
                 }
@@ -236,13 +236,4 @@ public class ExcelReader {
         return map;
     }
 
-    public static void main(String[] args) throws InvalidFormatException, IOException {
-        // createAllowedValues();
-         System.out.println(errorChecking(2,
-         "src\\main\\java\\com\\devlopp\\teq\\excel\\iCARE_Templates.xlsx",
-         2) + "hi");
-        // getAllHeaders(2);
-        // parseForDB(2,
-        // "/cmshome/sarranch/Documents/Team14/teq-data-platform/src/main/java/com/devlopp/teq/inputCheck/New_iCARE_Template_Comb_with_Examples.xlsx");
-    }
 }
