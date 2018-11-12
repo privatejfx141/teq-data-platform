@@ -25,7 +25,7 @@ public class FieldParser {
         try {
             return readData.get(attribute).get(recordIndex);
         } catch (NullPointerException | IndexOutOfBoundsException e) {
-            return null;
+            return "";
         }
     }
 
@@ -49,7 +49,7 @@ public class FieldParser {
             int recordIndex) {
         if (readData.containsKey(attribute)) {
             String value = readData.get(attribute).get(recordIndex);
-            return value.toUpperCase().equals("YES");
+            return value.equalsIgnoreCase("Yes");
         }
         return false;
     }

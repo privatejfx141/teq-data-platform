@@ -9,5 +9,6 @@ VALUES
     ('Computer skills'),
     ('Document Use'),
     ('Interpersonal Skills and Workplace Culture'),
+    ('Life Skills'),
     ('Leadership Training'),
     ('Numeracy');

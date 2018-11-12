@@ -10,13 +10,13 @@ public class CourseExit extends Service {
 
     protected String reason;
 
-    protected int listeningLevel;
+    protected String listeningLevel;
 
-    protected int readingLevel;
+    protected String readingLevel;
 
-    protected int speakingLevel;
+    protected String speakingLevel;
 
-    protected int writingLevel;
+    protected String writingLevel;
 
     public String getCourseCode() {
         return courseCode;
@@ -30,19 +30,19 @@ public class CourseExit extends Service {
         return reason;
     }
 
-    public int getListeningLevel() {
+    public String getListeningLevel() {
         return listeningLevel;
     }
 
-    public int getReadingLevel() {
+    public String getReadingLevel() {
         return readingLevel;
     }
 
-    public int getSpeakingLevel() {
+    public String getSpeakingLevel() {
         return speakingLevel;
     }
 
-    public int getWritingLevel() {
+    public String getWritingLevel() {
         return writingLevel;
     }
 

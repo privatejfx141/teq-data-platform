@@ -122,10 +122,9 @@ public class OrientationParser extends ServiceParser {
                 .setTotalLength(FieldParser.getFieldString(allData, "TOTAL LENGTH OF ORIENTATION", i))
                 .setLengthHours(FieldParser.getFieldInt(allData, "TOTAL LENGTH OF ORIENTATION: HOURS", i))
                 .setLengthMinutes(FieldParser.getFieldInt(allData, "TOTAL LENGTH OF ORIENTATION: MINUTES", i))
-                .setNumberOfClients(FieldParser.getFieldInt(allData, "NUMBER OF CLIENTS IN GROUP", i))
+                .setNumberOfClients(FieldParser.getFieldString(allData, "NUMBER OF CLIENTS IN GROUP", i))
                 .setEndDate(FieldParser.getFieldString(allData, "END DATE OF SERVICE (YYYY-MM-DD)", i));
-            Object record = builder.create();
-            records.add(record);
+            records.add(builder.create());
         }
         return records;
     }

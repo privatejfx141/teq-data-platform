@@ -130,7 +130,7 @@ public class DatabaseInserter {
             }
             // insert all newcomer child care responses into database
             for (NewcomerChildCare childCare : service.getNewcomerChildCare()) {
-                insertServiceNewcomerChildCare(connection, childCare);
+                insertServiceNewcomerChildCare(connection, serviceId, childCare);
             }
         } catch (SQLException e) {
             throw new DatabaseInsertException();
@@ -178,16 +178,17 @@ public class DatabaseInserter {
      * returns the service ID if insertion was successful.
      * 
      * @param connection connection to the TEQ database
+     * @param serviceId
      * @param childCare  newcomer child care response to insert
      * @return record ID of the newcomer child care response
      * @throws DatabaseInsertException on failure of insert
      */
-    private static int insertServiceNewcomerChildCare(Connection connection, NewcomerChildCare childCare)
+    private static int insertServiceNewcomerChildCare(Connection connection, int serviceId, NewcomerChildCare childCare)
             throws DatabaseInsertException {
         String sql = "INSERT INTO NewcomerChildCare (service_id, age, care_type) " + "VALUES (?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, childCare.getServiceId());
+            statement.setInt(1, serviceId);
             statement.setString(2, childCare.getAge());
             statement.setString(3, childCare.getCareType());
             if (statement.executeUpdate() > 0) {
@@ -359,13 +360,13 @@ public class DatabaseInserter {
      */
     private static int insertAssessmentDetails(Connection connection, Assessment assessment)
             throws DatabaseInsertException {
-        int assessmentId = insertService(connection, assessment);
+        int serviceId = insertService(connection, assessment);
         String sql = "INSERT INTO Assessment (" + "service_id, start_date, language_skill_goal, other_skill_goal, "
                 + "intends_citizenship, req_support_service, plan_complete, end_date"
                 + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, assessment.getId());
+            statement.setInt(1, serviceId);
             statement.setDate(2, SQLDriver.parseDate(assessment.getStartDate()));
             statement.setString(3, assessment.getLanguageSkillGoal());
             statement.setString(4, assessment.getOtherSkillGoal());
@@ -382,7 +383,7 @@ public class DatabaseInserter {
         } catch (SQLException | ParseException e) {
             throw new DatabaseInsertException();
         }
-        return assessmentId;
+        return serviceId;
     }
 
     /**
@@ -480,8 +481,8 @@ public class DatabaseInserter {
             throws DatabaseInsertException {
         int communityId = insertService(connection, community);
         String sql = "INSERT INTO CommunityConnections ("
-                + "service_id, event_type, main_topic, service_recieved, participants, voluneers, status, "
-                + "reason_for_leave, start_date, end_date, projected_end_date, length_hours, length_mintues"
+                + "service_id, event_type, main_topic, service_recieved, participants, volunteers, status, "
+                + "reason_for_leave, start_date, end_date, projected_end_date, length_hours, length_minutes"
                 + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -489,7 +490,7 @@ public class DatabaseInserter {
             statement.setString(2, community.getEventType());
             statement.setString(3, community.getMainTopic());
             statement.setString(4, community.getServiceReceived());
-            statement.setInt(5, community.getParticipants());
+            statement.setString(5, community.getParticipants());
             statement.setBoolean(6, community.getHasVolunteers());
             statement.setString(7, community.getStatus());
             statement.setString(8, community.getReasonForLeave());
@@ -546,18 +547,18 @@ public class DatabaseInserter {
      */
     private static int insertOrientationDetails(Connection connection, Orientation orientation)
             throws DatabaseInsertException {
-        int orientationId = insertService(connection, orientation);
+        int serviceId = insertService(connection, orientation);
         String sql = "INSERT INTO Orientation ("
-                + "service_id, service_recieved, total_length, length_hours, length_minutes"
+                + "service_id, service_recieved, total_length, length_hours, length_minutes, "
                 + "number_of_clients, end_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, orientationId);
+            statement.setInt(1, serviceId);
             statement.setString(2, orientation.getServiceReceived());
             statement.setString(3, orientation.getTotalLength());
             statement.setInt(4, orientation.getLengthHours());
             statement.setInt(5, orientation.getLengthMinutes());
-            statement.setInt(6, orientation.getNumberOfClients());
+            statement.setString(6, orientation.getNumberOfClients());
             statement.setDate(7, SQLDriver.parseDate(orientation.getEndDate()));
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
@@ -624,15 +625,19 @@ public class DatabaseInserter {
             throws DatabaseInsertException {
         int serviceId = insertService(connection, employment);
         String sql = "INSERT INTO Employment ("
-                + "service_id, registration, referral_to, referral_date, employment_status, occupation_canada, "
-                + "occupation_intend, intervention_type, time_spent_hours, time_spent_minutes"
+                + "service_id, registration, referral_to, referral_date, employment_status, education_status, "
+                + "occupation_canada, occupation_intend, intervention_type, time_spent_hours, time_spent_minutes"
                 + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, serviceId);
             statement.setBoolean(2, employment.getRegistration());
             statement.setString(3, employment.getReferral());
-            statement.setDate(4, SQLDriver.parseDate(employment.getDate()));
+            if (employment.getDate().isEmpty()) {
+                statement.setNull(4, java.sql.Types.DATE);
+            } else {
+                statement.setDate(4, SQLDriver.parseDate(employment.getDate()));
+            }
             statement.setString(5, employment.getEmploymentStatus());
             statement.setString(6, employment.getEducationStatus());
             statement.setString(7, employment.getOccupationCanada());
@@ -666,8 +671,8 @@ public class DatabaseInserter {
             throws DatabaseInsertException {
         String sql = "INSERT INTO LongTermIntervention ("
                 + "employment_id, service_recieved, status, reason_for_leave, start_date, end_date, employer_size, "
-                + "placement_was, avg_hours_per_week, met_mentor_at, profession"
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "placement_was, avg_hours_per_week, met_mentor_at, hours_per_week, profession"
+                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, serviceId);
@@ -676,11 +681,11 @@ public class DatabaseInserter {
             statement.setString(4, lti.getReasonForLeave());
             statement.setDate(5, SQLDriver.parseDate(lti.getStartDate()));
             statement.setDate(6, SQLDriver.parseDate(lti.getEndDate()));
-            statement.setInt(7, lti.getEmployerSize());
+            statement.setString(7, lti.getEmployerSize());
             statement.setString(8, lti.getPlacement());
             statement.setString(9, lti.getAverageHoursPerWeek());
             statement.setString(10, lti.getMetMentorAt());
-            statement.setInt(11, lti.getHoursPerWeek());
+            statement.setString(11, lti.getHoursPerWeek());
             statement.setString(12, lti.getProfession());
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
@@ -768,10 +773,10 @@ public class DatabaseInserter {
             statement.setString(2, courseExit.getCourseCode());
             statement.setDate(3, SQLDriver.parseDate(courseExit.getExitDate()));
             statement.setString(4, courseExit.getReason());
-            statement.setInt(5, courseExit.getListeningLevel());
-            statement.setInt(6, courseExit.getReadingLevel());
-            statement.setInt(7, courseExit.getSpeakingLevel());
-            statement.setInt(8, courseExit.getWritingLevel());
+            statement.setString(5, courseExit.getListeningLevel());
+            statement.setString(6, courseExit.getReadingLevel());
+            statement.setString(7, courseExit.getSpeakingLevel());
+            statement.setString(8, courseExit.getWritingLevel());
             if (statement.executeUpdate() > 0) {
                 ResultSet uniqueKey = statement.getGeneratedKeys();
                 if (uniqueKey.next()) {
@@ -795,9 +800,11 @@ public class DatabaseInserter {
      */
     protected static String insertCourse(Connection connection, Course course) throws DatabaseInsertException {
         // insert into the course table
-        String courseCode = insertCourseDetails(connection, course);
+        String courseCode = course.getCourseCode();
+        insertCourseDetails(connection, course);
         // insert relationships
         try {
+            insertCourseContact(connection, courseCode, course.getContact());
             for (String schedule : course.getSchedules()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "Schedule", schedule);
                 insertCourseSchedule(connection, courseCode, typeId);
@@ -818,9 +825,9 @@ public class DatabaseInserter {
     }
 
     private static String insertCourseDetails(Connection connection, Course course) throws DatabaseInsertException {
-        String sql = "INSERT INTO Course (courseCode,notes,ongoingBasis,language,trainingFormat,"
-                + "classLocation,inpersonInstruct,onlineInstructnumberOfSpots,numberOfSpots,numberOfIRCC,"
-                + "enrollmentType,startDate,endDate,instructHours,weeklyHours,numWeeks,numWeeksPerYear,dominantFocus)"
+        String sql = "INSERT INTO Course (course_code, notes, ongoing_basis, language, training_format, classes_held_at, "
+                + "inperson_instruct, online_instruct, number_of_spots, number_of_ircc, enrollment_type, start_date, end_date, "
+                + "instruct_hours, hours_per_week, weeks, weeks_per_year, dominant_focus)"
                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -837,7 +844,7 @@ public class DatabaseInserter {
             statement.setString(11, course.getEnrollmentType());
             statement.setString(12, course.getStartDate());
             statement.setString(13, course.getEndDate());
-            statement.setInt(14, course.getInstructHours());
+            statement.setString(14, course.getInstructHours());
             statement.setInt(15, course.getWeeklyHours());
             statement.setInt(16, course.getNumWeeks());
             statement.setInt(17, course.getNumWeeksPerYear());
@@ -903,7 +910,7 @@ public class DatabaseInserter {
      */
     protected static int insertCourseSchedule(Connection connection, String courseCode, int scheduleId)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseSchedule(course_id,schedule_id) VALUES(?,?)";
+        String sql = "INSERT INTO CourseSchedule(course_code,schedule_id) VALUES(?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
@@ -931,7 +938,7 @@ public class DatabaseInserter {
      */
     protected static int insertCourseSupportService(Connection connection, String courseCode, int supportId)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseSupportService(course_id,support_service_id) VALUES(?,?)";
+        String sql = "INSERT INTO CourseSupportService(course_code,support_service_id) VALUES(?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
@@ -959,7 +966,7 @@ public class DatabaseInserter {
      */
     protected static int insertCourseTargetGroup(Connection connection, String courseCode, int groupId)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseTargetGroup(course_id,target_group_id) VALUES(?,?)";
+        String sql = "INSERT INTO CourseTargetGroup(course_code,target_group_id) VALUES(?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);

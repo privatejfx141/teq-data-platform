@@ -30,7 +30,7 @@ public class CommunityConnectionsBuilder extends ServiceBuilder implements IComm
     }
 
     @Override
-    public ICommunityConnectionsBuilder setParticipants(int participants) {
+    public ICommunityConnectionsBuilder setParticipants(String participants) {
         community.participants = participants;
         return this;
     }

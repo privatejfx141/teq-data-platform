@@ -10,7 +10,7 @@ public class Orientation extends Service {
     protected String totalLength;
     protected int lengthHours;
     protected int lengthMinutes;
-    protected int numberOfClients;
+    protected String numberOfClients;
     protected String endDate;
     protected Map<String, Boolean> topics = new HashMap<>();
 
@@ -30,7 +30,7 @@ public class Orientation extends Service {
         return lengthMinutes;
     }
 
-    public int getNumberOfClients() {
+    public String getNumberOfClients() {
         return numberOfClients;
     }
 

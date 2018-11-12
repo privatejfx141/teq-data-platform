@@ -31,25 +31,25 @@ public class CourseExitBuilder extends ServiceBuilder implements ICourseExitBuil
     }
 
     @Override
-    public ICourseExitBuilder setListeningLevel(int level) {
+    public ICourseExitBuilder setListeningLevel(String level) {
         courseExit.listeningLevel = level;
         return this;
     }
 
     @Override
-    public ICourseExitBuilder setReadingLevel(int level) {
+    public ICourseExitBuilder setReadingLevel(String level) {
         courseExit.readingLevel = level;
         return this;
     }
 
     @Override
-    public ICourseExitBuilder setSpeakingLevel(int level) {
+    public ICourseExitBuilder setSpeakingLevel(String level) {
         courseExit.speakingLevel = level;
         return this;
     }
 
     @Override
-    public ICourseExitBuilder setWritingLevel(int level) {
+    public ICourseExitBuilder setWritingLevel(String level) {
         courseExit.writingLevel = level;
         return this;
     }

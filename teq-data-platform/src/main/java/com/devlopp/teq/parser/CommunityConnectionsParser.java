@@ -87,12 +87,15 @@ public class CommunityConnectionsParser extends ServiceParser {
             ICommunityConnectionsBuilder builder = (ICommunityConnectionsBuilder) parseServiceData(
                     new CommunityConnectionsBuilder(), i);
             // add yes-no responses
-            builder.setEssentialSkills(parseEssentialSkills(i)).setTargetGroups(parseTargetGroups(i));
+            builder.setEssentialSkills(parseEssentialSkills(i))
+            .setSupportServices(parseSupportServices(i))
+            .setTargetGroups(parseTargetGroups(i))
+            .setChildCares(parseChildCares(i));
             // build main community connections
             builder.setEventType(FieldParser.getFieldString(allData, "TYPE OF EVENT ATTENDED", i))
                     .setMainTopic(FieldParser.getFieldString(allData, "MAIN TOPIC/FOCUS OF THE SERVICE RECEIVED", i))
                     .setServiceReceived(FieldParser.getFieldString(allData, "SERVICE RECEIVED", i))
-                    .setParticipants(FieldParser.getFieldInt(allData, "NUMBER OF UNIQUE PARTICIPANTS", i))
+                    .setParticipants(FieldParser.getFieldString(allData, "NUMBER OF UNIQUE PARTICIPANTS", i))
                     .setVolunteers(FieldParser.getFieldBoolean(allData,
                             "DID VOLUNTEERS FROM THE HOST COMMUNITY PARTICIPATE IN THE ACTIVITY", i))
                     .setStatus(FieldParser.getFieldString(allData, "STATUS OF SERVICE", i))

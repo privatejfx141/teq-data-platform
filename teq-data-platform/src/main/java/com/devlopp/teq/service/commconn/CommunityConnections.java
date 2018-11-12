@@ -6,7 +6,7 @@ public class CommunityConnections extends Service {
     protected String eventType;
     protected String mainTopic;
     protected String serviceReceived;
-    protected int participants;
+    protected String participants;
     protected boolean hasVolunteers;
     protected String reasonForLeave;
     protected String status;
@@ -28,7 +28,7 @@ public class CommunityConnections extends Service {
         return serviceReceived;
     }
 
-    public int getParticipants() {
+    public String getParticipants() {
         return participants;
     }
 

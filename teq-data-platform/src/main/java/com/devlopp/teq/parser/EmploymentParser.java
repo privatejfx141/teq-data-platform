@@ -94,9 +94,9 @@ public class EmploymentParser extends ServiceParser {
                 .setReasonForLeave(FieldParser.getFieldString(allData, "LONG TERM INTERVENTION: REASON FOR LEAVING INTERVENTION", recordIndex))
                 .setStartDate(FieldParser.getFieldString(allData, "LONG TERM INTERVENTION: START DATE (YYYY-MM-DD)", recordIndex))
                 .setEndDate(FieldParser.getFieldString(allData, "LONG TERM INTERVENTION: END DATE (YYYY-MM-DD)", recordIndex))
-                .setEmployerSize(FieldParser.getFieldInt(allData, "LONG TERM INTERVENTION: SIZE OF EMPLOYER", recordIndex))
+                .setEmployerSize(FieldParser.getFieldString(allData, "LONG TERM INTERVENTION: SIZE OF EMPLOYER", recordIndex))
                 .setPlacement(FieldParser.getFieldString(allData, "LONG TERM INTERVENTION: PLACEMENT WAS", recordIndex))
-                .setHoursPeerWeek(FieldParser.getFieldInt(allData, "LONG TERM INTERVENTION: HOURS PER WEEK", recordIndex))
+                .setHoursPeerWeek(FieldParser.getFieldString(allData, "LONG TERM INTERVENTION: HOURS PER WEEK", recordIndex))
                 .setMetMentorAt(FieldParser.getFieldString(allData, "LONG TERM INTERVENTION: CLIENT MET MENTOR REGULARLY AT", recordIndex))
                 .setAverageHoursPerWeek(FieldParser.getFieldString(allData, "LONG TERM INTERVENTION: AVERAGE HOURS/WEEK IN CONTACT WITH MENTOR", recordIndex))
                 .setProfession(FieldParser.getFieldString(allData, "LONG TERM INTERVENTION: PROFESSION/TRADE FOR WHICH SERVICES WERE RECEIVED", recordIndex));

@@ -37,6 +37,7 @@ public abstract class ServiceParser implements TemplateParser {
         } catch (InvalidFormatException | IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Reading completed!");
     }
 
     protected IServiceBuilder parseServiceData(IServiceBuilder builder, int recordIndex) {
@@ -161,12 +162,13 @@ public abstract class ServiceParser implements TemplateParser {
         List<NewcomerChildCare> childCares = new ArrayList<>();
         if (FieldParser.getFieldBoolean(allData, "CARE FOR NEWCOMER CHILDREN", recordIndex)) {
             for (int i = 1; i <= 5; i++) {
-                String ageField = String.format("CHILD %d: AGE", i);
-                String typeField = String.format("CHILD %d: TYPE OF CARE", i);
-                String ageValue = FieldParser.getFieldString(allData, ageField, i);
-                String typeValue = FieldParser.getFieldString(allData, typeField, i);
+                String ageField = "CHILD " + i + ": AGE";
+                String typeField = "CHILD " + i + ": TYPE OF CARE";
+                String ageValue = FieldParser.getFieldString(allData, ageField, recordIndex);
+                String typeValue = FieldParser.getFieldString(allData, typeField, recordIndex);
                 if (ageValue.isEmpty() || typeValue.isEmpty())
                     break;
+                
                 childCares.add(new NewcomerChildCare(i, ageValue, typeValue));
             }
         }
