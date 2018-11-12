@@ -17,7 +17,7 @@ public class Course {
     protected String enrollmentType;
     protected String startDate;
     protected String endDate;
-    protected int instructHours;
+    protected String instructHours;
     protected int weeklyHours;
     protected int numWeeks;
     protected int numWeeksPerYear;
@@ -80,7 +80,7 @@ public class Course {
         return endDate;
     }
 
-    public int getInstructHours() {
+    public String getInstructHours() {
         return instructHours;
     }
 

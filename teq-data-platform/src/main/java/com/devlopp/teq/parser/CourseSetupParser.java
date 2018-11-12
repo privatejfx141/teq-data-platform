@@ -265,7 +265,7 @@ public class CourseSetupParser implements TemplateParser {
                     .setEnrollmentType(FieldParser.getFieldString(allData, "NEW STUDENTS CAN ENROL IN THE COURSE", i))
                     .setStartDate(FieldParser.getFieldString(allData, "COURSE START DATE (YYYY-MM-DD)", i))
                     .setEndDate(FieldParser.getFieldString(allData, "COURSE END DATE (YYYY-MM-DD)", i))
-                    .setInstructHours(FieldParser.getFieldInt(allData, "INSTRUCTIONAL HOURS PER CLASS", i))
+                    .setInstructHours(FieldParser.getFieldString(allData, "INSTRUCTIONAL HOURS PER CLASS", i))
                     .setWeeklyHours(FieldParser.getFieldInt(allData, "CLASSES PER WEEK", i))
                     .setNumWeeks(FieldParser.getFieldInt(allData, "WEEKS OF INSTRUCTION", i))
                     .setNumWeeksPerYear(FieldParser.getFieldInt(allData, "WEEKS OF INSTRUCTION PER YEAR", i))

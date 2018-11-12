@@ -29,7 +29,7 @@ public interface ICourseBuilder {
 
     public ICourseBuilder setEndDate(String endDate);
 
-    public ICourseBuilder setInstructHours(int instructHours);
+    public ICourseBuilder setInstructHours(String instructHours);
 
     public ICourseBuilder setWeeklyHours(int weeklyHours);
 

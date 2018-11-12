@@ -178,7 +178,7 @@ public class DatabaseInserter {
      * returns the service ID if insertion was successful.
      * 
      * @param connection connection to the TEQ database
-     * @param serviceId 
+     * @param serviceId
      * @param childCare  newcomer child care response to insert
      * @return record ID of the newcomer child care response
      * @throws DatabaseInsertException on failure of insert
@@ -800,9 +800,11 @@ public class DatabaseInserter {
      */
     protected static String insertCourse(Connection connection, Course course) throws DatabaseInsertException {
         // insert into the course table
-        String courseCode = insertCourseDetails(connection, course);
+        String courseCode = course.getCourseCode();
+        insertCourseDetails(connection, course);
         // insert relationships
         try {
+            insertCourseContact(connection, courseCode, course.getContact());
             for (String schedule : course.getSchedules()) {
                 int typeId = DatabaseSelector.getTypeId(connection, "Schedule", schedule);
                 insertCourseSchedule(connection, courseCode, typeId);
@@ -823,9 +825,9 @@ public class DatabaseInserter {
     }
 
     private static String insertCourseDetails(Connection connection, Course course) throws DatabaseInsertException {
-        String sql = "INSERT INTO Course (courseCode,notes,ongoingBasis,language,trainingFormat,"
-                + "classLocation,inpersonInstruct,onlineInstructnumberOfSpots,numberOfSpots,numberOfIRCC,"
-                + "enrollmentType,startDate,endDate,instructHours,weeklyHours,numWeeks,numWeeksPerYear,dominantFocus)"
+        String sql = "INSERT INTO Course (course_code, notes, ongoing_basis, language, training_format, classes_held_at, "
+                + "inperson_instruct, online_instruct, number_of_spots, number_of_ircc, enrollment_type, start_date, end_date, "
+                + "instruct_hours, hours_per_week, weeks, weeks_per_year, dominant_focus)"
                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -842,7 +844,7 @@ public class DatabaseInserter {
             statement.setString(11, course.getEnrollmentType());
             statement.setString(12, course.getStartDate());
             statement.setString(13, course.getEndDate());
-            statement.setInt(14, course.getInstructHours());
+            statement.setString(14, course.getInstructHours());
             statement.setInt(15, course.getWeeklyHours());
             statement.setInt(16, course.getNumWeeks());
             statement.setInt(17, course.getNumWeeksPerYear());
@@ -908,7 +910,7 @@ public class DatabaseInserter {
      */
     protected static int insertCourseSchedule(Connection connection, String courseCode, int scheduleId)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseSchedule(course_id,schedule_id) VALUES(?,?)";
+        String sql = "INSERT INTO CourseSchedule(course_code,schedule_id) VALUES(?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
@@ -936,7 +938,7 @@ public class DatabaseInserter {
      */
     protected static int insertCourseSupportService(Connection connection, String courseCode, int supportId)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseSupportService(course_id,support_service_id) VALUES(?,?)";
+        String sql = "INSERT INTO CourseSupportService(course_code,support_service_id) VALUES(?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
@@ -964,7 +966,7 @@ public class DatabaseInserter {
      */
     protected static int insertCourseTargetGroup(Connection connection, String courseCode, int groupId)
             throws DatabaseInsertException {
-        String sql = "INSERT INTO CourseTargetGroup(course_id,target_group_id) VALUES(?,?)";
+        String sql = "INSERT INTO CourseTargetGroup(course_code,target_group_id) VALUES(?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, courseCode);
