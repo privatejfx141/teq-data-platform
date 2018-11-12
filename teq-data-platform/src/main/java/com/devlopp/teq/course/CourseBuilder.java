@@ -88,7 +88,7 @@ public class CourseBuilder implements ICourseBuilder {
     }
 
     @Override
-    public ICourseBuilder setInstructHours(int instructHours) {
+    public ICourseBuilder setInstructHours(String instructHours) {
         course.instructHours = instructHours;
         return this;
     }

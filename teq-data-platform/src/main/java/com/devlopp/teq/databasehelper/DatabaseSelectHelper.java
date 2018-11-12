@@ -482,7 +482,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                     .setEnrollmentType(results.getString("enrollment_type"))
                     .setStartDate(results.getDate("start_date").toString())
                     .setEndDate(results.getDate("end_date").toString())
-                    .setInstructHours(results.getInt("instruct_hours")).setWeeklyHours(results.getInt("hours_per_week"))
+                    .setInstructHours(results.getString("instruct_hours")).setWeeklyHours(results.getInt("hours_per_week"))
                     .setNumWeeks(results.getInt("weeks")).setNumWeeksPerYear(results.getInt("weeks_per_year"))
                     .setDominantFocus(results.getString("dominant_focus")).setCourseContact(contact).create();
             results = DatabaseSelector.getCourseSchedule(connection, courseCode);
