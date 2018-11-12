@@ -1,7 +1,8 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.orientation;
 
-public interface IOrientationBuilder {
-	
+import com.devlopp.teq.service.IServiceBuilder;
+
+public interface IOrientationBuilder extends IServiceBuilder {
     public IOrientationBuilder setServiceReceived(String serviceReceived);
 
     public IOrientationBuilder setTotalLength(String totalLength);
@@ -10,8 +11,9 @@ public interface IOrientationBuilder {
 
     public IOrientationBuilder setLengthMinutes(int lengthMinutes);
 
-    public IOrientationBuilder setNumberOfClients(int numberOfClients);
+    public IOrientationBuilder setNumberOfClients(String numberOfClients);
 
     public IOrientationBuilder setEndDate(String endDate);
-    
+
+    public Orientation create();
 }

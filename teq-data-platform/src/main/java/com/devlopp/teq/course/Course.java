@@ -1,5 +1,6 @@
 package com.devlopp.teq.course;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
@@ -21,9 +22,11 @@ public class Course {
     protected int numWeeks;
     protected int numWeeksPerYear;
     protected String dominantFocus;
-    protected List<String> schedules;
-    protected List<String> supportServices;
-    protected List<String> targetGroups;
+    protected List<String> schedules = new ArrayList<>();
+    protected List<String> supportServices = new ArrayList<>();
+    protected List<String> targetGroups = new ArrayList<>();
+    protected List<String> materials = new ArrayList<>();
+    protected CourseContact contact;
 
     public String getCourseCode() {
         return courseCode;
@@ -101,11 +104,35 @@ public class Course {
         return schedules;
     }
 
+    public void addSchedule(String schedule) {
+        schedules.add(schedule);
+    }
+
     public List<String> getSupportServices() {
         return supportServices;
     }
 
+    public void addSupportService(String supportService) {
+        schedules.add(supportService);
+    }
+
     public List<String> getTargetGroups() {
         return targetGroups;
+    }
+
+    public void addTargetGroup(String targetGroup) {
+        schedules.add(targetGroup);
+    }
+    
+    public List<String> getMaterials() {
+        return materials;
+    }
+
+    public void addMaterial(String material) {
+        materials.add(material);
+    }
+
+    public CourseContact getContact() {
+        return contact;
     }
 }

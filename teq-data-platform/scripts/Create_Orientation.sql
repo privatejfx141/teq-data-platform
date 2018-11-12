@@ -4,7 +4,7 @@ CREATE TABLE Orientation (
     total_length        VARCHAR(32),
     length_hours        INTEGER,
     length_minutes      INTEGER,
-    number_of_clients   INTEGER,
+    number_of_clients   VARCHAR(32),
     end_date            DATE
 );
 

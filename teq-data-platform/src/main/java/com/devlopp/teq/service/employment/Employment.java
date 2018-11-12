@@ -1,15 +1,24 @@
-package com.devlopp.teq.service;
+package com.devlopp.teq.service.employment;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.devlopp.teq.service.Service;
 
 public class Employment extends Service {
     protected boolean registration;
     protected String referral;
     protected String date;
     protected String employmentStatus;
+    protected String educationStatus;
     protected String occupationCanada;
     protected String occupationIntended;
-    protected char interventionType;
+    protected String interventionType;
     protected int timeSpentHours;
     protected int timeSpentMinutes;
+
+    protected LongTermIntervention lti;
+    protected List<ShortTermIntervention> sti = new ArrayList<>();
 
     public boolean getRegistration() {
         return registration;
@@ -27,6 +36,10 @@ public class Employment extends Service {
         return employmentStatus;
     }
 
+    public String getEducationStatus() {
+        return educationStatus;
+    }
+
     public String getOccupationCanada() {
         return occupationCanada;
     }
@@ -35,7 +48,7 @@ public class Employment extends Service {
         return occupationIntended;
     }
 
-    public char getInterventionType() {
+    public String getInterventionType() {
         return interventionType;
     }
 
@@ -46,4 +59,17 @@ public class Employment extends Service {
     public int getTimeSpentMinutes() {
         return timeSpentMinutes;
     }
+
+    public LongTermIntervention getLongTermIntervention() {
+        return lti;
+    }
+
+    public List<ShortTermIntervention> getShortTermIntervention() {
+        return sti;
+    }
+
+    public void addShortTermIntervention(ShortTermIntervention intervention) {
+        sti.add(intervention);
+    }
+
 }

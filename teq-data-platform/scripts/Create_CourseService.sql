@@ -10,9 +10,9 @@ CREATE TABLE CourseExit (
     course_code         CHAR(16) NOT NULL REFERENCES Course(course_code),
     exit_date           DATE,
     reason              VARCHAR(32),
-    listening_level     INTEGER,
-    reading_level       INTEGER,
-    speaking_level      INTEGER,
-    writing_level       INTEGER,
+    listening_level     VARCHAR(16),
+    reading_level       VARCHAR(16),
+    speaking_level      VARCHAR(16),
+    writing_level       VARCHAR(16),
     PRIMARY KEY(service_id, course_code)
 );

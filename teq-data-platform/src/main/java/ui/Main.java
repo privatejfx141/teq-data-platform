@@ -1,5 +1,7 @@
 package ui;
 
+import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +12,11 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     public static void main(String[] args) {
+        boolean dbExists = DatabaseDriverHelper.databaseExists();
+        System.out.println("Database exists: " + dbExists);
+        if (!dbExists) {
+            DatabaseDriverHelper.initializeDatabase();
+        }
         launch(args);
     }
 
@@ -18,7 +25,7 @@ public class Main extends Application {
         Parent root = FXMLLoader
                 .load(getClass().getResource("/fxml/home.fxml"));
         primaryStage.setTitle("TEQ data platform");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 360, 275));
         primaryStage.show();
     }
 }

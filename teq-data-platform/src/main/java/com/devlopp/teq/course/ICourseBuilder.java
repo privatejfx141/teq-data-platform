@@ -1,5 +1,7 @@
 package com.devlopp.teq.course;
 
+import java.util.List;
+
 public interface ICourseBuilder {
     public ICourseBuilder setCourseCode(String courseCode);
 
@@ -36,6 +38,16 @@ public interface ICourseBuilder {
     public ICourseBuilder setNumWeeksPerYear(int numWeeksPerYear);
 
     public ICourseBuilder setDominantFocus(String dominantFocus);
+    
+    public ICourseBuilder setCourseContact(CourseContact contact);
+    
+    public ICourseBuilder setSchedules(List<String> schedules);
+    
+    public ICourseBuilder setSupportServices(List<String> supportServices);
+    
+    public ICourseBuilder setTargetGroups(List<String> targetGroups);
+    
+    public ICourseBuilder setMaterials(List<String> materials);
     
     public Course create();
 }
