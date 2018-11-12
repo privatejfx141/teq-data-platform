@@ -69,8 +69,7 @@ public class U1DatabaseUnitTest {
                 .setEmailAddress("ash@gmail.com")
                 .setAddress(address)
                 .setLanguage("English")
-                .setConsent(ExcelDriver.parseYesNo("Yes"))
-                .setAddressId(addressId)
+                .setConsent(ExcelDriver.parseYesNo("Yes"))           
                 .create();
         //System.out.println(client);
         return client;

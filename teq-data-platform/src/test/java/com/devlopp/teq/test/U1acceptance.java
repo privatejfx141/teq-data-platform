@@ -23,7 +23,7 @@ public class U1acceptance {
 	            DatabaseDriverHelper.initializeDatabase();
 	        }
 
-	        List<Client> clients = ExcelDriver.readClientProfile(filePath);
+	        List<Client> clients = ExcelDriver.readClientProfile(filePath,0);
 	        for (Client client : clients) {
 	            
 	            // insert address first
@@ -32,7 +32,6 @@ public class U1acceptance {
 	            System.out.println("New address ID at: " + addressId);
 	            
 	            // insert client next
-	            client.setAddressId(addressId);
 	            int clientId = DatabaseInsertHelper.insertClient(client);
 	            System.out.println("New client ID at: " + clientId);
 	            
