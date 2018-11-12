@@ -36,5 +36,4 @@ and execution. The folder `teq-data-platform` contains the code we have written
 for this project.
 
 ## Deliverable 4
-Our code review video for deliverable 4 is uploaded here: [CSCC01 Fall 2018 - Team 14 Code Review](https://www.youtube.com/watch?v=Iw1jfMi9qr8)
-Our code review strategy and summary for deliverable 4 is in folder `d4`
+Our code review video for deliverable 4 is uploaded here: [CSCC01 Fall 2018 - Team 14 Code Review](https://www.youtube.com/watch?v=Iw1jfMi9qr8). Our code review strategy and summary for deliverable 4 is in the folder `d4`.
