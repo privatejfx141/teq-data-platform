@@ -24,3 +24,17 @@
 * Break up user story 2 into tasks
 * Assign tasks and make plan for sprint 2
 * Log execution of sprint 1
+
+# Meeting 5 `2018-10-28`
+* Modified scope of user stories.
+* Assign tasks and make plan for sprint 3
+
+# Meeting 6 `2018-11-07`
+* Assign tasks and make plan for sprint 4
+* Code review: discussed how to improve to current code base, refactor to better fit SOLID design
+* Recorded code review video for deliverable 4
+
+# Meeting 7 `2018-11-14`
+* Explain how the back-end code currently connects to the UI
+* Think about reallocating tasks and roles since Anton dropped out
+* Assign tasks and make plan for sprint 5
