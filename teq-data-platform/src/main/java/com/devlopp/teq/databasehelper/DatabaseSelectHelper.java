@@ -20,7 +20,6 @@ import com.devlopp.teq.service.orientation.*;
 import com.devlopp.teq.service.courseenroll.*;
 import com.devlopp.teq.service.courseexit.*;
 
-
 public class DatabaseSelectHelper extends DatabaseSelector {
     public static List<String> getAllTypes(String tableName) {
         List<String> list = new ArrayList<>();
@@ -105,6 +104,13 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return client;
     }
 
+    /**
+     * Connects to the database, obtains and returns the list of IDs of service that
+     * the client of ID clientId took. Returns <code>null</code> if clientId is invalid.
+     * 
+     * @param clientId ID of the client record
+     * @return list of IDs of the services that the client took
+     */
     public static List<Integer> getClientServices(int clientId) {
         List<Integer> services = new ArrayList<>();
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
@@ -118,7 +124,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return services;
     }
-    
+
     /**
      * Connects to database, obtains and returns an address with ID number addressId
      * from the Address table. Returns <code>null</code> if addressId is invalid.
@@ -444,7 +450,8 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             exit = builder.setCourseCode(results.getString("course_code"))
                     .setExitDate(results.getDate("exit_date").toString()).setReason(results.getString("reason"))
                     .setListeningLevel(results.getString("listening_level"))
-                    .setReadingLevel(results.getString("reading_level")).setSpeakingLevel(results.getString("speaking_level"))
+                    .setReadingLevel(results.getString("reading_level"))
+                    .setSpeakingLevel(results.getString("speaking_level"))
                     .setWritingLevel(results.getString("writing_level")).create();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -482,8 +489,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                     .setEnrollmentType(results.getString("enrollment_type"))
                     .setStartDate(results.getDate("start_date").toString())
                     .setEndDate(results.getDate("end_date").toString())
-                    .setInstructHours(results.getString("instruct_hours")).setWeeklyHours(results.getInt("hours_per_week"))
-                    .setNumWeeks(results.getInt("weeks")).setNumWeeksPerYear(results.getInt("weeks_per_year"))
+                    .setInstructHours(results.getString("instruct_hours"))
+                    .setWeeklyHours(results.getInt("hours_per_week")).setNumWeeks(results.getInt("weeks"))
+                    .setNumWeeksPerYear(results.getInt("weeks_per_year"))
                     .setDominantFocus(results.getString("dominant_focus")).setCourseContact(contact).create();
             results = DatabaseSelector.getCourseSchedule(connection, courseCode);
             while (results.next()) {
@@ -503,13 +511,16 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return course;
     }
-   /**
-     * Connects to database, obtains and returns a CourseEnroll with PKs serviceId and courseCode
-     * from the CourseEnroll table. Returns <code>null</code> if serviceId/courseCode is invalid.
+
+    /**
+     * Connects to database, obtains and returns a CourseEnroll with PKs serviceId
+     * and courseCode from the CourseEnroll table. Returns <code>null</code> if
+     * serviceId/courseCode is invalid.
      * 
      * @param courseCode unique course code of the course
      * @param serviceId  unique ID of the service
-     * @return courseEnroll with the ID number addressId, <code>null</code> if invalid
+     * @return courseEnroll with the ID number addressId, <code>null</code> if
+     *         invalid
      */
     public static CourseEnroll getCourseEnroll(int serviceId, String courseCode) {
         CourseEnroll courseEnroll = null;
@@ -531,9 +542,10 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return courseEnroll;
     }
 
-     /**
-     * Connects to database, obtains and returns a CourseExit with PKs serviceId and courseCode
-     * from the CourseEnroll table. Returns <code>null</code> if serviceId/courseCode is invalid.
+    /**
+     * Connects to database, obtains and returns a CourseExit with PKs serviceId and
+     * courseCode from the CourseEnroll table. Returns <code>null</code> if
+     * serviceId/courseCode is invalid.
      * 
      * @param courseCode unique course code of the course
      * @param serviceId  unique ID of the service
@@ -545,8 +557,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             ResultSet results = DatabaseSelector.getCourseExit(connection, serviceId, courseCode);
             courseExit = new CourseExitBuilder().setCourseCode(results.getString("course_code"))
-                    .setExitDate(results.getDate("exit_date").toString())
-                    .setReason(results.getString("reason"))
+                    .setExitDate(results.getDate("exit_date").toString()).setReason(results.getString("reason"))
                     .setListeningLevel(results.getString("listening_level"))
                     .setReadingLevel(results.getString("reading_level"))
                     .setSpeakingLevel(results.getString("speaking_level"))
