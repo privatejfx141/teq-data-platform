@@ -26,6 +26,44 @@ import com.devlopp.teq.service.orientation.Orientation;
 import com.devlopp.teq.sql.SQLDriver;
 
 public class DatabaseInserter {
+
+    protected static int insertNewUser(Connection connection, String username, String password, int roleId)
+            throws DatabaseInsertException {
+        String sql = "INSERT INTO User (username, password, role_id) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            statement.setInt(3, roleId);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+    
+    protected static int insertNewUserRole(Connection connection, String roleName) throws DatabaseInsertException {
+        String sql = "INSERT INTO UserRole (name) VALUES (?)";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, roleName);
+            if (statement.executeUpdate() > 0) {
+                ResultSet uniqueKey = statement.getGeneratedKeys();
+                if (uniqueKey.next()) {
+                    return uniqueKey.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new DatabaseInsertException();
+    }
+
     /**
      * Inserts a client (and its address) into the TEQ database and returns the
      * client ID if insertion was successful.

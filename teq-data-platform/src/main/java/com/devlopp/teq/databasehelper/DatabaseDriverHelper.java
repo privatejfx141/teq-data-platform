@@ -10,6 +10,10 @@ public class DatabaseDriverHelper extends DatabaseDriver {
         return DatabaseDriver.connectOrCreateDatabase();
     }
     
+    protected static Connection connectOrCreateDatabase(String dbName) {
+        return DatabaseDriver.connectOrCreateDatabase(dbName);
+    }
+    
     public static void initializeDatabase() {
         DatabaseDriver.initializeDatabase();
     }
