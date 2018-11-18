@@ -126,6 +126,15 @@ public class PresetQueryTest {
     }
     
     @Test
+    @DisplayName("test count number of clients for a service")
+    void testClientCount() throws SQLException {
+        cleanDb();
+        int serviceId = createService();
+        int numClients = DatabasePresetQueryHelper.getNumberOfClients(serviceId);
+        assertEquals(numClients, 1);
+    }
+    
+    @Test
     @DisplayName("test get birth date of client")
     void testClientBirthdate() throws SQLException {
         cleanDb();
