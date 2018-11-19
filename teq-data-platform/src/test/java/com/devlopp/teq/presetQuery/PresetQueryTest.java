@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -308,6 +310,27 @@ public class PresetQueryTest {
         List<java.sql.Date> list = DatabasePresetQueryHelper.getListOfEndDates("CommunityConnections");
         assertEquals("2017-05-24", list.get(0).toString());
         assertEquals("2018-07-24", list.get(1).toString());
+    }
+    
+    @Test
+    @DisplayName("test gets the number of users that have used a service within the date")
+    void testNumberOfUsersWithinDate() throws SQLException, ParseException {
+        cleanDb();
+        createClient();
+        //create service object with test values for start and end date
+        createServiceObject("1980-03-27", "2017-05-19"); //within range
+        createServiceObject("2014-04-15", "2018-07-28"); //within range
+        createServiceObject("2012-04-15", "2013-03-12"); //not in range
+        createServiceObject("2019-04-15", "2020-02-05"); //not in range
+
+        //created Date objects for the range to be checked
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+        Date startDate = sdf.parse("2014-05-08");
+        Date endDate = sdf.parse("2018-12-23");
+        
+        int numberOfUsers = DatabasePresetQueryHelper.getNumOfUsersWithinRange("CommunityConnections", 
+        		startDate, endDate);
+        assertEquals(numberOfUsers, 2);
     }
 
 

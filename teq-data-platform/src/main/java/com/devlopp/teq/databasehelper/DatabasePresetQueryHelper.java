@@ -74,7 +74,7 @@ public class DatabasePresetQueryHelper {
      * Connects to the TEQ database and gets the age for a specific client
      * Returns the number of clients
      * 
-     * @param clientId id of the service
+     * @param birthDate Date object representing birthday must be in form YYYY-MM-DD
      * @return the age of the client
      * @throws SQLException on failure of selection
      */
@@ -293,15 +293,28 @@ public class DatabasePresetQueryHelper {
      * Connects to the TEQ database and returns the number of users that have used a service within the
      * start date and end date
      * 
-     * @param serviceType type of service queried\
-     * @param startDate date where usage started
+     * @param serviceType type of service queried
+     * @param startDate date where usage started must be in format "YYYY-MM-DD"
      * @return list of start dates for a service
      * @throws SQLException on failure of selection
      */
-    public static int getNumOfUsersWithinRange(String serviceType, String startDate, String endDate) throws SQLException {
-        int numberOfUsers = 0;
+    public static int getNumOfUsersWithinRange(String serviceType, java.util.Date startDate, java.util.Date endDate) throws SQLException {
+        
+    	int numberOfUsers = 0;
         List<Date> listStartDate = getListOfStartDates(serviceType);
         List<Date> listEndDate = getListOfEndDates(serviceType);
+        int count = 0;
+        while(count < listStartDate.size()) {
+        	if (!(listStartDate.get(count).before(startDate) || listStartDate.get(count).after(endDate))) {
+        		numberOfUsers++;
+        	} else if (!(listEndDate.get(count).before(startDate) || listEndDate.get(count).after(endDate))) {
+        		numberOfUsers++;
+        	}
+        	
+            count ++;
+        	
+        }
+   
         return numberOfUsers;
     }
     
