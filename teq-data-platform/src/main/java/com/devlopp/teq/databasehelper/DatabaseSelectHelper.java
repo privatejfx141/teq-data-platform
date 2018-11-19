@@ -21,6 +21,115 @@ import com.devlopp.teq.service.courseenroll.*;
 import com.devlopp.teq.service.courseexit.*;
 
 public class DatabaseSelectHelper extends DatabaseSelector {
+
+    /**
+     * Returns a list of IDs of all clients stored in the TEQ database.
+     * 
+     * @return list of all client IDs
+     */
+    public static List<Integer> getAllClientIds() {
+        List<Integer> clientIds = new ArrayList<>();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getAllClientIds(connection);
+            while (results.next()) {
+                clientIds.add(results.getInt("id"));
+            }
+        } catch (SQLException e) {
+            clientIds.clear();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return clientIds;
+    }
+
+    /**
+     * Returns a list of course codes of all courses stored in the TEQ database.
+     * 
+     * @return list of all course codes
+     */
+    public static List<String> getAllCourseCodes() {
+        List<String> courseCodes = new ArrayList<>();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getAllCourseCodes(connection);
+            while (results.next()) {
+                courseCodes.add(results.getString("course_code"));
+            }
+        } catch (SQLException e) {
+            courseCodes.clear();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return courseCodes;
+    }
+
+    /**
+     * Returns a list of IDs of all services stored in the TEQ database.
+     * 
+     * @return list of all service IDs
+     */
+    public static List<Integer> getAllServiceIds() {
+        List<Integer> serviceIds = new ArrayList<>();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getAllServiceIds(connection);
+            while (results.next()) {
+                serviceIds.add(results.getInt("id"));
+            }
+        } catch (SQLException e) {
+            serviceIds.clear();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return serviceIds;
+    }
+
+    /**
+     * Returns the character signifying the type of service with ID serviceId.
+     * One of the six characters are returned:
+     *  "A" - Needs Assessment & Referrals
+     *  "C" - Community Connections
+     *  "O" - Information & Orientation
+     *  "E" - Employment
+     *  "N" - LT Course Enroll
+     *  "X" - LT Course Exit
+     * 
+     * @param serviceId the ID of the service
+     * @return character of the type of service
+     */
+    public static String getServiceType(int serviceId) {
+        String serviceType = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getServiceType(connection, serviceId);
+            while (results.next()) {
+                serviceType = results.getString("service_type");
+            }
+        } catch (SQLException e) {
+            serviceType = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return serviceType;
+    }
+
     public static List<String> getAllTypes(String tableName) {
         List<String> list = new ArrayList<>();
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
@@ -106,7 +215,8 @@ public class DatabaseSelectHelper extends DatabaseSelector {
 
     /**
      * Connects to the database, obtains and returns the list of IDs of service that
-     * the client of ID clientId took. Returns <code>null</code> if clientId is invalid.
+     * the client of ID clientId took. Returns <code>null</code> if clientId is
+     * invalid.
      * 
      * @param clientId ID of the client record
      * @return list of IDs of the services that the client took
@@ -574,4 +684,5 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return courseExit;
     }
+
 }
