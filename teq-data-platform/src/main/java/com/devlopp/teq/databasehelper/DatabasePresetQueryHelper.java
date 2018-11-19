@@ -189,6 +189,121 @@ public class DatabasePresetQueryHelper {
         return percentageOfClients;
     }
     
+    /**
+     * Connects to the TEQ database and returns the start date and end date of a service
+     * Returns the start date of service
+     * 
+     * @param serviceId id of the service
+     * @param serviceType type of service queried
+     * @return a Date object representing the start date
+     * @throws SQLException on failure of selection
+     */
+    public static Date getServiceStartDate(int serviceId, String serviceType) throws SQLException {
+    	Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT start_date FROM " + serviceType + " WHERE service_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1,  serviceId);
+            ResultSet result = statement.executeQuery();
+            Date startDate;
+            while(result.next()) {
+            	startDate = result.getDate(1);
+            	return startDate;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new SQLException();
+    }
+    
+    /**
+     * Connects to the TEQ database and returns the end date and end date of a service
+     * Returns the start date of service
+     * 
+     * @param serviceId id of the service
+     * @param serviceType type of service queried
+     * @return a Date object representing the start date
+     * @throws SQLException on failure of selection
+     */
+    public static Date getServiceEndDate(int serviceId, String serviceType) throws SQLException {
+    	Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT end_date FROM " + serviceType + " WHERE service_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1,  serviceId);
+            ResultSet result = statement.executeQuery();
+            Date endDate;
+            while(result.next()) {
+            	endDate = result.getDate(1);
+            	return endDate;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new SQLException();
+    }
+    
+    /**
+     * Connects to the TEQ database and returns a list of the start date for a service
+     * 
+     * @param serviceType type of service queried
+     * @return list of start dates for a service
+     * @throws SQLException on failure of selection
+     */
+    public static List<Date> getListOfStartDates(String serviceType) throws SQLException {
+    	Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT start_date FROM " + serviceType;
+        List<Date> listStartDate = new ArrayList<Date>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+            	listStartDate.add(result.getDate(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listStartDate;
+    }
+    
+    /**
+     * Connects to the TEQ database and returns a list of the end date for a service
+     * 
+     * @param serviceType type of service queried
+     * @return list of end dates for a service
+     * @throws SQLException on failure of selection
+     */
+    public static List<Date> getListOfEndDates(String serviceType) throws SQLException {
+    	Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT end_date FROM " + serviceType;
+        List<Date> listEndDate = new ArrayList<Date>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+            	listEndDate.add(result.getDate(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listEndDate;
+    }
+    
+    /**
+     * Connects to the TEQ database and returns the number of users that have used a service within the
+     * start date and end date
+     * 
+     * @param serviceType type of service queried\
+     * @param startDate date where usage started
+     * @return list of start dates for a service
+     * @throws SQLException on failure of selection
+     */
+    public static int getNumOfUsersWithinRange(String serviceType, String startDate, String endDate) throws SQLException {
+        int numberOfUsers = 0;
+        List<Date> listStartDate = getListOfStartDates(serviceType);
+        List<Date> listEndDate = getListOfEndDates(serviceType);
+        return numberOfUsers;
+    }
     
 
 }

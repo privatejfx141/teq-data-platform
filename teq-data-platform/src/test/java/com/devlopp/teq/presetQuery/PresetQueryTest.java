@@ -125,6 +125,29 @@ public class PresetQueryTest {
         return serviceId;
     }
     
+    static int createServiceObject(String startDate, String endDate) {
+    	// insert client to db with address
+        int clientId = createClient();  
+        
+    	// community connections object
+        List<String> tempList = new ArrayList<String>();
+        List<NewcomerChildCare> tempList2 = new ArrayList<NewcomerChildCare>();
+        ICommunityConnectionsBuilder communityConnectionsBuilder = new CommunityConnectionsBuilder();
+        CommunityConnections communityConnections = (CommunityConnections) communityConnectionsBuilder.setEventType("Neighbourhood day")
+        		.setMainTopic("Access to local community services").setServiceReceived("One-on-one orientation").setParticipants("10 - 20 people")
+        		.setVolunteers(true).setReasonForLeave("Found employment").setStatus("Ongoing").setStartDate(startDate)
+        		.setEndDate(endDate).setProjectedEndDate("2018-02-12").setLengthHours(23).setLengthMinutes(32)
+        		.setClientId(clientId).setPostalCode("M1C 1A4").setLanguage("ENG").setOrganizationType("Public library")
+        		.setReferredBy("Employer / co-worker").setUpdateReason("Amend record").setServiceType("Public library")
+        		.setEssentialSkills(tempList).setSupportServices(tempList).setTargetGroups(tempList)
+        		.setChildCares(tempList2).create();
+        
+        // insert service object to db
+        int serviceId = DatabaseInsertHelper.insertCommunityConnections(communityConnections);
+        return serviceId;
+    }
+    
+    
     @Test
     @DisplayName("test count number of clients for a service")
     void testClientCount() throws SQLException {
@@ -224,16 +247,68 @@ public class PresetQueryTest {
     @Test
     @DisplayName("test get percentage of clients within an age range")
     void testPercentageOfClientsWithinAgeRange() throws SQLException {
+    	//instantiate database
         cleanDb();
         createClient();
         createManyClients();
+        //try different age ranges
         String percentageWithinRange = DatabasePresetQueryHelper
         		.getPercentageOfClientsWithinAgeRange(32, 53);
         assertEquals(percentageWithinRange, "50.0%");
         String percentageWithinRange2 = DatabasePresetQueryHelper
         		.getPercentageOfClientsWithinAgeRange(32, 54);
         assertEquals(percentageWithinRange2, "75.0%");
-        
     }
+    
+
+    @Test
+    @DisplayName("test get start date and end date of a service")
+    void testNumberOfUsersForAService() throws SQLException {
+        cleanDb();
+        createClient();
+        //create service object with test values for start and end date
+        int service_id1 = createServiceObject("1980-03-27", "2017-05-24");
+        int service_id2 = createServiceObject("2014-04-15", "2018-07-24");
+        //get start and end date of service
+        Date startDateS1 = DatabasePresetQueryHelper.getServiceStartDate(service_id1, "CommunityConnections");
+        Date startDateS2 = DatabasePresetQueryHelper.getServiceStartDate(service_id2, "CommunityConnections");
+        Date endDateS1 = DatabasePresetQueryHelper.getServiceEndDate(service_id1, "CommunityConnections");
+        Date endDateS2 = DatabasePresetQueryHelper.getServiceEndDate(service_id2, "CommunityConnections");
+        assertEquals(startDateS1.toString() + " to " + endDateS1.toString(),
+        		"1980-03-27 to 2017-05-24" );
+        assertEquals(startDateS2.toString() + " to " + endDateS2.toString(),
+        		"2014-04-15 to 2018-07-24" );
+    }
+    
+    @Test
+    @DisplayName("test gets a list of start dates for a service")
+    void testListOfStartDates() throws SQLException {
+        cleanDb();
+        createClient();
+        //create service object with test values for start and end date
+        createServiceObject("1980-03-27", "2017-05-24");
+        createServiceObject("2014-04-15", "2018-07-24");
+
+        //test whether a list of start dates is returned for a service type
+        List<java.sql.Date> list = DatabasePresetQueryHelper.getListOfStartDates("CommunityConnections");
+        assertEquals("1980-03-27", list.get(0).toString());
+        assertEquals("2014-04-15", list.get(1).toString());
+    }
+    
+    @Test
+    @DisplayName("test gets a list of end dates for a service")
+    void testListOfEndDates() throws SQLException {
+        cleanDb();
+        createClient();
+        //create service object with test values for start and end date
+        createServiceObject("1980-03-27", "2017-05-24");
+        createServiceObject("2014-04-15", "2018-07-24");
+
+        //test whether a list of start dates is returned for a service type
+        List<java.sql.Date> list = DatabasePresetQueryHelper.getListOfEndDates("CommunityConnections");
+        assertEquals("2017-05-24", list.get(0).toString());
+        assertEquals("2018-07-24", list.get(1).toString());
+    }
+
 
 }
