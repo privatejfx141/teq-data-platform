@@ -38,3 +38,9 @@
 * Explain how the back-end code currently connects to the UI
 * Think about reallocating tasks and roles since Anton dropped out
 * Assign tasks and make plan for sprint 5
+
+# Meeting 9 `2018-11-21`
+* Assigned code review tasks
+* Discussed how we want to create the reports
+* Assign tasks and make plan for sprint 6
+
