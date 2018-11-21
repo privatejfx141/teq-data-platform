@@ -6,6 +6,32 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseSelector {
+
+    protected static ResultSet getAllClientIds(Connection connection) throws SQLException {
+        String sql = "SELECT DISTINCT id FROM Client";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        return statement.executeQuery();
+    }
+
+    protected static ResultSet getAllCourseCodes(Connection connection) throws SQLException {
+        String sql = "SELECT DISTINCT course_code FROM Course";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        return statement.executeQuery();
+    }
+
+    protected static ResultSet getAllServiceIds(Connection connection) throws SQLException {
+        String sql = "SELECT DISTINCT id FROM Service";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        return statement.executeQuery();
+    }
+
+    protected static ResultSet getServiceType(Connection connection, int serviceId) throws SQLException {
+        String sql = "SELECT service_type FROM Service WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, serviceId);
+        return statement.executeQuery();
+    }
+
     protected static ResultSet getAllTypes(Connection connection, String tableName) throws SQLException {
         String sql = "SELECT * FROM " + tableName;
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -33,7 +59,7 @@ public class DatabaseSelector {
     }
 
     protected static ResultSet getClientServices(Connection connection, int clientId) throws SQLException {
-        String sql = "SELECT service_id FROM Service WHERE client_id = ?";
+        String sql = "SELECT id FROM Service WHERE client_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setInt(1, clientId);
         return preparedStatement.executeQuery();
