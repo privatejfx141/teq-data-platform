@@ -20,6 +20,26 @@ import com.devlopp.teq.service.orientation.*;
 
 public class DatabaseSelectHelper extends DatabaseSelector {
 
+    public static int getPlatformRoleId(String roleName) {
+        int roleId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformRoleId(connection, roleName);
+            while (results.next()) {
+                roleId = results.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return roleId;
+    }
+
     public static int getPlatformUserId(String username) {
         int userId = DatabaseValidHelper.INVALID_ID;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
@@ -58,6 +78,26 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             }
         }
         return roleId;
+    }
+
+    public static String getPlatformUsername(int userId) {
+        String username = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformUsername(connection, userId);
+            while (results.next()) {
+                username = results.getString("username");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return username;
     }
 
     public static String getPlatformPassword(int userId) {

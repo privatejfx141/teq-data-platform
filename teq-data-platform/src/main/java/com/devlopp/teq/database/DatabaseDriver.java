@@ -9,7 +9,8 @@ import com.devlopp.teq.generics.Roles;
 import com.devlopp.teq.sql.SQLDriver;
 
 public class DatabaseDriver {
-    public static final String DB_NAME = "teq.db";
+
+    protected static String DB_NAME = "teq.db";
 
     protected static Connection connectOrCreateDatabase(String dbName) {
         Connection connection = null;
@@ -94,14 +95,14 @@ public class DatabaseDriver {
     protected static boolean databaseExists() {
         return databaseExists(DB_NAME);
     }
-    
-    protected static void deleteDatabase(String dbName) {
+
+    protected static boolean deleteDatabase(String dbName) {
         File dbFile = new File(dbName);
-        dbFile.delete();
+        return dbFile.delete();
     }
-    
-    protected static void deleteDatabase() {
-        deleteDatabase(DB_NAME);
+
+    protected static boolean deleteDatabase() {
+        return deleteDatabase(DB_NAME);
     }
 
 }
