@@ -2,6 +2,7 @@ package com.devlopp.teq.presetQuery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 import java.io.File;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -23,8 +24,8 @@ import com.devlopp.teq.client.ClientBuilder;
 import com.devlopp.teq.client.IClientBuilder;
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
-import com.devlopp.teq.databasehelper.DatabasePresetQueryHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
+import com.devlopp.teq.databasepreset.DatabasePresetQuery;
 import com.devlopp.teq.service.IServiceBuilder;
 import com.devlopp.teq.service.NewcomerChildCare;
 import com.devlopp.teq.service.Service;
@@ -155,7 +156,7 @@ public class PresetQueryTest {
     void testClientCount() throws SQLException {
         cleanDb();
         int serviceId = createService();
-        int numClients = DatabasePresetQueryHelper.getNumberOfClients(serviceId);
+        int numClients = DatabasePresetQuery.getNumberOfClients(serviceId);
         assertEquals(numClients, 1);
     }
     
@@ -164,7 +165,7 @@ public class PresetQueryTest {
     void testClientBirthdate() throws SQLException {
         cleanDb();
         int clientId = createClient();
-        Date birthDate = DatabasePresetQueryHelper.getBirthDate(clientId);
+        Date birthDate = DatabasePresetQuery.getBirthDate(clientId);
         assertEquals("1965-09-13", birthDate.toString());
     }
     
@@ -192,12 +193,12 @@ public class PresetQueryTest {
         int tempClientId3 = DatabaseInsertHelper.insertClient(client3);
         
         int clientId = createClient();
-        Date birthDate = DatabasePresetQueryHelper.getBirthDate(clientId);
-        int age = DatabasePresetQueryHelper.getAgeOfClient(birthDate);
-        Date birthDate2 = DatabasePresetQueryHelper.getBirthDate(tempClientId);
-        int age2 = DatabasePresetQueryHelper.getAgeOfClient(birthDate2);
-        Date birthDate3 = DatabasePresetQueryHelper.getBirthDate(tempClientId3);
-        int age3 = DatabasePresetQueryHelper.getAgeOfClient(birthDate3);
+        Date birthDate = DatabasePresetQuery.getBirthDate(clientId);
+        int age = DatabasePresetQuery.getAgeOfClient(birthDate);
+        Date birthDate2 = DatabasePresetQuery.getBirthDate(tempClientId);
+        int age2 = DatabasePresetQuery.getAgeOfClient(birthDate2);
+        Date birthDate3 = DatabasePresetQuery.getBirthDate(tempClientId3);
+        int age3 = DatabasePresetQuery.getAgeOfClient(birthDate3);
         assertEquals(53, age);
         assertEquals(32, age2);
         assertEquals(84, age3);
@@ -209,17 +210,17 @@ public class PresetQueryTest {
         cleanDb();
         createClient();
         createManyClients();
-        List<Integer> clientIDs = DatabasePresetQueryHelper.getClientIds();
+        List<Integer> clientIDs = DatabasePresetQuery.getClientIds();
         
         //test if client ids and ages are correct
-        assertEquals(53, DatabasePresetQueryHelper.getAgeOfClient(
-        		DatabasePresetQueryHelper.getBirthDate(clientIDs.get(0))));
-        assertEquals(32, DatabasePresetQueryHelper.getAgeOfClient(
-        		DatabasePresetQueryHelper.getBirthDate(clientIDs.get(1))));
-        assertEquals(84, DatabasePresetQueryHelper.getAgeOfClient(
-        		DatabasePresetQueryHelper.getBirthDate(clientIDs.get(2))));
-        assertEquals(54, DatabasePresetQueryHelper.getAgeOfClient(
-        		DatabasePresetQueryHelper.getBirthDate(clientIDs.get(3))));
+        assertEquals(53, DatabasePresetQuery.getAgeOfClient(
+        		DatabasePresetQuery.getBirthDate(clientIDs.get(0))));
+        assertEquals(32, DatabasePresetQuery.getAgeOfClient(
+        		DatabasePresetQuery.getBirthDate(clientIDs.get(1))));
+        assertEquals(84, DatabasePresetQuery.getAgeOfClient(
+        		DatabasePresetQuery.getBirthDate(clientIDs.get(2))));
+        assertEquals(54, DatabasePresetQuery.getAgeOfClient(
+        		DatabasePresetQuery.getBirthDate(clientIDs.get(3))));
     }
     
     @Test
@@ -228,7 +229,7 @@ public class PresetQueryTest {
         cleanDb();
         createClient();
         createManyClients();
-        List<Integer> clientAgeList = DatabasePresetQueryHelper.getListOfAges();
+        List<Integer> clientAgeList = DatabasePresetQuery.getListOfAges();
         assertEquals(Integer.valueOf(53), clientAgeList.get(0));
         assertEquals(Integer.valueOf(32), clientAgeList.get(1));
         assertEquals(Integer.valueOf(84), clientAgeList.get(2));
@@ -241,7 +242,7 @@ public class PresetQueryTest {
         cleanDb();
         createClient();
         createManyClients();
-        double averageClientAge = DatabasePresetQueryHelper.getAverageClientAge();
+        double averageClientAge = DatabasePresetQuery.getAverageClientAge();
         assertEquals(averageClientAge, 55.75);
         
     }
@@ -254,10 +255,10 @@ public class PresetQueryTest {
         createClient();
         createManyClients();
         //try different age ranges
-        String percentageWithinRange = DatabasePresetQueryHelper
+        String percentageWithinRange = DatabasePresetQuery
         		.getPercentageOfClientsWithinAgeRange(32, 53);
         assertEquals(percentageWithinRange, "50.0%");
-        String percentageWithinRange2 = DatabasePresetQueryHelper
+        String percentageWithinRange2 = DatabasePresetQuery
         		.getPercentageOfClientsWithinAgeRange(32, 54);
         assertEquals(percentageWithinRange2, "75.0%");
     }
@@ -272,10 +273,10 @@ public class PresetQueryTest {
         int service_id1 = createServiceObject("1980-03-27", "2017-05-24");
         int service_id2 = createServiceObject("2014-04-15", "2018-07-24");
         //get start and end date of service
-        Date startDateS1 = DatabasePresetQueryHelper.getServiceStartDate(service_id1, "CommunityConnections");
-        Date startDateS2 = DatabasePresetQueryHelper.getServiceStartDate(service_id2, "CommunityConnections");
-        Date endDateS1 = DatabasePresetQueryHelper.getServiceEndDate(service_id1, "CommunityConnections");
-        Date endDateS2 = DatabasePresetQueryHelper.getServiceEndDate(service_id2, "CommunityConnections");
+        Date startDateS1 = DatabasePresetQuery.getServiceStartDate(service_id1, "CommunityConnections");
+        Date startDateS2 = DatabasePresetQuery.getServiceStartDate(service_id2, "CommunityConnections");
+        Date endDateS1 = DatabasePresetQuery.getServiceEndDate(service_id1, "CommunityConnections");
+        Date endDateS2 = DatabasePresetQuery.getServiceEndDate(service_id2, "CommunityConnections");
         assertEquals(startDateS1.toString() + " to " + endDateS1.toString(),
         		"1980-03-27 to 2017-05-24" );
         assertEquals(startDateS2.toString() + " to " + endDateS2.toString(),
@@ -292,7 +293,7 @@ public class PresetQueryTest {
         createServiceObject("2014-04-15", "2018-07-24");
 
         //test whether a list of start dates is returned for a service type
-        List<java.sql.Date> list = DatabasePresetQueryHelper.getListOfStartDates("CommunityConnections");
+        List<java.sql.Date> list = DatabasePresetQuery.getListOfStartDates("CommunityConnections");
         assertEquals("1980-03-27", list.get(0).toString());
         assertEquals("2014-04-15", list.get(1).toString());
     }
@@ -307,7 +308,7 @@ public class PresetQueryTest {
         createServiceObject("2014-04-15", "2018-07-24");
 
         //test whether a list of start dates is returned for a service type
-        List<java.sql.Date> list = DatabasePresetQueryHelper.getListOfEndDates("CommunityConnections");
+        List<java.sql.Date> list = DatabasePresetQuery.getListOfEndDates("CommunityConnections");
         assertEquals("2017-05-24", list.get(0).toString());
         assertEquals("2018-07-24", list.get(1).toString());
     }
@@ -328,7 +329,7 @@ public class PresetQueryTest {
         Date startDate = sdf.parse("2014-05-08");
         Date endDate = sdf.parse("2018-12-23");
         
-        int numberOfUsers = DatabasePresetQueryHelper.getNumOfUsersWithinRange("CommunityConnections", 
+        int numberOfUsers = DatabasePresetQuery.getNumOfUsersWithinRange("CommunityConnections", 
         		startDate, endDate);
         assertEquals(numberOfUsers, 2);
     }

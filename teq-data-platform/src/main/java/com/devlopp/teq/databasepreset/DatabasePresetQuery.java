@@ -1,7 +1,8 @@
 
-package com.devlopp.teq.databasehelper;
+package com.devlopp.teq.databasepreset;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class DatabasePresetQueryHelper {
+import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
+
+public class DatabasePresetQuery {
 	
 	
     /**
@@ -132,7 +135,7 @@ public class DatabasePresetQueryHelper {
      * @throws SQLException on failure of selection
      */
     public static  List<Integer> getListOfAges() throws SQLException {
-    	List<Integer> clientID = DatabasePresetQueryHelper.getClientIds();
+    	List<Integer> clientID = DatabasePresetQuery.getClientIds();
         List<Integer> clientAgeList= new ArrayList<Integer>();
         int count = 0;
         while(count < clientID.size()) {
@@ -153,7 +156,7 @@ public class DatabasePresetQueryHelper {
      * @throws SQLException on failure of selection
      */
     public static double getAverageClientAge() throws SQLException {
-        List<Integer> clientAgeList = DatabasePresetQueryHelper.getListOfAges();
+        List<Integer> clientAgeList = DatabasePresetQuery.getListOfAges();
         double sum = 0;
         int count = 0;
         while(count < clientAgeList.size()) {
@@ -174,7 +177,7 @@ public class DatabasePresetQueryHelper {
      * @throws SQLException on failure of selection
      */
     public static String getPercentageOfClientsWithinAgeRange(int minAge, int maxAge) throws SQLException {
-        List<Integer> clientAgeList = DatabasePresetQueryHelper.getListOfAges();
+        List<Integer> clientAgeList = DatabasePresetQuery.getListOfAges();
         double numberOfClients = clientAgeList.size();
         int count = 0, clientsWithinRange = 0;
         while (count < numberOfClients) {

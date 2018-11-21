@@ -6,7 +6,7 @@ import com.devlopp.teq.database.DatabaseDriver;
 
 public class DatabaseDriverHelper extends DatabaseDriver {
 
-    protected static Connection connectOrCreateDatabase() {
+    public static Connection connectOrCreateDatabase() {
         return DatabaseDriver.connectOrCreateDatabase();
     }
     
