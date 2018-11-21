@@ -4,6 +4,7 @@ This is a maven project so you can build with
 $ cd teq-data-platform
 $ mvn compile
 ```
+To run the project go to `teq-data-platform/src/main/java/ui/Main.java` and run the file.
 
 # Repository Structure
 ## Meeting minutes
