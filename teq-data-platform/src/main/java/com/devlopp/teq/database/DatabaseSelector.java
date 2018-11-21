@@ -7,6 +7,33 @@ import java.sql.SQLException;
 
 public class DatabaseSelector {
 
+    protected static ResultSet getPlatformRoleId(Connection connection, String roleName) throws SQLException {
+        String sql = "SELECT role_id FROM Role WHERE description = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        return statement.executeQuery();
+    }
+    
+    protected static ResultSet getPlatformUserId(Connection connection, String username) throws SQLException {
+        String sql = "SELECT id FROM USER WHERE username = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, username);
+        return statement.executeQuery();
+    }
+    
+    protected static ResultSet getPlatformUserRoleId(Connection connection, int userId) throws SQLException {
+        String sql = "SELECT role_id FROM USER WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, userId);
+        return statement.executeQuery();
+    }
+    
+    protected static ResultSet getPlatformPassword(Connection connection, int userId) throws SQLException {
+        String sql = "SELECT password FROM USER WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, userId);
+        return statement.executeQuery();
+    }
+    
     protected static ResultSet getAllClientIds(Connection connection) throws SQLException {
         String sql = "SELECT DISTINCT id FROM Client";
         PreparedStatement statement = connection.prepareStatement(sql);

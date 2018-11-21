@@ -1,4 +1,4 @@
-package com.developp.teq.security;
+package com.devlopp.teq.security;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

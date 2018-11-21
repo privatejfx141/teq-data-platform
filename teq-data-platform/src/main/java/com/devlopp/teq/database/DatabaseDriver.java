@@ -94,5 +94,14 @@ public class DatabaseDriver {
     protected static boolean databaseExists() {
         return databaseExists(DB_NAME);
     }
+    
+    protected static void deleteDatabase(String dbName) {
+        File dbFile = new File(dbName);
+        dbFile.delete();
+    }
+    
+    protected static void deleteDatabase() {
+        deleteDatabase(DB_NAME);
+    }
 
 }
