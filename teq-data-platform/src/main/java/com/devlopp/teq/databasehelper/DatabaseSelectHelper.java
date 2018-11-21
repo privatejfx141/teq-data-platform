@@ -79,6 +79,26 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return roleId;
     }
+    
+    public static String getPlatformRole(int roleId) {
+        String roleName = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformRole(connection, roleId);
+            while (results.next()) {
+                roleName = results.getString("description");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return roleName;
+    }
 
     public static String getPlatformUsername(int userId) {
         String username = null;

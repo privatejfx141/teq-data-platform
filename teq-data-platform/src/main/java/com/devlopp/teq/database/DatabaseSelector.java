@@ -28,6 +28,13 @@ public class DatabaseSelector {
         return statement.executeQuery();
     }
 
+    protected static ResultSet getPlatformRole(Connection connection, int roleId) throws SQLException {
+        String sql = "SELECT description FROM Role WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, roleId);
+        return statement.executeQuery();
+    }
+
     protected static ResultSet getPlatformUsername(Connection connection, int userId) throws SQLException {
         String sql = "SELECT username FROM User WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
