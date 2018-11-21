@@ -18,13 +18,56 @@ import com.devlopp.teq.service.orientation.Orientation;
 
 public class DatabaseInsertHelper extends DatabaseInserter {
 
-    public static int insertNewUser(String username, String password, int roleId) {
+    /**
+     * Inserts a new TEQ data platform role into the database
+     * 
+     * @param roleName full name of the role
+     * @return ID of the role
+     */
+    public static int insertPlatformRole(String roleName) {
+        int roleId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            roleId = DatabaseInserter.insertPlatformRole(connection, roleName);
+        } catch (DatabaseInsertException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return roleId;
+    }
+
+    /**
+     * Inserts a new TEQ data platform user into the database.
+     * 
+     * @param username username
+     * @param password cleartext password
+     * @param roleId ID of the user's role
+     * @return ID of the user
+     */
+    public static int insertPlatformUser(String username, String password, int roleId) {
         int userId = DatabaseValidHelper.INVALID_ID;
         boolean validUsername = DatabaseValidHelper.validUsername(username);
         boolean validPassword = DatabaseValidHelper.validPassword(password);
         if (validUsername && validPassword) {
-            // TODO: complete new user insertion
+            // hash the password
             password = PasswordHelper.passwordHash(password);
+            Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+            try {
+                userId = DatabaseInserter.insertPlatformUser(connection, username, password, roleId);
+            } catch (DatabaseInsertException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return userId;
     }
