@@ -11,9 +11,11 @@ import com.devlopp.teq.address.Address;
 import com.devlopp.teq.address.AddressBuilder;
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.client.ClientBuilder;
+import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 import com.devlopp.teq.excel.ExcelReader;
 
 public class ClientProfileParser implements TemplateParser {
+
     private HashMap<String, ArrayList<String>> allData;
     private int numRecords = 0;
 
@@ -61,29 +63,33 @@ public class ClientProfileParser implements TemplateParser {
         List<Object> clients = new ArrayList<>();
         for (int i = 0; i < numRecords; i++) {
             // build address
-            Address address = new AddressBuilder()
-                    .setPostalCode(allData.get("POSTAL CODE").get(i))
-                    .setUnitNumber(FieldParser.parseInt(allData.get("UNIT/SUITE/APT").get(i)))
-                    .setStreetNumber(FieldParser.parseInt(allData.get("STREET NUMBER").get(i)))
-                    .setStreetDirection(allData.get("STREET DIRECTION").get(i))
-                    .setStreetName(allData.get("STREET NAME").get(i))
-                    .setStreetType(allData.get("STREET TYPE").get(i))
-                    .setCity(allData.get("CITY").get(i))
-                    .setProvince(allData.get("PROVINCE").get(i))
-                    .create();
+            Address address = new AddressBuilder() //
+                    .setPostalCode(FieldParser.getFieldString(allData, "POSTAL CODE", i)) //
+                    .setUnitNumber(FieldParser.getFieldInt(allData, "UNIT/SUITE/APT", i)) //
+                    .setStreetNumber(FieldParser.getFieldInt(allData, "STREET NUMBER", i)) //
+                    .setStreetDirection(FieldParser.getFieldString(allData, "STREET DIRECTION", i)) //
+                    .setStreetName(FieldParser.getFieldString(allData, "STREET NAME", i)) //
+                    .setStreetType(FieldParser.getFieldString(allData, "STREET TYPE", i)) //
+                    .setCity(FieldParser.getFieldString(allData, "CITY", i)) //
+                    .setProvince(FieldParser.getFieldString(allData, "PROVINCE", i)) //
+                    .create(); //
+            // get client ID type ID
+            String clientIdType = allData.get("DATE OF BIRTH (YYYY-MM-DD)").get(i);
+            int clientIdTypeId = DatabaseSelectHelper.getClientIDType(clientIdType);
             // build client
-            Client client = new ClientBuilder()
-                    .setId(FieldParser.parseInt(allData.get("UNIQUE IDENTIFIER VALUE").get(i)))
-                    .setIdType(1) // TODO: temporary solution
-                    .setBirthDate(allData.get("DATE OF BIRTH (YYYY-MM-DD)").get(i))
-                    .setPhoneNumber(allData.get("PHONE NUMBER").get(i))
-                    .setEmailAddress(allData.get("EMAIL ADDRESS").get(i))
-                    .setAddress(address)
-                    .setLanguage(allData.get("OFFICIAL LANGUAGE OF PREFERENCE").get(i))
-                    .setConsent(allData.get("CONSENT FOR FUTURE RESEARCH/CONSULTATION").get(i).equals("Yes"))
-                    .create();
+            Client client = new ClientBuilder() //
+                    .setId(FieldParser.getFieldInt(allData, "UNIQUE IDENTIFIER VALUE", i)) //
+                    .setIdType(clientIdTypeId) //
+                    .setBirthDate(FieldParser.getFieldString(allData, "DATE OF BIRTH (YYYY-MM-DD)", i)) //
+                    .setPhoneNumber(FieldParser.getFieldString(allData, "PHONE NUMBER", i)) //
+                    .setEmailAddress(FieldParser.getFieldString(allData, "EMAIL ADDRESS", i)) //
+                    .setAddress(address) //
+                    .setLanguage(FieldParser.getFieldString(allData, "OFFICIAL LANGUAGE OF PREFERENCE", i)) //
+                    .setConsent(FieldParser.getFieldBoolean(allData, "CONSENT FOR FUTURE RESEARCH/CONSULTATION", i)) //
+                    .create(); //
             clients.add(client);
         }
         return clients;
     }
+
 }

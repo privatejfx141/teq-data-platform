@@ -363,12 +363,17 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             ResultSet results = DatabaseSelector.getAddress(connection, addressId);
             while (results.next()) {
-                IAddressBuilder builder = new AddressBuilder();
-                address = builder.setId(results.getInt("id")).setPostalCode(results.getString("postal_code"))
-                        .setUnitNumber(results.getInt("unit_number")).setStreetNumber(results.getInt("street_number"))
-                        .setStreetName(results.getString("street_name")).setStreetType(results.getString("street_type"))
-                        .setStreetDirection(results.getString("street_direction")).setCity(results.getString("city"))
-                        .setProvince(results.getString("province")).create();
+                IAddressBuilder builder = new AddressBuilder(); //
+                address = builder.setId(results.getInt("id")) //
+                        .setPostalCode(results.getString("postal_code")) //
+                        .setUnitNumber(results.getInt("unit_number")) //
+                        .setStreetNumber(results.getInt("street_number")) //
+                        .setStreetName(results.getString("street_name")) //
+                        .setStreetType(results.getString("street_type")) //
+                        .setStreetDirection(results.getString("street_direction")) //
+                        .setCity(results.getString("city")) //
+                        .setProvince(results.getString("province")) //
+                        .create(); //
             }
         } catch (SQLException e) {
             address = null;
