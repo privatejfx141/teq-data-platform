@@ -381,7 +381,7 @@ public class PresetQueryTest {
     }
     
     @Test
-    @DisplayName("test gets cleint ids with constraint")
+    @DisplayName("test gets client ids with constraint")
     void testGetClientIDsWithConstraint() throws SQLException, ParseException {
         cleanDb();
         int clientID = createClient();
@@ -415,7 +415,7 @@ public class PresetQueryTest {
         
 
     @Test
-    @DisplayName("test get number of users of a service within an age range")
+    @DisplayName("test get number of users that have used a service within an age range")
     void testGetClientIDsforService() throws SQLException, ParseException {
         cleanDb();
         //create services with different ages for the client
