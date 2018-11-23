@@ -74,7 +74,7 @@ public class ClientProfileParser implements TemplateParser {
                     .setProvince(FieldParser.getFieldString(allData, "PROVINCE", i)) //
                     .create(); //
             // get client ID type ID
-            String clientIdType = allData.get("DATE OF BIRTH (YYYY-MM-DD)").get(i);
+            String clientIdType = allData.get("UNIQUE IDENTIFIER").get(i);
             int clientIdTypeId = DatabaseSelectHelper.getClientIDType(clientIdType);
             // build client
             Client client = new ClientBuilder() //
