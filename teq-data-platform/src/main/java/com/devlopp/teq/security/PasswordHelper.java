@@ -2,6 +2,9 @@ package com.devlopp.teq.security;
 
 import java.security.MessageDigest;
 
+import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
+import com.devlopp.teq.databasehelper.DatabaseValidHelper;
+
 public class PasswordHelper {
 
     /**
@@ -22,14 +25,30 @@ public class PasswordHelper {
     }
 
     /**
-     * check if the database password matches user provided password.
+     * Checks if the database password matches user provided password.
      * 
-     * @param pw1 the password stored in the database.
-     * @param pw2 the user provided password (unhashed).
+     * @param pw1 the password stored in the database
+     * @param pw2 the user provided password (unhashed)
      * @return true if passwords match, false otherwise.
      */
     public static boolean comparePassword(String pw1, String pw2) {
         return pw1.equals(passwordHash(pw2));
+    }
+
+    /**
+     * Checks if the user can be authenticated with the given username and password.
+     * 
+     * @param username username
+     * @param password password
+     * @return true if user is properly authenticated, false otherwise
+     */
+    public static boolean authenticateUser(String username, String password) {
+        int userId = DatabaseSelectHelper.getPlatformUserId(username);
+        if (userId != DatabaseValidHelper.INVALID_ID) {
+            String dbPassword = DatabaseSelectHelper.getPlatformPassword(userId);
+            return comparePassword(dbPassword, password);
+        }
+        return false;
     }
 
 }
