@@ -16,15 +16,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelReader {
     public static String INFO_FILEPATH = "src/main/java/com/devlopp/teq/excel/iCARE_Templates.xlsx";
 
-   /**
-    * Returns an 2D array where index i is the row of input from row i
-    *  
-    * @param filePath file path of excel file to read from 
-    * @param sheetNumber sheet of excel file to read
-    * @return
-    * @throws InvalidFormatException
-    * @throws IOException
-    */
+    /**
+     * Returns an 2D array where index i is the row of input from row i
+     * 
+     * @param filePath    file path of excel file to read from
+     * @param sheetNumber sheet of excel file to read
+     * @return
+     * @throws InvalidFormatException
+     * @throws IOException
+     */
     @SuppressWarnings("resource")
     public static ArrayList<ArrayList<String>> readExcelFile(String filePath, int sheetNumber)
             throws InvalidFormatException, IOException {
@@ -35,7 +35,7 @@ public class ExcelReader {
         int lastRow = sheet.getLastRowNum();
         ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
         for (Row row : sheet) {
-            if (row.getRowNum() == 0 || row.getRowNum() == 1 ) {
+            if (row.getRowNum() == 0 || row.getRowNum() == 1) {
                 continue;
             }
             if (isRowEmpty(row)) {
@@ -64,19 +64,21 @@ public class ExcelReader {
         return true;
     }
 
-	/**
-	 * Returns a string with info about errors in the excel file at sheet sheetNumber, and with respect
-     * to template, template
+    /**
+     * Returns a string with info about errors in the excel file at sheet
+     * sheetNumber, and with respect to template, template
      * 
-	 * @param sheetNumber sheet number of file filePath to read from
-	 * @param filePath path of the excel file to read from
-	 * @param template template type. Should be from 2-9 representing the template corresponding to that templates sheet number in iCare_Templates.xlsx
-	 * @return Returns a string with info about errors in the excel file at sheet sheetNumber, and with respect
-     * 		 to template, template
+     * @param sheetNumber sheet number of file filePath to read from
+     * @param filePath    path of the excel file to read from
+     * @param template    template type. Should be from 2-9 representing the
+     *                    template corresponding to that templates sheet number in
+     *                    iCare_Templates.xlsx
+     * @return Returns a string with info about errors in the excel file at sheet
+     *         sheetNumber, and with respect to template, template
      * 
-	 * @throws InvalidFormatException
-	 * @throws IOException
-	 */
+     * @throws InvalidFormatException
+     * @throws IOException
+     */
     @SuppressWarnings("resource")
     public static String errorChecking(int sheetNumber, String filePath, int template)
             throws InvalidFormatException, IOException {
@@ -114,7 +116,7 @@ public class ExcelReader {
 
                         if (mandatoryColumns.contains(headerArray.get(cellNum)) && input.isEmpty()) {
                             noErrors = false;
-                             output =  output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                            output = output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
                                     + " is mandatory, but is not filled in \n";
                         } else if (allHeaders.contains(headerArray.get(cellNum)) == false
                                 && !(headerArray.get(cellNum).equals(""))) {
@@ -124,7 +126,7 @@ public class ExcelReader {
                             cells.add(input);
                         }
                     } else {
-                    	 output =  output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                        output = output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
                                 + " does not contain an allowed value: " + input + " and expected: "
                                 + map.get(headerArray.get(cellNum)) + "\n";
                         noErrors = false;
