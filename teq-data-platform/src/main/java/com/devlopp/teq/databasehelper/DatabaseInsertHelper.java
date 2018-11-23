@@ -8,6 +8,7 @@ import com.devlopp.teq.client.Client;
 import com.devlopp.teq.course.Course;
 import com.devlopp.teq.database.DatabaseInsertException;
 import com.devlopp.teq.database.DatabaseInserter;
+import com.devlopp.teq.security.PasswordHelper;
 import com.devlopp.teq.service.assessment.Assessment;
 import com.devlopp.teq.service.commconn.CommunityConnections;
 import com.devlopp.teq.service.courseenroll.CourseEnroll;
@@ -16,8 +17,69 @@ import com.devlopp.teq.service.employment.Employment;
 import com.devlopp.teq.service.orientation.Orientation;
 
 public class DatabaseInsertHelper extends DatabaseInserter {
+
+    /**
+     * Inserts a new TEQ data platform role into the database
+     * 
+     * @param roleName full name of the role
+     * @return ID of the role
+     */
+    public static int insertPlatformRole(String roleName) {
+        int roleId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            roleId = DatabaseInserter.insertPlatformRole(connection, roleName);
+        } catch (DatabaseInsertException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return roleId;
+    }
+
+    /**
+     * Inserts a new TEQ data platform user into the database.
+     * 
+     * @param username username
+     * @param password cleartext password
+     * @param roleId ID of the user's role
+     * @return ID of the user
+     */
+    public static int insertPlatformUser(String username, String password, int roleId) {
+        int userId = DatabaseValidHelper.INVALID_ID;
+        boolean validUsername = DatabaseValidHelper.validUsername(username);
+        boolean validPassword = DatabaseValidHelper.validPassword(password);
+        if (validUsername && validPassword) {
+            // hash the password
+            password = PasswordHelper.passwordHash(password);
+            Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+            try {
+                userId = DatabaseInserter.insertPlatformUser(connection, username, password, roleId);
+            } catch (DatabaseInsertException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return userId;
+    }
+
+    /**
+     * Inserts a TEQ record into the database, and returns the record ID.
+     * 
+     * @param record TEQ record to insert (i.e. client, service, course, etc.)
+     * @return record ID
+     */
     public static Object insertRecord(Object record) {
-        Object recordId = -1;
+        Object recordId = DatabaseValidHelper.INVALID_ID;
         if (record instanceof Client) {
             recordId = insertClient((Client) record);
         } else if (record instanceof Assessment) {
@@ -37,7 +99,7 @@ public class DatabaseInsertHelper extends DatabaseInserter {
         }
         return recordId;
     }
-    
+
     /**
      * Inserts client details into the TEQ database and returns the client ID if
      * successful.
@@ -46,12 +108,12 @@ public class DatabaseInsertHelper extends DatabaseInserter {
      * @return client ID if successful, -1 otherwise
      */
     public static int insertClient(Client client) {
-        int clientId = -1;
+        int clientId = DatabaseValidHelper.INVALID_ID;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             clientId = DatabaseInserter.insertClient(connection, client);
         } catch (DatabaseInsertException exception) {
-            clientId = -1;
+            clientId = DatabaseValidHelper.INVALID_ID;
         } finally {
             try {
                 connection.close();
@@ -93,13 +155,13 @@ public class DatabaseInsertHelper extends DatabaseInserter {
      * @return address ID if successful, -1 otherwise
      */
     public static int insertAddress(Address address) {
-        int addressId = -1;
+        int addressId = DatabaseValidHelper.INVALID_ID;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         // attempt to insert into database
         try {
             addressId = DatabaseInserter.insertAddress(connection, address);
         } catch (DatabaseInsertException exception) {
-            addressId = -1;
+            addressId = DatabaseValidHelper.INVALID_ID;
         } finally {
             try {
                 connection.close();
@@ -118,13 +180,13 @@ public class DatabaseInsertHelper extends DatabaseInserter {
      * @return assessment service ID if successful, -1 otherwise
      */
     public static int insertAssessment(Assessment assessment) {
-        int assessmentId = -1;
+        int assessmentId = DatabaseValidHelper.INVALID_ID;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         // attempt to insert into database
         try {
             assessmentId = DatabaseInserter.insertAssessment(connection, assessment);
         } catch (DatabaseInsertException exception) {
-            assessmentId = -1;
+            assessmentId = DatabaseValidHelper.INVALID_ID;
         } finally {
             try {
                 connection.close();
@@ -143,13 +205,13 @@ public class DatabaseInsertHelper extends DatabaseInserter {
      * @return community connections service ID if successful, -1 otherwise
      */
     public static int insertCommunityConnections(CommunityConnections community) {
-        int communityId = -1;
+        int communityId = DatabaseValidHelper.INVALID_ID;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         // attempt to insert into database
         try {
             communityId = DatabaseInserter.insertCommunityConnections(connection, community);
         } catch (DatabaseInsertException exception) {
-            communityId = -1;
+            communityId = DatabaseValidHelper.INVALID_ID;
         } finally {
             try {
                 connection.close();
@@ -168,13 +230,13 @@ public class DatabaseInsertHelper extends DatabaseInserter {
      * @return orientation service ID if successful, -1 otherwise
      */
     public static int insertOrientation(Orientation orientation) {
-        int orientationId = -1;
+        int orientationId = DatabaseValidHelper.INVALID_ID;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         // attempt to insert into database
         try {
             orientationId = DatabaseInserter.insertOrientation(connection, orientation);
         } catch (DatabaseInsertException exception) {
-            orientationId = -1;
+            orientationId = DatabaseValidHelper.INVALID_ID;
         } finally {
             try {
                 connection.close();
@@ -193,13 +255,13 @@ public class DatabaseInsertHelper extends DatabaseInserter {
      * @return employment service ID if successful, -1 otherwise
      */
     public static int insertEmployment(Employment employment) {
-        int employmentId = -1;
+        int employmentId = DatabaseValidHelper.INVALID_ID;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         // attempt to insert into database
         try {
             employmentId = DatabaseInserter.insertEmployment(connection, employment);
         } catch (DatabaseInsertException exception) {
-            employmentId = -1;
+            employmentId = DatabaseValidHelper.INVALID_ID;
         } finally {
             try {
                 connection.close();
@@ -211,13 +273,13 @@ public class DatabaseInsertHelper extends DatabaseInserter {
     }
 
     public static int insertCourseEnroll(CourseEnroll courseEnroll) {
-        int enrollId = -1;
+        int enrollId = DatabaseValidHelper.INVALID_ID;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         // attempt to insert into database
         try {
             enrollId = DatabaseInserter.insertCourseEnroll(connection, courseEnroll);
         } catch (DatabaseInsertException exception) {
-            enrollId = -1;
+            enrollId = DatabaseValidHelper.INVALID_ID;
         } finally {
             try {
                 connection.close();
@@ -227,15 +289,15 @@ public class DatabaseInsertHelper extends DatabaseInserter {
         }
         return enrollId;
     }
-    
+
     public static int insertCourseExit(CourseExit courseExit) {
-        int exitId = -1;
+        int exitId = DatabaseValidHelper.INVALID_ID;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         // attempt to insert into database
         try {
             exitId = DatabaseInserter.insertCourseExit(connection, courseExit);
         } catch (DatabaseInsertException exception) {
-            exitId = -1;
+            exitId = DatabaseValidHelper.INVALID_ID;
         } finally {
             try {
                 connection.close();
