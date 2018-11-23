@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ExcelTable {
+
     private HashMap<String, ArrayList<String>> dataMap = new HashMap<>();
-    private int numRecords = 0;
 
     public void addColumn(String columnName) {
         columnName = columnName.trim().toUpperCase();
@@ -55,6 +55,12 @@ public class ExcelTable {
     }
 
     public int getNumRecords() {
-        return numRecords;
+        if (dataMap.isEmpty()) {
+            return 0;
+        } else {
+            String firstKey = dataMap.keySet().iterator().next();
+            return dataMap.get(firstKey).size();
+        }
     }
+
 }

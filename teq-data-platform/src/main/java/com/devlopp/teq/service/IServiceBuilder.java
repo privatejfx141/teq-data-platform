@@ -2,8 +2,6 @@ package com.devlopp.teq.service;
 
 import java.util.List;
 
-import com.devlopp.teq.service.commconn.CommunityConnections;
-
 public interface IServiceBuilder {
     /**
      * Sets the ID of the service.

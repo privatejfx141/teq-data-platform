@@ -19,10 +19,128 @@ import com.devlopp.teq.service.courseenroll.*;
 import com.devlopp.teq.service.courseexit.*;
 import com.devlopp.teq.service.employment.*;
 import com.devlopp.teq.service.orientation.*;
-import com.devlopp.teq.service.courseenroll.*;
-import com.devlopp.teq.service.courseexit.*;
 
 public class DatabaseSelectHelper extends DatabaseSelector {
+
+    public static int getPlatformRoleId(String roleName) {
+        int roleId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformRoleId(connection, roleName);
+            while (results.next()) {
+                roleId = results.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return roleId;
+    }
+
+    public static int getPlatformUserId(String username) {
+        int userId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformUserId(connection, username);
+            while (results.next()) {
+                userId = results.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return userId;
+    }
+
+    public static int getPlatformUserRoleId(int userId) {
+        int roleId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformUserRoleId(connection, userId);
+            while (results.next()) {
+                roleId = results.getInt("role_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return roleId;
+    }
+    
+    public static String getPlatformRole(int roleId) {
+        String roleName = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformRole(connection, roleId);
+            while (results.next()) {
+                roleName = results.getString("description");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return roleName;
+    }
+
+    public static String getPlatformUsername(int userId) {
+        String username = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformUsername(connection, userId);
+            while (results.next()) {
+                username = results.getString("username");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return username;
+    }
+
+    public static String getPlatformPassword(int userId) {
+        String password = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformPassword(connection, userId);
+            while (results.next()) {
+                password = results.getString("password");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return password;
+    }
 
     /**
      * Returns a list of IDs of all clients stored in the TEQ database.
@@ -100,14 +218,10 @@ public class DatabaseSelectHelper extends DatabaseSelector {
     }
 
     /**
-     * Returns the character signifying the type of service with ID serviceId.
-     * One of the six characters are returned:
-     *  "A" - Needs Assessment & Referrals
-     *  "C" - Community Connections
-     *  "O" - Information & Orientation
-     *  "E" - Employment
-     *  "N" - LT Course Enroll
-     *  "X" - LT Course Exit
+     * Returns the character signifying the type of service with ID serviceId. One
+     * of the six characters are returned: "A" - Needs Assessment & Referrals "C" -
+     * Community Connections "O" - Information & Orientation "E" - Employment "N" -
+     * LT Course Enroll "X" - LT Course Exit
      * 
      * @param serviceId the ID of the service
      * @return character of the type of service
@@ -251,12 +365,17 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             ResultSet results = DatabaseSelector.getAddress(connection, addressId);
             while (results.next()) {
-                IAddressBuilder builder = new AddressBuilder();
-                address = builder.setId(results.getInt("id")).setPostalCode(results.getString("postal_code"))
-                        .setUnitNumber(results.getInt("unit_number")).setStreetNumber(results.getInt("street_number"))
-                        .setStreetName(results.getString("street_name")).setStreetType(results.getString("street_type"))
-                        .setStreetDirection(results.getString("street_direction")).setCity(results.getString("city"))
-                        .setProvince(results.getString("province")).create();
+                IAddressBuilder builder = new AddressBuilder(); //
+                address = builder.setId(results.getInt("id")) //
+                        .setPostalCode(results.getString("postal_code")) //
+                        .setUnitNumber(results.getInt("unit_number")) //
+                        .setStreetNumber(results.getInt("street_number")) //
+                        .setStreetName(results.getString("street_name")) //
+                        .setStreetType(results.getString("street_type")) //
+                        .setStreetDirection(results.getString("street_direction")) //
+                        .setCity(results.getString("city")) //
+                        .setProvince(results.getString("province")) //
+                        .create(); //
             }
         } catch (SQLException e) {
             address = null;
