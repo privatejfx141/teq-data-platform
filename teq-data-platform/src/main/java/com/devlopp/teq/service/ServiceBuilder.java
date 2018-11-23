@@ -2,6 +2,8 @@ package com.devlopp.teq.service;
 
 import java.util.List;
 
+import com.devlopp.teq.service.assessment.Assessment;
+
 public abstract class ServiceBuilder implements IServiceBuilder {
     protected Service service;
 
@@ -75,5 +77,10 @@ public abstract class ServiceBuilder implements IServiceBuilder {
     public IServiceBuilder setChildCares(List<NewcomerChildCare> childCares) {
         service.childCares = childCares;
         return this;
+    }
+    
+    @Override
+    public Service create() {
+        return service;
     }
 }

@@ -2,6 +2,8 @@ package com.devlopp.teq.service;
 
 import java.util.List;
 
+import com.devlopp.teq.service.commconn.CommunityConnections;
+
 public interface IServiceBuilder {
     /**
      * Sets the ID of the service.
@@ -98,4 +100,6 @@ public interface IServiceBuilder {
      * @return This builder object to allow for chaining of calls to set methods
      */
     public IServiceBuilder setChildCares(List<NewcomerChildCare> childCares);
+
+	public Service create();
 }
