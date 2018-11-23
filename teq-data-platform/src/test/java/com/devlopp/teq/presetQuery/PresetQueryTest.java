@@ -70,7 +70,31 @@ public class PresetQueryTest {
         Client client = clientBuilder.setId(clientIdSt).setIdType(1)
                 .setBirthDate(ExcelDriver.fixDate("1965-09-13", "yyyy-MM-dd")).setPhoneNumber("1234567890")
                 .setEmailAddress("test@gmail.com").setAddress(address).setLanguage("ENG")
-                .setConsent(ExcelDriver.parseYesNo("Yes")).create();
+                .setConsent(true).create();
+   
+        clientIdSt++;
+       
+        // insert client to db with address
+        int clientId = DatabaseInsertHelper.insertClient(client);
+		return clientId;  
+    }
+    
+    static int createClient(String birthDate) {
+        IAddressBuilder addressBuilder = new AddressBuilder();
+        Address address = addressBuilder.setPostalCode("M1G3L2").setUnitNumber(Integer.parseInt("1606"))
+                .setStreetNumber(Integer.parseInt("3050")).setStreetName("Ellesmere").setStreetType("Road")
+                .setStreetDirection(ExcelDriver.fixDirection("East")).setCity("Toronto").setProvince("Ontario")
+                .create();
+        
+        // insert address to db
+        DatabaseInsertHelper.insertAddress(address);
+        
+        // client object
+        IClientBuilder clientBuilder = new ClientBuilder();
+        Client client = clientBuilder.setId(clientIdSt).setIdType(1)
+                .setBirthDate(ExcelDriver.fixDate(birthDate, "yyyy-MM-dd")).setPhoneNumber("1234567890")
+                .setEmailAddress("test@gmail.com").setAddress(address).setLanguage("ENG")
+                .setConsent(true).create();
    
         clientIdSt++;
        
@@ -84,16 +108,16 @@ public class PresetQueryTest {
         IClientBuilder clientBuilder = new ClientBuilder();
         Client client = clientBuilder.setId(clientIdSt).setIdType(1)
                 .setBirthDate(ExcelDriver.fixDate("1985-12-31", "yyyy-MM-dd")).setPhoneNumber("1234567890")
-                .setEmailAddress("test@gmail.com").setAddress(new Address()).setLanguage("ENG")
-                .setConsent(ExcelDriver.parseYesNo("Yes")).create();
+                .setEmailAddress("test@gmail.com").setAddress(new Address()).setLanguage("FRE")
+                .setConsent(true).create();
         clientIdSt++;
         DatabaseInsertHelper.insertClient(client);
         
         IClientBuilder clientBuilder2 = new ClientBuilder();
         Client client2 = clientBuilder2.setId(clientIdSt).setIdType(1)
                 .setBirthDate(ExcelDriver.fixDate("1934-11-12", "yyyy-MM-dd")).setPhoneNumber("1234567890")
-                .setEmailAddress("test@gmail.com").setAddress(new Address()).setLanguage("ENG")
-                .setConsent(ExcelDriver.parseYesNo("Yes")).create();
+                .setEmailAddress("test@gmail.com").setAddress(new Address()).setLanguage("RUS")
+                .setConsent(true).create();
         clientIdSt++;
         DatabaseInsertHelper.insertClient(client2);
         
@@ -101,7 +125,7 @@ public class PresetQueryTest {
         Client client3 = clientBuilder3.setId(clientIdSt).setIdType(1)
                 .setBirthDate(ExcelDriver.fixDate("1964-03-23", "yyyy-MM-dd")).setPhoneNumber("1234567890")
                 .setEmailAddress("test@gmail.com").setAddress(new Address()).setLanguage("ENG")
-                .setConsent(ExcelDriver.parseYesNo("Yes")).create();
+                .setConsent(true).create();
         clientIdSt++;
         DatabaseInsertHelper.insertClient(client3);
     }
@@ -109,6 +133,28 @@ public class PresetQueryTest {
     static int createService() {
         // insert client to db with address
         int clientId = createClient();  
+        
+    	// community connections object
+        List<String> tempList = new ArrayList<String>();
+        List<NewcomerChildCare> tempList2 = new ArrayList<NewcomerChildCare>();
+        ICommunityConnectionsBuilder communityConnectionsBuilder = new CommunityConnectionsBuilder();
+        CommunityConnections communityConnections = (CommunityConnections) communityConnectionsBuilder.setEventType("Neighbourhood day")
+        		.setMainTopic("Access to local community services").setServiceReceived("One-on-one orientation").setParticipants("10 - 20 people")
+        		.setVolunteers(true).setReasonForLeave("Found employment").setStatus("Ongoing").setStartDate("2017-11-11")
+        		.setEndDate("2018-03-12").setProjectedEndDate("2018-02-12").setLengthHours(23).setLengthMinutes(32)
+        		.setClientId(clientId).setPostalCode("M1C 1A4").setLanguage("ENG").setOrganizationType("Public library")
+        		.setReferredBy("Employer / co-worker").setUpdateReason("Amend record").setServiceType("Public library")
+        		.setEssentialSkills(tempList).setSupportServices(tempList).setTargetGroups(tempList)
+        		.setChildCares(tempList2).create();
+        
+        // insert service object to db
+        int serviceId = DatabaseInsertHelper.insertCommunityConnections(communityConnections);
+        return serviceId;
+    }
+    
+    static int createService(String birthDate) {
+        // insert client to db with address
+        int clientId = createClient(birthDate);  
         
     	// community connections object
         List<String> tempList = new ArrayList<String>();
@@ -333,6 +379,53 @@ public class PresetQueryTest {
         		startDate, endDate);
         assertEquals(numberOfUsers, 2);
     }
+    
+    @Test
+    @DisplayName("test gets cleint ids with constraint")
+    void testGetClientIDsWithConstraint() throws SQLException, ParseException {
+        cleanDb();
+        int clientID = createClient();
+        int clientID2 = createClient();
+        int clientID3 = createClient();
+        //createManyClients creates 3 clients but only the last one has language as "ENG"
+        int clientID4 = clientID3 + 3;
+        createManyClients();
+        List<Integer> clientIDs = DatabasePresetQuery.getClientIDWithConstraint("Language", "ENG" );
+        assertEquals(clientIDs.get(0).intValue(), clientID);
+        assertEquals(clientIDs.get(1).intValue(), clientID2);
+        assertEquals(clientIDs.get(2).intValue(), clientID3);
+        assertEquals(clientIDs.get(3).intValue(), clientID4);
+        }
+    
+    @Test
+    @DisplayName("test gets client ids for a specific service")
+    void testGetNumUsersWithinAgeRange() throws SQLException, ParseException {
+        cleanDb();
+        //create 3 services and get their client ids
+        int serviceId = createService();
+        int clientID = DatabaseSelectHelper.getClientID(serviceId);
+        createService();
+        createService();
+        createManyClients();
+        List<Integer> clientIDList = DatabasePresetQuery.getClientIDsForService("CommunityConnections");
+        assertEquals(clientID, clientIDList.get(0).intValue());
+        assertEquals(clientID + 1, clientIDList.get(1).intValue());
+        assertEquals(clientID + 2, clientIDList.get(2).intValue());
+    }
+        
 
+    @Test
+    @DisplayName("test get number of users of a service within an age range")
+    void testGetClientIDsforService() throws SQLException, ParseException {
+        cleanDb();
+        //create services with different ages for the client
+        createService("1985-03-12"); //33
+        createService("1983-04-16"); //35
+        createService("2015-03-22"); //3
+
+        int numUsers = DatabasePresetQuery.getNumUsersOfServiceWithinAgeRange("CommunityConnections", "30-45,20-24");
+        assertEquals(2, numUsers);
+        }
+    
 
 }

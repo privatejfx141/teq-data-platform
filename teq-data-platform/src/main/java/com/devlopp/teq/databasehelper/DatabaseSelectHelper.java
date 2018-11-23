@@ -1,8 +1,10 @@
 package com.devlopp.teq.databasehelper;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -684,5 +686,32 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return courseExit;
     }
+    
+    /**
+     * Connects to the TEQ database and returns the clientID for a service
+     * 
+     * @param serviceID 
+     * @return clientID id of the client
+     * @throws SQLException on failure of selection
+     */
+    public static int getClientID(int serviceID) throws SQLException {
+       
+        int clientID = 0;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT client_id FROM Service WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceID);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+            	clientID = result.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+   
+        return clientID;
+    }
+    
 
 }
