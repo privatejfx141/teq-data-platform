@@ -3,6 +3,7 @@ package com.devlopp.teq.databasepreset;
 
 import java.sql.Connection;
 
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import org.w3c.dom.ranges.Range;
 
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 
@@ -123,8 +126,39 @@ public class DatabasePresetQuery {
     }
 
     /**
+<<<<<<< HEAD
+     * Connects to the TEQ database and returns all the client id's with the given constraints
+     * Returns a list of client id's
+     * 
+     * @param attribute the column you want to put a constraint on
+     * @param constraint the value of the constraint
+     * @return a list containing the client id's
+     * @throws SQLException on failure of selection
+     */
+    public static  List<Integer> getClientIDWithConstraint(String attribute, String constraint) throws SQLException {
+    	Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        List<Integer> clientIDList= new ArrayList<Integer>();
+        String sql = "SELECT id FROM Client WHERE " + attribute + " = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, constraint );
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+            	clientIDList.add(result.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return clientIDList;
+    }
+    
+    /**
+     * Connects to the TEQ database and returns a list of the ages for a client
+     * Returns the client ages
+=======
      * Connects to the TEQ database and a list of the ages for a client Returns the
      * client ages
+>>>>>>> master
      * 
      * @return a list containing the client's ages
      * @throws SQLException on failure of selection
@@ -138,6 +172,26 @@ public class DatabasePresetQuery {
             clientAgeList.add(tempAge);
             count++;
         }
+        return clientAgeList;
+    }
+    
+    /**
+     * Given a list of client ids, return a list of their ages
+     * Returns list of client ages
+     * 
+     * @param clientList list of client ids
+     * @return a list containing the client's ages
+     * @throws SQLException on failure of selection
+     */
+    public static  List<Integer> getListOfAges(List<Integer> clientIDs) throws SQLException {
+        List<Integer> clientAgeList= new ArrayList<Integer>();
+        int count = 0;
+        while(count < clientIDs.size()) {
+        	int tempAge = getAgeOfClient(getBirthDate(clientIDs.get(count)));
+        	clientAgeList.add(tempAge);
+        	count ++;
+        }
+
         return clientAgeList;
     }
 
@@ -301,14 +355,66 @@ public class DatabasePresetQuery {
         List<Date> listStartDate = getListOfStartDates(serviceType);
         List<Date> listEndDate = getListOfEndDates(serviceType);
         int count = 0;
-        while (count < listStartDate.size()) {
-            if (!(listStartDate.get(count).before(startDate) || listStartDate.get(count).after(endDate))) {
-                numberOfUsers++;
-            } else if (!(listEndDate.get(count).before(startDate) || listEndDate.get(count).after(endDate))) {
-                numberOfUsers++;
-            }
-            count++;
+        while(count < listStartDate.size()) {
+        	if (!(listStartDate.get(count).before(startDate) || listStartDate.get(count).after(endDate))) {
+        		numberOfUsers++;
+        	} else if (!(listEndDate.get(count).before(startDate) || listEndDate.get(count).after(endDate))) {
+        		numberOfUsers++;
+        	}
+            count ++;
         }
+        return numberOfUsers;
+    }
+    
+    /**
+     * Connects to the TEQ database and returns the client ids for the user of a service
+     * 
+     * @param serviceType type of service queried
+     * @return clientIDList list of client ids of users that user a specific service
+     * @throws SQLException on failure of selection
+     */
+    public static List<Integer> getClientIDsForService(String serviceType) throws SQLException {
+       
+        List<Integer> clientIDList = new ArrayList<Integer>();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT client_id FROM Service," + serviceType + " WHERE Service.ID = " + serviceType + ".service_id";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+            	clientIDList.add(result.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+   
+        return clientIDList;
+    }
+    
+    /**
+     * Connects to the TEQ database and returns the number of users within a certain age range that are using a specific service
+     * 
+     * @param serviceType type of service queried
+     * @param ageRange must be in format "20-30,40-45,..." where age ranges are separated by a comma
+     * @return the number of users using the service within the age range
+     * @throws SQLException on failure of selection
+     */
+    public static int getNumUsersOfServiceWithinAgeRange(String serviceType, String ageRange) throws SQLException {
+        
+    	int numberOfUsers = 0;
+        List<Integer> serviceClientIDs = getClientIDsForService(serviceType);
+        List<Integer> clientAges = getListOfAges(serviceClientIDs);
+        String[] ageRanges = ageRange.split(Pattern.quote(","));
+        //split age ranges at the '-' and check whether or not an a client is within that age range
+        for(int i=0; i<ageRanges.length;i++) {
+        	String[] rangeSplit = ageRanges[i].split(Pattern.quote("-"));
+        	for(int k=0; k<clientAges.size(); k++) {
+        		if(clientAges.get(k) >= Integer.parseInt(rangeSplit[0]) && clientAges.get(k) <= Integer.parseInt(rangeSplit[1])) {
+        			numberOfUsers++;
+        		}
+        	}
+        }
+   
         return numberOfUsers;
     }
 
