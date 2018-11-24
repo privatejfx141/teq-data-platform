@@ -450,4 +450,30 @@ public class DatabasePresetQuery {
         return clientIds;
     }
 
+    /**
+     * Connects to the TEQ database and returns a list of IDs of clients that have
+     * taken the course (entered or exited) of the given course code.
+     * 
+     * @param courseCode course code
+     * @return list of IDs of clients that taken course
+     * @throws SQLException on failure of selection
+     */
+    public static List<Integer> getAllCourseStudents(String courseCode) throws SQLException {
+        List<Integer> clientIds = new ArrayList<>();
+        String sql = "SELECT DISTINCT client_id FROM (SELECT s.client_id FROM Service s JOIN CourseEnroll ce "
+                + "ON (s.id = ce.service_id) WHERE UPPER(course_code) = ? UNION SELECT s.client_id "
+                + "FROM Service s JOIN CourseExit cx ON (s.id = cx.service_id) WHERE UPPER(course_code) = ?) "
+                + "ORDER BY client_id";
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, courseCode.toUpperCase());
+        statement.setString(2, courseCode.toUpperCase());
+        ResultSet results = statement.executeQuery();
+        while (results.next()) {
+            clientIds.add(results.getInt(1));
+        }
+        connection.close();
+        return clientIds;
+    }
+
 }
