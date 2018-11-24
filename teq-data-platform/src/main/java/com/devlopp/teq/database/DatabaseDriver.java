@@ -53,7 +53,6 @@ public class DatabaseDriver {
         SQLDriver.runScript(connection, "scripts/Create_Topic.sql");
         SQLDriver.runScript(connection, "scripts/Create_Translation.sql");
         // return the connection to the database
-        System.out.println("Database successfully initialized");
         try {
             connection.close();
         } catch (SQLException e) {
@@ -75,7 +74,6 @@ public class DatabaseDriver {
                 e.printStackTrace();
             }
         }
-        System.out.println("User roles successfully initialized");
         try {
             connection.close();
         } catch (SQLException e) {

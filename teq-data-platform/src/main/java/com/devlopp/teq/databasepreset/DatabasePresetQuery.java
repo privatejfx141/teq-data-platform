@@ -412,7 +412,7 @@ public class DatabasePresetQuery {
      */
     public static List<Integer> getClientIDsAtAddress(String postalCode) throws SQLException {
         List<Integer> clientIds = new ArrayList<>();
-        String sql = "SELECT DISTINCT c.id FROM Client WHERE address_id IN "
+        String sql = "SELECT DISTINCT c.id FROM Client c WHERE address_id IN "
                 + "(SELECT DISTINCT a.id FROM Address a WHERE UPPER(postal_code) = ?)";
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         PreparedStatement statement = connection.prepareStatement(sql);
@@ -436,7 +436,7 @@ public class DatabasePresetQuery {
      */
     public static List<Integer> getClientIDsAtAddress(String city, String province) throws SQLException {
         List<Integer> clientIds = new ArrayList<>();
-        String sql = "SELECT DISTINCT c.id FROM Client WHERE address_id IN "
+        String sql = "SELECT DISTINCT c.id FROM Client c WHERE address_id IN "
                 + "(SELECT DISTINCT a.id FROM Address a WHERE LOWER(city) = ? AND LOWER(province) = ?)";
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         PreparedStatement statement = connection.prepareStatement(sql);
