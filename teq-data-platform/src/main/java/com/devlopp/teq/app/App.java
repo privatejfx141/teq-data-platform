@@ -1,9 +1,7 @@
 package com.devlopp.teq.app;
 
-import com.devlopp.teq.course.Course;
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.parser.CommunityConnectionsParser;
-import com.devlopp.teq.parser.CourseSetupParser;
 import com.devlopp.teq.parser.TemplateParser;
 import com.devlopp.teq.service.commconn.CommunityConnections;
 

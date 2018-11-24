@@ -46,7 +46,7 @@ public class Client {
     public String getLanguage() {
         return language;
     }
-    
+
     public Address getAddress() {
         return address;
     }

@@ -20,10 +20,13 @@ U6: As Ritu (strategist), I want to create new queries that can be saved as
 pre-sets so that less experienced staff can still gain insight from data and
 generate reports. 
 
-U7: As Parker (analyst), I want direct access to the data without any
+U7: As Parker (analyst), I want the ability to assign a login with a permission level to a new user,
+so that each user has access to features relataive their give permission level.
+
+U8: As Parker (analyst), I want direct access to the data without any
 abstractions so that I can do my analysis without the limitations and
 distractions imposed by pre-configured methods.
 
-U8: As Jerome (co-op), I want to add new fields and their possible values to
+U9: As Jerome (co-op), I want to add new fields and their possible values to
 templates uploaded by the organisations, and make those fields available for
 analysis so that more data is available, improving the quality of insights.

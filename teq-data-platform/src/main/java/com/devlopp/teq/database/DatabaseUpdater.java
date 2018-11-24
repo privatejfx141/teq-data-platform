@@ -8,6 +8,34 @@ import com.devlopp.teq.address.Address;
 import com.devlopp.teq.sql.SQLDriver;
 
 public class DatabaseUpdater {
+
+    protected static boolean updatePlatformPassword(Connection connection, int userId, String password) {
+        String sql = "UPDATE User SET password = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, password);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    protected static boolean updatePlatformUserRole(Connection connection, int userId, int roleId) {
+        String sql = "UPDATE User SET role_id = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, roleId);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     protected static boolean updateClientBirthDate(Connection connection, int clientId, String birthDate) {
         String sql = "UPDATE Client SET birth_date = ? WHERE id = ?";
         try {
@@ -210,4 +238,5 @@ public class DatabaseUpdater {
         }
         return false;
     }
+
 }

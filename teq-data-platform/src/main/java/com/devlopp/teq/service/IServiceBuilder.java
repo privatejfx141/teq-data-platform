@@ -98,4 +98,6 @@ public interface IServiceBuilder {
      * @return This builder object to allow for chaining of calls to set methods
      */
     public IServiceBuilder setChildCares(List<NewcomerChildCare> childCares);
+
+    public Service create();
 }

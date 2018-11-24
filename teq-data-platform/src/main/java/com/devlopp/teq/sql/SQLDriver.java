@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SQLDriver {
     public static boolean runScript(Connection connection, String fileName) {
@@ -38,4 +40,19 @@ public class SQLDriver {
         java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
         return sqlStartDate;
     }
+
+    /**
+     * Returns whether or not the SQL string is purely a SELECT statement.
+     * 
+     * @param sql SQL string to check
+     * @return true if string is a SELECT statement
+     */
+    public static boolean isSelectQuery(String sql) {
+        sql = sql.toUpperCase().trim();
+        String regex = ".*(ALTER|CREATE|DROP|TRUNCATE|UPDATE|INSERT INTO|DELETE FROM)\\s*(TABLE|VIEW|FUNCTION|PROCEDURE|TRIGGER).*";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(sql);
+        return !matcher.matches();
+    }
+
 }

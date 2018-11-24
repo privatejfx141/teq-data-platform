@@ -1,8 +1,10 @@
 package com.devlopp.teq.databasehelper;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +19,233 @@ import com.devlopp.teq.service.courseenroll.*;
 import com.devlopp.teq.service.courseexit.*;
 import com.devlopp.teq.service.employment.*;
 import com.devlopp.teq.service.orientation.*;
-import com.devlopp.teq.service.courseenroll.*;
-import com.devlopp.teq.service.courseexit.*;
-
 
 public class DatabaseSelectHelper extends DatabaseSelector {
+
+    public static int getPlatformRoleId(String roleName) {
+        int roleId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformRoleId(connection, roleName);
+            while (results.next()) {
+                roleId = results.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return roleId;
+    }
+
+    public static int getPlatformUserId(String username) {
+        int userId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformUserId(connection, username);
+            while (results.next()) {
+                userId = results.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return userId;
+    }
+
+    public static int getPlatformUserRoleId(int userId) {
+        int roleId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformUserRoleId(connection, userId);
+            while (results.next()) {
+                roleId = results.getInt("role_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return roleId;
+    }
+    
+    public static String getPlatformRole(int roleId) {
+        String roleName = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformRole(connection, roleId);
+            while (results.next()) {
+                roleName = results.getString("description");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return roleName;
+    }
+
+    public static String getPlatformUsername(int userId) {
+        String username = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformUsername(connection, userId);
+            while (results.next()) {
+                username = results.getString("username");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return username;
+    }
+
+    public static String getPlatformPassword(int userId) {
+        String password = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getPlatformPassword(connection, userId);
+            while (results.next()) {
+                password = results.getString("password");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return password;
+    }
+
+    /**
+     * Returns a list of IDs of all clients stored in the TEQ database.
+     * 
+     * @return list of all client IDs
+     */
+    public static List<Integer> getAllClientIds() {
+        List<Integer> clientIds = new ArrayList<>();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getAllClientIds(connection);
+            while (results.next()) {
+                clientIds.add(results.getInt("id"));
+            }
+        } catch (SQLException e) {
+            clientIds.clear();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return clientIds;
+    }
+
+    /**
+     * Returns a list of course codes of all courses stored in the TEQ database.
+     * 
+     * @return list of all course codes
+     */
+    public static List<String> getAllCourseCodes() {
+        List<String> courseCodes = new ArrayList<>();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getAllCourseCodes(connection);
+            while (results.next()) {
+                courseCodes.add(results.getString("course_code"));
+            }
+        } catch (SQLException e) {
+            courseCodes.clear();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return courseCodes;
+    }
+
+    /**
+     * Returns a list of IDs of all services stored in the TEQ database.
+     * 
+     * @return list of all service IDs
+     */
+    public static List<Integer> getAllServiceIds() {
+        List<Integer> serviceIds = new ArrayList<>();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getAllServiceIds(connection);
+            while (results.next()) {
+                serviceIds.add(results.getInt("id"));
+            }
+        } catch (SQLException e) {
+            serviceIds.clear();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return serviceIds;
+    }
+
+    /**
+     * Returns the character signifying the type of service with ID serviceId. One
+     * of the six characters are returned: "A" - Needs Assessment & Referrals "C" -
+     * Community Connections "O" - Information & Orientation "E" - Employment "N" -
+     * LT Course Enroll "X" - LT Course Exit
+     * 
+     * @param serviceId the ID of the service
+     * @return character of the type of service
+     */
+    public static String getServiceType(int serviceId) {
+        String serviceType = null;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        try {
+            ResultSet results = DatabaseSelector.getServiceType(connection, serviceId);
+            while (results.next()) {
+                serviceType = results.getString("service_type");
+            }
+        } catch (SQLException e) {
+            serviceType = null;
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException closeConnectionException) {
+                /* Do not need to do anything, connection was already closed */
+            }
+        }
+        return serviceType;
+    }
+
     public static List<String> getAllTypes(String tableName) {
         List<String> list = new ArrayList<>();
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
@@ -105,6 +329,14 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return client;
     }
 
+    /**
+     * Connects to the database, obtains and returns the list of IDs of service that
+     * the client of ID clientId took. Returns <code>null</code> if clientId is
+     * invalid.
+     * 
+     * @param clientId ID of the client record
+     * @return list of IDs of the services that the client took
+     */
     public static List<Integer> getClientServices(int clientId) {
         List<Integer> services = new ArrayList<>();
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
@@ -118,7 +350,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return services;
     }
-    
+
     /**
      * Connects to database, obtains and returns an address with ID number addressId
      * from the Address table. Returns <code>null</code> if addressId is invalid.
@@ -133,12 +365,17 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             ResultSet results = DatabaseSelector.getAddress(connection, addressId);
             while (results.next()) {
-                IAddressBuilder builder = new AddressBuilder();
-                address = builder.setId(results.getInt("id")).setPostalCode(results.getString("postal_code"))
-                        .setUnitNumber(results.getInt("unit_number")).setStreetNumber(results.getInt("street_number"))
-                        .setStreetName(results.getString("street_name")).setStreetType(results.getString("street_type"))
-                        .setStreetDirection(results.getString("street_direction")).setCity(results.getString("city"))
-                        .setProvince(results.getString("province")).create();
+                IAddressBuilder builder = new AddressBuilder(); //
+                address = builder.setId(results.getInt("id")) //
+                        .setPostalCode(results.getString("postal_code")) //
+                        .setUnitNumber(results.getInt("unit_number")) //
+                        .setStreetNumber(results.getInt("street_number")) //
+                        .setStreetName(results.getString("street_name")) //
+                        .setStreetType(results.getString("street_type")) //
+                        .setStreetDirection(results.getString("street_direction")) //
+                        .setCity(results.getString("city")) //
+                        .setProvince(results.getString("province")) //
+                        .create(); //
             }
         } catch (SQLException e) {
             address = null;
@@ -444,7 +681,8 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             exit = builder.setCourseCode(results.getString("course_code"))
                     .setExitDate(results.getDate("exit_date").toString()).setReason(results.getString("reason"))
                     .setListeningLevel(results.getString("listening_level"))
-                    .setReadingLevel(results.getString("reading_level")).setSpeakingLevel(results.getString("speaking_level"))
+                    .setReadingLevel(results.getString("reading_level"))
+                    .setSpeakingLevel(results.getString("speaking_level"))
                     .setWritingLevel(results.getString("writing_level")).create();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -482,8 +720,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                     .setEnrollmentType(results.getString("enrollment_type"))
                     .setStartDate(results.getDate("start_date").toString())
                     .setEndDate(results.getDate("end_date").toString())
-                    .setInstructHours(results.getString("instruct_hours")).setWeeklyHours(results.getInt("hours_per_week"))
-                    .setNumWeeks(results.getInt("weeks")).setNumWeeksPerYear(results.getInt("weeks_per_year"))
+                    .setInstructHours(results.getString("instruct_hours"))
+                    .setWeeklyHours(results.getInt("hours_per_week")).setNumWeeks(results.getInt("weeks"))
+                    .setNumWeeksPerYear(results.getInt("weeks_per_year"))
                     .setDominantFocus(results.getString("dominant_focus")).setCourseContact(contact).create();
             results = DatabaseSelector.getCourseSchedule(connection, courseCode);
             while (results.next()) {
@@ -503,13 +742,16 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return course;
     }
-   /**
-     * Connects to database, obtains and returns a CourseEnroll with PKs serviceId and courseCode
-     * from the CourseEnroll table. Returns <code>null</code> if serviceId/courseCode is invalid.
+
+    /**
+     * Connects to database, obtains and returns a CourseEnroll with PKs serviceId
+     * and courseCode from the CourseEnroll table. Returns <code>null</code> if
+     * serviceId/courseCode is invalid.
      * 
      * @param courseCode unique course code of the course
      * @param serviceId  unique ID of the service
-     * @return courseEnroll with the ID number addressId, <code>null</code> if invalid
+     * @return courseEnroll with the ID number addressId, <code>null</code> if
+     *         invalid
      */
     public static CourseEnroll getCourseEnroll(int serviceId, String courseCode) {
         CourseEnroll courseEnroll = null;
@@ -531,9 +773,10 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return courseEnroll;
     }
 
-     /**
-     * Connects to database, obtains and returns a CourseExit with PKs serviceId and courseCode
-     * from the CourseEnroll table. Returns <code>null</code> if serviceId/courseCode is invalid.
+    /**
+     * Connects to database, obtains and returns a CourseExit with PKs serviceId and
+     * courseCode from the CourseEnroll table. Returns <code>null</code> if
+     * serviceId/courseCode is invalid.
      * 
      * @param courseCode unique course code of the course
      * @param serviceId  unique ID of the service
@@ -545,8 +788,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             ResultSet results = DatabaseSelector.getCourseExit(connection, serviceId, courseCode);
             courseExit = new CourseExitBuilder().setCourseCode(results.getString("course_code"))
-                    .setExitDate(results.getDate("exit_date").toString())
-                    .setReason(results.getString("reason"))
+                    .setExitDate(results.getDate("exit_date").toString()).setReason(results.getString("reason"))
                     .setListeningLevel(results.getString("listening_level"))
                     .setReadingLevel(results.getString("reading_level"))
                     .setSpeakingLevel(results.getString("speaking_level"))
@@ -563,4 +805,32 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return courseExit;
     }
+    
+    /**
+     * Connects to the TEQ database and returns the clientID for a service
+     * 
+     * @param serviceID 
+     * @return clientID id of the client
+     * @throws SQLException on failure of selection
+     */
+    public static int getClientID(int serviceID) throws SQLException {
+       
+        int clientID = 0;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT client_id FROM Service WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceID);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+            	clientID = result.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+   
+        return clientID;
+    }
+    
+
 }
