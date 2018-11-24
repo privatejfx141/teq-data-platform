@@ -40,6 +40,8 @@ public class DatabasePresetQuery {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connection.close();
         }
         throw new SQLException();
     }
@@ -66,6 +68,8 @@ public class DatabasePresetQuery {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connection.close();
         }
         throw new SQLException();
     }
@@ -100,8 +104,8 @@ public class DatabasePresetQuery {
     }
 
     /**
-     * Connects to the TEQ database and returns all the client id's
-     * with the given constraints Returns a list of client id's
+     * Connects to the TEQ database and returns all the client id's with the given
+     * constraints Returns a list of client id's
      * 
      * @param attribute  the column you want to put a constraint on
      * @param constraint the value of the constraint
@@ -121,6 +125,8 @@ public class DatabasePresetQuery {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connection.close();
         }
         return clientIDList;
     }
@@ -203,7 +209,6 @@ public class DatabasePresetQuery {
             }
             count++;
         }
-
         double percentage = (clientsWithinRange / numberOfClients) * 100;
         String percentageOfClients = percentage + "%";
         return percentageOfClients;
@@ -232,6 +237,8 @@ public class DatabasePresetQuery {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connection.close();
         }
         throw new SQLException();
     }
@@ -259,6 +266,8 @@ public class DatabasePresetQuery {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connection.close();
         }
         throw new SQLException();
     }
@@ -284,6 +293,7 @@ public class DatabasePresetQuery {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
         return listStartDate;
     }
 
@@ -307,6 +317,7 @@ public class DatabasePresetQuery {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        connection.close();
         return listEndDate;
     }
 
@@ -358,7 +369,7 @@ public class DatabasePresetQuery {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        connection.close();
         return clientIDList;
     }
 
@@ -389,6 +400,54 @@ public class DatabasePresetQuery {
             }
         }
         return numberOfUsers;
+    }
+
+    /**
+     * Connects to the TEQ database and returns a list of IDs of clients residing at
+     * the address with the given postal code.
+     * 
+     * @param postalCode postal code
+     * @return list of client IDs at the postal code
+     * @throws SQLException on failure of selection
+     */
+    public static List<Integer> getClientIDsAtAddress(String postalCode) throws SQLException {
+        List<Integer> clientIds = new ArrayList<>();
+        String sql = "SELECT DISTINCT c.id FROM Client WHERE address_id IN "
+                + "(SELECT DISTINCT a.id FROM Address a WHERE UPPER(postal_code) = ?)";
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, postalCode.toUpperCase());
+        ResultSet results = statement.executeQuery();
+        while (results.next()) {
+            clientIds.add(results.getInt(1));
+        }
+        connection.close();
+        return clientIds;
+    }
+
+    /**
+     * Connects to the TEQ database and returns a list of IDs of clients residing at
+     * the given city and province.
+     * 
+     * @param city     name of city
+     * @param province name of province
+     * @return list of IDs of clients residing at city, province
+     * @throws SQLException on failure of selection
+     */
+    public static List<Integer> getClientIDsAtAddress(String city, String province) throws SQLException {
+        List<Integer> clientIds = new ArrayList<>();
+        String sql = "SELECT DISTINCT c.id FROM Client WHERE address_id IN "
+                + "(SELECT DISTINCT a.id FROM Address a WHERE LOWER(city) = ? AND LOWER(province) = ?)";
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, city.toLowerCase());
+        statement.setString(2, province.toLowerCase());
+        ResultSet results = statement.executeQuery();
+        while (results.next()) {
+            clientIds.add(results.getInt(1));
+        }
+        connection.close();
+        return clientIds;
     }
 
 }
