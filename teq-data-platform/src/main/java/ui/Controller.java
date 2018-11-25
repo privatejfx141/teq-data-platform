@@ -351,7 +351,7 @@ public class Controller {
             String serviceType = p1value;
             String inputStart = p2value;
             String inputEnd = p3value;
-            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat sdf1 = new SimpleDateFormat("YYYY-MM-DD");
             java.util.Date date = sdf1.parse(inputStart);
             java.util.Date date2 = sdf1.parse(inputEnd);
             java.sql.Date startDate = new java.sql.Date(date.getTime());
