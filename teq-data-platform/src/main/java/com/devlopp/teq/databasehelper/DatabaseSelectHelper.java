@@ -11,6 +11,7 @@ import java.util.List;
 import com.devlopp.teq.address.*;
 import com.devlopp.teq.client.*;
 import com.devlopp.teq.course.*;
+import com.devlopp.teq.database.DatabaseInsertException;
 import com.devlopp.teq.database.DatabaseSelector;
 import com.devlopp.teq.service.*;
 import com.devlopp.teq.service.assessment.*;

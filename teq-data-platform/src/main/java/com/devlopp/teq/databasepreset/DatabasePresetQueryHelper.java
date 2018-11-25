@@ -39,6 +39,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         throw new SQLException();
     }
@@ -95,6 +97,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         return clientIDList;
     }
@@ -162,6 +166,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
 
         return clientIDList;
@@ -190,6 +196,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         throw new SQLException();
     }
@@ -217,6 +225,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         throw new SQLException();
     }
@@ -241,6 +251,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         return listStartDate;
     }
@@ -292,6 +304,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         throw new SQLException();
     }
