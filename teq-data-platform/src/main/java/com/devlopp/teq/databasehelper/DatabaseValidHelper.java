@@ -1,5 +1,10 @@
 package com.devlopp.teq.databasehelper;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import com.devlopp.teq.databasepreset.DatabasePresetQuery;
+
 /**
  * Helper methods for checking if input to database is valid.
  */
@@ -82,7 +87,8 @@ public class DatabaseValidHelper {
      * @return <code>true</code> if client has taken the service
      */
     public static boolean clientTakenService(int clientId, int serviceId) {
-        return false;
+        List<Integer> serviceIds = DatabaseSelectHelper.getClientServices(clientId);
+        return serviceIds.contains(serviceId);
     }
 
     /**
@@ -95,7 +101,12 @@ public class DatabaseValidHelper {
      * @return <code>true</code> if client has taken the course
      */
     public static boolean clientTakenCourse(int clientId, String courseCode) {
-        return false;
+        try {
+            List<String> coursesTaken = DatabasePresetQuery.getCoursesTaken(clientId);
+            return coursesTaken.contains(courseCode);
+        } catch (SQLException e) {
+            return false;
+        }
     }
 
 }

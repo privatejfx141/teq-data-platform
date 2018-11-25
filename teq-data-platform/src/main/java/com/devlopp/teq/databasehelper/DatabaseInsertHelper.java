@@ -340,4 +340,5 @@ public class DatabaseInsertHelper extends DatabaseInserter {
         }
         return exitId;
     }
+
 }
