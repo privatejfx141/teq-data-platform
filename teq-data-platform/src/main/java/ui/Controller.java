@@ -147,7 +147,8 @@ public class Controller {
     		SignUpNotice.setText("The user name already exist");
     	} else {
      	    String pwd = SignPwd.getText();
-    	    String roleName = ""; //SignRole.getText();
+    	    String roleName = SignRole.getValue(); 
+    	    
     	    int roleId = DatabaseSelectHelper.getPlatformRoleId(roleName);
     	    if (roleId == -1 ) {
     	    	SignUpNotice.setText("No such role exists");
