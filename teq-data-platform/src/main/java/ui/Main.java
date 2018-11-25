@@ -24,7 +24,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader
-                .load(getClass().getResource("/fxml/home.fxml"));
+                .load(getClass().getResource("/fxml/start.fxml"));
         primaryStage.setTitle("TEQ data platform");
         primaryStage.setScene(new Scene(root, 700, 800));
         primaryStage.show();        
