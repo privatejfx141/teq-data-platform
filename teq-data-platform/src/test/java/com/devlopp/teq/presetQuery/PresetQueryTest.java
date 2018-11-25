@@ -25,7 +25,7 @@ public class PresetQueryTest {
     void testClientCount() throws SQLException {
     	CreateObject.cleanDb();
         int serviceId = CreateObject.createService();
-        int numClients = DatabasePresetQuery.getNumberOfClients(serviceId);
+        int numClients = DatabasePresetQueryHelper.getNumberOfClients(serviceId);
         assertEquals(numClients, 1);
     }
 
