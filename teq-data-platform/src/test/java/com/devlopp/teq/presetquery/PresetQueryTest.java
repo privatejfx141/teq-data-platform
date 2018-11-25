@@ -78,7 +78,7 @@ public class PresetQueryTest {
     	CreateObject.cleanDb();
     	CreateObject.createClient();
     	CreateObject.createManyClients();
-        List<Integer> clientIDs = DatabasePresetQueryHelper.getClientIds();
+        List<Integer> clientIDs = DatabaseSelectHelper.getAllClientIds();
         
         //test if client ids and ages are correct
         assertEquals(53, DatabasePresetQueryHelper.getAgeOfClient(
