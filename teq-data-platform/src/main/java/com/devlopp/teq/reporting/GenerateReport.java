@@ -9,10 +9,18 @@ import org.jfree.ui.RefineryUtilities;
 
 import com.devlopp.teq.databasepreset.DatabasePresetQuery;
 import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
-import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
+import org.jfree.data.general.DefaultPieDataset;
 
 public class GenerateReport {
 
+    /**
+     * Create a visual bar line graph to to show the user of a service over time
+     * 
+     * @param serviceType name of the service type
+     * @param yearStart   year to start tracking use of the service
+     * @param yearEnd     year to stop tracking use of the service
+     */
+    @SuppressWarnings("deprecation")
     public static void generateTrendsInService(String serviceType, Integer yearStart, Integer yearEnd) {
         List<Date> dates = null;
         try {
@@ -39,6 +47,68 @@ public class GenerateReport {
         chart.pack();
         RefineryUtilities.centerFrameOnScreen(chart);
         chart.setVisible(true);
-
     }
+
+    /**
+     * Create a visual pie chart to show percentage of ages in the database
+     */
+    public static void generateChartofAge() {
+        String interval = "";
+        int AGE_INTERVALS = 10;
+        int minAge;
+        int maxAge;
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        int i;
+        for (i = 1; i <= AGE_INTERVALS; i++) {
+            minAge = 1 + (10 * (i - 1));
+            maxAge = 10 * i;
+            try {
+                interval = DatabasePresetQuery.getPercentageOfClientsWithinAgeRange(minAge, maxAge);
+                interval = "20.0%";
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            double percent = Double.parseDouble(interval.substring(0, interval.length() - 1));
+            dataset.setValue("Age " + minAge + " to " + maxAge, percent);
+        }
+
+        PieChart chart = new PieChart("Percentage of Age Ranges", "Percentage of Age Ranges", dataset);
+        chart.setSize(560, 367);
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+    }
+
+    /**
+     * Create a visual bar graph to show use of each service type
+     */
+    public static void generateChartOfServicesUsed() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String numUsers = "";
+        int i;
+        try {
+            numUsers = DatabasePresetQuery.getNumberUsersServices();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        String[] arrayNumUsers = numUsers.split("\n");
+        for (i = 0; i < arrayNumUsers.length; i++) {
+            if (i == 0) {
+                // pass
+            } else {
+                int lastIndex = arrayNumUsers[i].length();
+                String templateType = arrayNumUsers[i].substring(0, arrayNumUsers[i].indexOf(":"));
+                String strNumUsers = arrayNumUsers[i].substring(lastIndex - 1, lastIndex);
+                Double doubleNumUsers = Double.parseDouble(strNumUsers);
+                dataset.addValue(doubleNumUsers, templateType, "");
+            }
+        }
+        BarChart chart = new BarChart("Number of People Using Services", "Number of People Using Services",
+                "Service Type", "Number of People", dataset);
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+    }
+
 }

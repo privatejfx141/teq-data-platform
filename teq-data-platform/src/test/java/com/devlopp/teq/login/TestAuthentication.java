@@ -17,9 +17,7 @@ public class TestAuthentication {
     static final String TEST_DB_NAME = "test.db";
 
     static void cleanDb() {
-        if (!DatabaseDriverHelper.databaseExists()) {
-            DatabaseDriverHelper.initializeDatabase();
-        } else if (DatabaseDriverHelper.deleteDatabase()) {
+        if (!DatabaseDriverHelper.databaseExists() || DatabaseDriverHelper.deleteDatabase()) {
             DatabaseDriverHelper.initializeDatabase();
         }
     }

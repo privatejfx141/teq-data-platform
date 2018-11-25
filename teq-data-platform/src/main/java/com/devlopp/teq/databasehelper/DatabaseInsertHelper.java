@@ -9,6 +9,7 @@ import com.devlopp.teq.course.Course;
 import com.devlopp.teq.database.DatabaseInsertException;
 import com.devlopp.teq.database.DatabaseInserter;
 import com.devlopp.teq.security.PasswordHelper;
+import com.devlopp.teq.service.Service;
 import com.devlopp.teq.service.assessment.Assessment;
 import com.devlopp.teq.service.commconn.CommunityConnections;
 import com.devlopp.teq.service.courseenroll.CourseEnroll;
@@ -46,7 +47,7 @@ public class DatabaseInsertHelper extends DatabaseInserter {
      * 
      * @param username username
      * @param password cleartext password
-     * @param roleId ID of the user's role
+     * @param roleId   ID of the user's role
      * @return ID of the user
      */
     public static int insertPlatformUser(String username, String password, int roleId) {
@@ -170,6 +171,38 @@ public class DatabaseInsertHelper extends DatabaseInserter {
             }
         }
         return addressId;
+    }
+
+    /**
+     * Inserts a service into the TEQ database and returns the service ID if
+     * successful.
+     * 
+     * @param service service to insert
+     * @return service ID if successful, -1 otherwise
+     */
+    public static int insertService(Service service) {
+        int serviceId = DatabaseValidHelper.INVALID_ID;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        if (service instanceof Assessment) {
+            serviceId = insertAssessment((Assessment) service);
+        } else if (service instanceof CommunityConnections) {
+            serviceId = insertCommunityConnections((CommunityConnections) service);
+        } else if (service instanceof Orientation) {
+            serviceId = insertOrientation((Orientation) service);
+        } else if (service instanceof Employment) {
+            serviceId = insertEmployment((Employment) service);
+        } else if (service instanceof CourseEnroll) {
+            serviceId = insertCourseEnroll((CourseEnroll) service);
+        } else if (service instanceof CourseExit) {
+            serviceId = insertCourseExit((CourseExit) service);
+        } else {
+            try {
+                serviceId = DatabaseInserter.insertService(connection, service);
+            } catch (DatabaseInsertException e) {
+                serviceId = DatabaseValidHelper.INVALID_ID;
+            }
+        }
+        return serviceId;
     }
 
     /**
@@ -307,4 +340,5 @@ public class DatabaseInsertHelper extends DatabaseInserter {
         }
         return exitId;
     }
+
 }

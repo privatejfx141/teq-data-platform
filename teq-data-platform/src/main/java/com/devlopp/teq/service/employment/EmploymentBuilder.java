@@ -3,6 +3,7 @@ package com.devlopp.teq.service.employment;
 import com.devlopp.teq.service.ServiceBuilder;
 
 public class EmploymentBuilder extends ServiceBuilder implements IEmploymentBuilder {
+
     private Employment employment;
 
     public EmploymentBuilder() {
@@ -19,43 +20,43 @@ public class EmploymentBuilder extends ServiceBuilder implements IEmploymentBuil
 
     @Override
     public IEmploymentBuilder setReferralTo(String referral) {
-        employment.referral = referral;
+        employment.referral = referral.trim();
         return this;
     }
 
     @Override
     public IEmploymentBuilder setReferralDate(String date) {
-        employment.date = date;
+        employment.date = date.trim();
         return this;
     }
 
     @Override
     public IEmploymentBuilder setEmploymentStatus(String status) {
-        employment.employmentStatus = status;
+        employment.employmentStatus = status.trim();
         return this;
     }
 
     @Override
     public IEmploymentBuilder setEducationStatus(String status) {
-        employment.educationStatus = status;
+        employment.educationStatus = status.trim();
         return this;
     }
 
     @Override
     public IEmploymentBuilder setOccupationCanada(String occupation) {
-        employment.occupationCanada = occupation;
+        employment.occupationCanada = occupation.trim();
         return this;
     }
 
     @Override
     public IEmploymentBuilder setOccupationIntended(String occupation) {
-        employment.occupationIntended = occupation;
+        employment.occupationIntended = occupation.trim();
         return this;
     }
 
     @Override
-    public IEmploymentBuilder setInterventionType(String intType) {
-        employment.interventionType = intType;
+    public IEmploymentBuilder setInterventionType(String interventionType) {
+        employment.interventionType = interventionType.trim();
         return this;
     }
 
@@ -81,4 +82,5 @@ public class EmploymentBuilder extends ServiceBuilder implements IEmploymentBuil
     public Employment create() {
         return employment;
     }
+
 }

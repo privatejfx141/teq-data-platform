@@ -11,25 +11,24 @@ public class AssessmentBuilder extends ServiceBuilder implements IAssessmentBuil
     public AssessmentBuilder() {
         service = new Assessment();
         setServiceType("A");
-        assessment = (Assessment)service;
-        
+        assessment = (Assessment) service;
     }
 
     @Override
     public IAssessmentBuilder setStartDate(String startDate) {
-        assessment.startDate = startDate;
+        assessment.startDate = startDate.trim();
         return this;
     }
 
     @Override
     public IAssessmentBuilder setLanguageGoal(String languageGoal) {
-        assessment.languageSkillGoal = languageGoal;
+        assessment.languageSkillGoal = languageGoal.trim();
         return this;
     }
 
     @Override
     public IAssessmentBuilder setOtherGoal(String otherGoal) {
-        assessment.otherSkillGoal = otherGoal;
+        assessment.otherSkillGoal = otherGoal.trim();
         return this;
     }
 
@@ -53,7 +52,7 @@ public class AssessmentBuilder extends ServiceBuilder implements IAssessmentBuil
 
     @Override
     public IAssessmentBuilder setEndDate(String endDate) {
-        assessment.endDate = endDate;
+        assessment.endDate = endDate.trim();
         return this;
     }
 
@@ -62,7 +61,7 @@ public class AssessmentBuilder extends ServiceBuilder implements IAssessmentBuil
         assessment.findEmployment = new FindEmployment(timeFrame, minExp, skillLevel, intends);
         return this;
     }
-    
+
     @Override
     public IAssessmentBuilder setIncrease(Map<String, Boolean> increase) {
         assessment.increases = increase;
@@ -74,9 +73,10 @@ public class AssessmentBuilder extends ServiceBuilder implements IAssessmentBuil
         assessment.nonIRCCServices = nonIRCCServices;
         return this;
     }
-    
+
     @Override
     public Assessment create() {
         return assessment;
     }
+
 }

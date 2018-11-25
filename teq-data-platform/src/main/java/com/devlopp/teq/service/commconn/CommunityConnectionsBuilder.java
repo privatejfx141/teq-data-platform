@@ -13,25 +13,25 @@ public class CommunityConnectionsBuilder extends ServiceBuilder implements IComm
 
     @Override
     public ICommunityConnectionsBuilder setEventType(String eventType) {
-        community.eventType = eventType;
+        community.eventType = eventType.trim();
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setMainTopic(String mainTopic) {
-        community.mainTopic = mainTopic;
+        community.mainTopic = mainTopic.trim();
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setServiceReceived(String serviceReceived) {
-        community.serviceReceived = serviceReceived;
+        community.serviceReceived = serviceReceived.trim();
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setParticipants(String participants) {
-        community.participants = participants;
+        community.participants = participants.trim();
         return this;
     }
 
@@ -43,31 +43,31 @@ public class CommunityConnectionsBuilder extends ServiceBuilder implements IComm
 
     @Override
     public ICommunityConnectionsBuilder setStatus(String status) {
-        community.status = status;
+        community.status = status.trim();
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setReasonForLeave(String reasonForLeave) {
-        community.reasonForLeave = reasonForLeave;
+        community.reasonForLeave = reasonForLeave.trim();
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setStartDate(String startDate) {
-        community.startDate = startDate;
+        community.startDate = startDate.trim();
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setEndDate(String endDate) {
-        community.endDate = endDate;
+        community.endDate = endDate.trim();
         return this;
     }
 
     @Override
     public ICommunityConnectionsBuilder setProjectedEndDate(String projectedEndDate) {
-        community.projectedEndDate = projectedEndDate;
+        community.projectedEndDate = projectedEndDate.trim();
         return this;
     }
 

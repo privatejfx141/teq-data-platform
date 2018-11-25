@@ -202,14 +202,13 @@ public class DatabasePresetQuery {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-            	connection.close();
             }
         }
         String languagesSpoken = "Languages Spoken\n";
         for (String key : languages.keySet()) {
         	languagesSpoken = languagesSpoken +key + ":" +languages.get(key) + "\n" ;
         }
+        connection.close();
         return languagesSpoken.substring(0, languagesSpoken.length() - 1);
     }
     
@@ -232,10 +231,9 @@ public class DatabasePresetQuery {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-            	connection.close();
             }
         }
+        connection.close();
         return userCount.substring(0, userCount.length() - 1);
     }
 
