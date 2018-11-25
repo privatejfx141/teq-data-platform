@@ -357,7 +357,7 @@ public class DatabaseInserter {
      * ID if insertion was successful.
      *
      * @param connection connection to the TEQ database
-     * @param service    assessment service info to insert
+     * @param mockService    assessment service info to insert
      * @return service ID (primary key) of the inserted assessment service
      * @throws DatabaseInsertException on failure of insert
      */
@@ -392,7 +392,7 @@ public class DatabaseInserter {
      * service ID if insertion was successful.
      *
      * @param connection connection to the TEQ database
-     * @param service    assessment service to insert
+     * @param mockService    assessment service to insert
      * @return service ID (primary key) of the inserted assessment service
      * @throws DatabaseInsertException on failure of insert
      */
