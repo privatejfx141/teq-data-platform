@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.devlopp.teq.address.Address;
 
 public class Client {
+
     protected int id = -1;
     protected int idType = -1;
     protected String birthDate = "";
@@ -77,4 +78,5 @@ public class Client {
         }
         return "Client(" + String.join(", ", repr) + ")";
     }
+
 }

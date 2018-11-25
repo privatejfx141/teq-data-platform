@@ -3,6 +3,7 @@ package com.devlopp.teq.app;
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.parser.CommunityConnectionsParser;
 import com.devlopp.teq.parser.TemplateParser;
+import com.devlopp.teq.reporting.generateReport;
 import com.devlopp.teq.service.commconn.CommunityConnections;
 
 public class App {
@@ -16,7 +17,7 @@ public class App {
             DatabaseDriverHelper.initializeDatabase();
         }
         
-        String filePath = "src/main/java/com/devlopp/teq/excel/iCARE_Templates.xlsx";
+/*        String filePath = "src/main/java/com/devlopp/teq/excel/iCARE_Templates.xlsx";
         TemplateParser parser = new CommunityConnectionsParser();
         parser.read(filePath, 4);
         for (Object record : parser.parse()) {
@@ -25,8 +26,8 @@ public class App {
             System.out.println(comm.getReasonForLeave());
             System.out.println(comm.getEssentialSkills());
             System.out.println(comm.getTargetGroups());
-        }
-        
+        }*/
+        generateReport.generateTrendsInService("CommunityConnections", 110, 120);
     }
     
 }
