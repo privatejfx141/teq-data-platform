@@ -1,26 +1,18 @@
 package com.devlopp.teq.app;
 
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
-import com.devlopp.teq.parser.CommunityConnectionsParser;
-import com.devlopp.teq.parser.TemplateParser;
-import com.devlopp.teq.reporting.GenerateReport;
-import com.devlopp.teq.service.commconn.CommunityConnections;
 
 public class App {
-   
+
     public static void main(String[] args) {
         System.out.println("TEQ LIP data platform");
-        
+
         boolean dbExists = DatabaseDriverHelper.databaseExists();
         System.out.println("Database exists: " + dbExists);
         if (!dbExists) {
             DatabaseDriverHelper.initializeDatabase();
         }
-        CreateObject.createManyClients();
-        CreateObject.createDifferentServices();
-        CreateObject.createServiceWithLanguage("English");
-       
 
     }
-    
+
 }
