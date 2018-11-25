@@ -5,10 +5,11 @@ import java.sql.Date;
 import java.util.List;
 
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.ui.RefineryUtilities;
+
 import com.devlopp.teq.databasepreset.DatabasePresetQuery;
 import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
+import org.jfree.data.general.DefaultPieDataset;
 
 public class GenerateReport {
 

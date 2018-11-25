@@ -12,6 +12,7 @@ public class App {
         if (!dbExists) {
             DatabaseDriverHelper.initializeDatabase();
         }
+
     }
 
 }

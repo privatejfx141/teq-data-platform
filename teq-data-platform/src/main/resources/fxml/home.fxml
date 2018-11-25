@@ -12,42 +12,59 @@
 <?import javafx.scene.layout.GridPane?>
 <?import java.lang.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
-   <children>
-      <AnchorPane layoutX="120.0" layoutY="173.0" prefHeight="55.0" prefWidth="460.0" AnchorPane.leftAnchor="120.0">
-         <children>
-            <Label layoutY="18.0" text="Step 1" />
-             <ComboBox fx:id="templateTypes" layoutX="79.0" layoutY="13.0" prefHeight="30.0" prefWidth="243.0" promptText="Select Template Type">
-                 <items>
-                     <FXCollections fx:factory="observableArrayList">
-                     	<String fx:value="Client Profile" />
-                     	<String fx:value="Needs Assessment and Referrals" />
-                     	<String fx:value="Community Connections" />
-                         <String fx:value="Info and Orientation" />
-                         <String fx:value="Employment" />
-                         <String fx:value="LT Course Enrol" />
-                         <String fx:value="LT Course Setup" />
-                         <String fx:value="LT Course Exit" />
-                     </FXCollections>
-                 </items>
-             </ComboBox>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="113.0" layoutY="283.0" prefHeight="55.0" prefWidth="460.0" AnchorPane.leftAnchor="113.0">
-         <children>
-            <Label layoutX="7.0" layoutY="19.0" text="Step 2" />
-             <Button fx:id="addFileButton" layoutX="80.0" layoutY="14.0" onAction="#handleAddFileAction" prefHeight="30.0" prefWidth="335.0" text="Select Excel File and Upload">
-               <font>
-                  <Font name="System Bold" size="15.0" />
-               </font></Button>
-         </children>
-      </AnchorPane>
-      <Label fx:id="uploadNotice" layoutX="108.0" layoutY="228.0" prefHeight="55.0" prefWidth="485.0" textFill="#250ceb" wrapText="true" AnchorPane.leftAnchor="108.0" />
-      <Label layoutX="117.0" layoutY="110.0" text="Upload Client Information to Database" AnchorPane.leftAnchor="117.0">
-         <font>
-            <Font name="Arial" size="26.0" />
-         </font>
-      </Label>
-      <Button fx:id="goReportButton" layoutX="485.0" layoutY="721.0" mnemonicParsing="false" onAction="#goReport" text="Go to Generate Reports" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0"
+	prefWidth="700.0" style="-fx-background-color: white;"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="ui.Controller">
+	<children>
+		<AnchorPane layoutX="120.0" layoutY="173.0"
+			prefHeight="55.0" prefWidth="460.0" AnchorPane.leftAnchor="120.0">
+			<children>
+				<Label layoutY="18.0" text="Step 1" />
+				<ComboBox fx:id="templateTypes" layoutX="79.0"
+					layoutY="13.0" prefHeight="30.0" prefWidth="243.0"
+					promptText="Select Template Type">
+					<items>
+						<FXCollections fx:factory="observableArrayList">
+							<String fx:value="Client Profile" />
+							<String fx:value="Needs Assessment and Referrals" />
+							<String fx:value="Community Connections" />
+							<String fx:value="Info and Orientation" />
+							<String fx:value="Employment" />
+							<String fx:value="LT Course Enrol" />
+							<String fx:value="LT Course Setup" />
+							<String fx:value="LT Course Exit" />
+						</FXCollections>
+					</items>
+				</ComboBox>
+			</children>
+		</AnchorPane>
+		<AnchorPane layoutX="113.0" layoutY="283.0"
+			prefHeight="55.0" prefWidth="460.0" AnchorPane.leftAnchor="113.0">
+			<children>
+				<Label layoutX="7.0" layoutY="19.0" text="Step 2" />
+				<Button fx:id="addFileButton" layoutX="80.0" layoutY="14.0"
+					onAction="#handleAddFileAction" prefHeight="30.0" prefWidth="335.0"
+					text="Select Excel File and Upload">
+					<font>
+						<Font name="System Bold" size="15.0" />
+					</font>
+				</Button>
+			</children>
+		</AnchorPane>
+		<Label fx:id="uploadNotice" layoutX="108.0" layoutY="228.0"
+			prefHeight="55.0" prefWidth="485.0" textFill="#250ceb"
+			wrapText="true" AnchorPane.leftAnchor="108.0" />
+		<Label layoutX="117.0" layoutY="110.0"
+			text="Upload Client Information to Database"
+			AnchorPane.leftAnchor="117.0">
+			<font>
+				<Font name="Arial" size="26.0" />
+			</font>
+		</Label>
+		<Button fx:id="goReportButton" layoutX="485.0" layoutY="721.0"
+			mnemonicParsing="false" onAction="#goReport"
+			text="Go to Generate Reports" />
+	</children>
 </AnchorPane>

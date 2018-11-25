@@ -66,7 +66,7 @@ public class Controller {
     @FXML
     private TextField SignName;
     @FXML
-    private TextField SignRole;
+    private ComboBox<String> SignRole;
     @FXML
     private PasswordField SignPwd;
     @FXML
@@ -141,24 +141,24 @@ public class Controller {
     }
 
     public void handleSignUp(ActionEvent actionEvent) {
-        String userName = SignName.getText();
-        int checkUserId = DatabaseSelectHelper.getPlatformUserId(userName);
-        if (checkUserId != -1) {
-            SignUpNotice.setText("The user name already exist");
-        } else {
-            String pwd = SignPwd.getText();
-            String roleName = SignRole.getText();
-            int roleId = DatabaseSelectHelper.getPlatformRoleId(roleName);
-            if (roleId == -1) {
-                SignUpNotice.setText("No such role exists");
-            } else if (!(DatabaseValidHelper.validPassword(pwd)) || !(DatabaseValidHelper.validUsername(userName))) {
-                SignUpNotice.setText("Username or password is not valid (should be between 4 and 64 chars).");
-            } else {
-                DatabaseInsertHelper.insertPlatformUser(userName, pwd, roleId);
-                SignUpNotice.setText("Successfully signed up!");
-            }
-        }
-
+    	String userName = SignName.getText();
+    	int checkUserId = DatabaseSelectHelper.getPlatformUserId(userName);
+    	if (checkUserId != -1) {
+    		SignUpNotice.setText("The user name already exist");
+    	} else {
+     	    String pwd = SignPwd.getText();
+    	    String roleName = ""; //SignRole.getText();
+    	    int roleId = DatabaseSelectHelper.getPlatformRoleId(roleName);
+    	    if (roleId == -1 ) {
+    	    	SignUpNotice.setText("No such role exists");
+    	    } else if ( !(DatabaseValidHelper.validPassword(pwd))|| !(DatabaseValidHelper.validUsername(userName))) {
+    	    	SignUpNotice.setText("Username or password is not valid (should be between 4 and 64 chars).");
+    	    } else {
+    		    DatabaseInsertHelper.insertPlatformUser(userName, pwd, roleId);
+    		    SignUpNotice.setText("Successfully signed up!");
+    	    }
+    	}
+  	
     }
 
     public void handleLogIn(ActionEvent actionEvent) {
