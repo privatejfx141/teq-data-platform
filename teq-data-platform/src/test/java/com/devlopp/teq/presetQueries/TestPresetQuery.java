@@ -1,4 +1,4 @@
-package com.devlopp.teq.presetQuery;
+package com.devlopp.teq.presetQueries;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 import com.devlopp.teq.databasepreset.DatabasePresetQuery;
 import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
 
-public class PresetQueryTest {
+public class TestPresetQuery {
 
     @Test
     @DisplayName("test count number of clients for a service")
