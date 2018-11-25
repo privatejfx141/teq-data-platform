@@ -5,12 +5,12 @@ public class FindEmployment {
     private String minExp;
     private String skillLevel;
     private String intends;
-    
+
     public FindEmployment(String timeFrame, String minExp, String skillLevel, String intends) {
-        this.timeFrame = timeFrame;
-        this.minExp = minExp;
-        this.skillLevel = skillLevel;
-        this.intends = intends;
+        this.timeFrame = timeFrame.trim();
+        this.minExp = minExp.trim();
+        this.skillLevel = skillLevel.trim();
+        this.intends = intends.trim();
     }
 
     public String getTimeFrame() {
@@ -28,7 +28,7 @@ public class FindEmployment {
     public String getIntendsToObtain() {
         return intends;
     }
-    
+
     public String toString() {
         return String.format("FindEmployment(%s, %s, %s, %s)", timeFrame, minExp, skillLevel, intends);
     }

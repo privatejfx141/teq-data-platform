@@ -29,6 +29,10 @@ public class DatabaseDriverHelper extends DatabaseDriver {
     public static void initializeDatabase() {
         DatabaseDriver.initializeDatabase();
     }
+    
+    public static void initializeUserRoles() {
+        DatabaseDriver.initializeUserRoles();
+    }
 
     public static boolean databaseExists(String dbName) {
         return DatabaseDriver.databaseExists(dbName);

@@ -81,7 +81,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return roleId;
     }
-    
+
     public static String getPlatformRole(int roleId) {
         String roleName = null;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
@@ -219,9 +219,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
 
     /**
      * Returns the character signifying the type of service with ID serviceId. One
-     * of the six characters are returned: "A" - Needs Assessment & Referrals "C" -
-     * Community Connections "O" - Information & Orientation "E" - Employment "N" -
-     * LT Course Enroll "X" - LT Course Exit
+     * of the six characters are returned:"A" - Needs Assessment & Referrals, "C" -
+     * Community Connections, "O" - Information & Orientation, "E" - Employment, "N"
+     * - LT Course Enroll, "X" - LT Course Exit
      * 
      * @param serviceId the ID of the service
      * @return character of the type of service
@@ -310,12 +310,15 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             ResultSet results = DatabaseSelector.getClient(connection, clientId);
             while (results.next()) {
                 IClientBuilder builder = new ClientBuilder();
-                client = builder.setId(results.getInt("id")).setIdType(results.getInt("id_type"))
-                        .setBirthDate(results.getDate("birth_date").toString())
-                        .setPhoneNumber(results.getString("phone_number"))
-                        .setEmailAddress(results.getString("email_address"))
-                        .setAddress(getAddress(results.getInt("address_id"))).setLanguage(results.getString("language"))
-                        .setConsent(results.getBoolean("consents")).create();
+                client = builder.setId(results.getInt("id")) //
+                        .setIdType(results.getInt("id_type")) //
+                        .setBirthDate(results.getDate("birth_date").toString()) //
+                        .setPhoneNumber(results.getString("phone_number")) //
+                        .setEmailAddress(results.getString("email_address")) //
+                        .setAddress(getAddress(results.getInt("address_id"))) //
+                        .setLanguage(results.getString("language")) //
+                        .setConsent(results.getBoolean("consents")) //
+                        .create();
             }
         } catch (SQLException e) {
             client = null;
@@ -365,7 +368,7 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             ResultSet results = DatabaseSelector.getAddress(connection, addressId);
             while (results.next()) {
-                IAddressBuilder builder = new AddressBuilder(); //
+                IAddressBuilder builder = new AddressBuilder();
                 address = builder.setId(results.getInt("id")) //
                         .setPostalCode(results.getString("postal_code")) //
                         .setUnitNumber(results.getInt("unit_number")) //
@@ -401,11 +404,14 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             ResultSet results = DatabaseSelector.getServiceDetails(connection, serviceId);
             // get data from service table
-            builder.setId(results.getInt("id")).setClientId(results.getInt("client_id"))
-                    .setPostalCode(results.getString("postal_code")).setLanguage(results.getString("language"))
-                    .setOrganizationType(results.getString("organization_type"))
-                    .setReferredBy(results.getString("referred_by")).setUpdateReason(results.getString("update_reason"))
-                    .setServiceType(results.getString("service_type"));
+            builder.setId(results.getInt("id")) //
+                    .setClientId(results.getInt("client_id")) //
+                    .setPostalCode(results.getString("postal_code")) //
+                    .setLanguage(results.getString("language")) //
+                    .setOrganizationType(results.getString("organization_type")) //
+                    .setReferredBy(results.getString("referred_by")) //
+                    .setUpdateReason(results.getString("update_reason")) //
+                    .setServiceType(results.getString("service_type")); //
             // get essential skills
             List<String> essentialSkills = new ArrayList<>();
             results = DatabaseSelector.getServiceEssentialSkill(connection, serviceId);
@@ -465,13 +471,13 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             // get data for assessment service object
             ResultSet results = DatabaseSelector.getAssessmentDetails(connection, serviceId);
-            builder.setStartDate(results.getDate("start_date").toString())
-                    .setLanguageGoal(results.getString("language_skill_goal"))
-                    .setOtherGoal(results.getString("other_skill_goal"))
-                    .setIntendsCitizenship(results.getBoolean("intends_citizenship"))
-                    .setReqSupportServices(results.getBoolean("req_support_service"))
-                    .setPlanComplete(results.getBoolean("plan_complete"))
-                    .setEndDate(results.getDate("end_date").toString());
+            builder.setStartDate(results.getDate("start_date").toString()) //
+                    .setLanguageGoal(results.getString("language_skill_goal")) //
+                    .setOtherGoal(results.getString("other_skill_goal")) //
+                    .setIntendsCitizenship(results.getBoolean("intends_citizenship")) //
+                    .setReqSupportServices(results.getBoolean("req_support_service")) //
+                    .setPlanComplete(results.getBoolean("plan_complete")) //
+                    .setEndDate(results.getDate("end_date").toString()); //
             // get find employment responses
             results = DatabaseSelector.getAssessmentFindEmployment(connection, serviceId);
             while (results.next()) {
@@ -522,15 +528,18 @@ public class DatabaseSelectHelper extends DatabaseSelector {
                 new CommunityConnectionsBuilder());
         try {
             ResultSet results = DatabaseSelector.getCommunityConnectionsDetails(connection, serviceId);
-            community = builder.setEventType(results.getString("event_type"))
-                    .setMainTopic(results.getString("main_topic"))
-                    .setServiceReceived(results.getString("service_recieved"))
-                    .setParticipants(results.getString("participants")).setVolunteers(results.getBoolean("volunteers"))
-                    .setStatus(results.getString("status")).setReasonForLeave(results.getString("reason_for_leave"))
-                    .setStartDate(results.getDate("start_date").toString())
-                    .setEndDate(results.getDate("end_date").toString())
-                    .setProjectedEndDate(results.getDate("projected_end_date").toString())
-                    .setLengthHours(results.getInt("length_hours")).setLengthMinutes(results.getInt("length_minutes"))
+            community = builder.setEventType(results.getString("event_type")) //
+                    .setMainTopic(results.getString("main_topic")) //
+                    .setServiceReceived(results.getString("service_recieved")) //
+                    .setParticipants(results.getString("participants")) //
+                    .setVolunteers(results.getBoolean("volunteers")) //
+                    .setStatus(results.getString("status")) //
+                    .setReasonForLeave(results.getString("reason_for_leave")) //
+                    .setStartDate(results.getDate("start_date").toString()) //
+                    .setEndDate(results.getDate("end_date").toString()) //
+                    .setProjectedEndDate(results.getDate("projected_end_date").toString()) //
+                    .setLengthHours(results.getInt("length_hours")) //
+                    .setLengthMinutes(results.getInt("length_minutes")) //
                     .create();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -561,11 +570,13 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             // get orientation details
             ResultSet results = DatabaseSelector.getOrientationDetails(connection, serviceId);
-            orientation = builder.setServiceReceived(results.getString("service_recieved"))
-                    .setTotalLength(results.getString("total_length")).setLengthHours(results.getInt("length_hours"))
-                    .setLengthMinutes(results.getInt("length_minutes"))
-                    .setNumberOfClients(results.getString("number_of_clients"))
-                    .setEndDate(results.getDate("end_date").toString()).create();
+            orientation = builder.setServiceReceived(results.getString("service_recieved")) //
+                    .setTotalLength(results.getString("total_length")) //
+                    .setLengthHours(results.getInt("length_hours")) //
+                    .setLengthMinutes(results.getInt("length_minutes")) //
+                    .setNumberOfClients(results.getString("number_of_clients")) //
+                    .setEndDate(results.getDate("end_date").toString()) //
+                    .create();
             // add orientation topics
             results = DatabaseSelector.getOrientationTopic(connection, serviceId);
             while (results.next()) {
@@ -602,31 +613,33 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             ResultSet results = DatabaseSelector.getEmploymentDetails(connection, serviceId);
             while (results.next()) {
-                builder.setRegistration(results.getBoolean("registration"))
-                        .setReferralTo(results.getString("referral_to"))
-                        .setReferralDate(results.getDate("referral_date").toString())
-                        .setEmploymentStatus(results.getString("employment_status"))
-                        .setEducationStatus(results.getString("education_status"))
-                        .setOccupationCanada(results.getString("occupation_canada"))
-                        .setOccupationIntended(results.getString("occupation_intend"))
-                        .setInterventionType(results.getString("intervention_type"))
-                        .setTimeSpentHours(results.getInt("time_spent_hours"))
-                        .setTimeSpentMinutes(results.getInt("time_spent_minutes"));
+                builder.setRegistration(results.getBoolean("registration")) //
+                        .setReferralTo(results.getString("referral_to")) //
+                        .setReferralDate(results.getDate("referral_date").toString()) //
+                        .setEmploymentStatus(results.getString("employment_status")) //
+                        .setEducationStatus(results.getString("education_status")) //
+                        .setOccupationCanada(results.getString("occupation_canada")) //
+                        .setOccupationIntended(results.getString("occupation_intend")) //
+                        .setInterventionType(results.getString("intervention_type")) //
+                        .setTimeSpentHours(results.getInt("time_spent_hours")) //
+                        .setTimeSpentMinutes(results.getInt("time_spent_minutes")); //
             }
             // get LTI responses, if any
             results = DatabaseSelector.getEmploymentLTI(connection, serviceId);
             while (results.next()) {
-                LongTermIntervention lti = new LongTermInterventionBuilder()
-                        .setServiceRecieved(results.getString("service_recieved"))
-                        .setStatus(results.getString("status")).setReasonForLeave(results.getString("reason_for_leave"))
-                        .setStartDate(results.getDate("start_date").toString())
-                        .setEndDate(results.getDate("end_date").toString())
-                        .setEmployerSize(results.getString("employer_size"))
-                        .setPlacement(results.getString("placement_was"))
-                        .setAverageHoursPerWeek(results.getString("avg_hours_per_week"))
-                        .setMetMentorAt(results.getString("hours_per_week"))
-                        .setHoursPeerWeek(results.getString("hours_per_week"))
-                        .setProfession(results.getString("profession")).create();
+                LongTermIntervention lti = new LongTermInterventionBuilder() //
+                        .setServiceRecieved(results.getString("service_recieved")) //
+                        .setStatus(results.getString("status")) //
+                        .setReasonForLeave(results.getString("reason_for_leave")) //
+                        .setStartDate(results.getDate("start_date").toString()) //
+                        .setEndDate(results.getDate("end_date").toString()) //
+                        .setEmployerSize(results.getString("employer_size")) //
+                        .setPlacement(results.getString("placement_was")) //
+                        .setAverageHoursPerWeek(results.getString("avg_hours_per_week")) //
+                        .setMetMentorAt(results.getString("hours_per_week")) //
+                        .setHoursPeerWeek(results.getString("hours_per_week")) //
+                        .setProfession(results.getString("profession")) //
+                        .create();
                 builder.setLongTermIntervention(lti);
             }
             // create employment service object, then add STI responses if any
@@ -657,8 +670,9 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         ICourseEnrollBuilder builder = (ICourseEnrollBuilder) getServiceDetails(serviceId, new CourseEnrollBuilder());
         try {
             ResultSet results = DatabaseSelector.getCourseEnroll(connection, serviceId);
-            enroll = builder.setCourseCode(results.getString("course_code"))
-                    .setFirstClassDate(results.getDate("first_class_date").toString()).create();
+            enroll = builder.setCourseCode(results.getString("course_code")) //
+                    .setFirstClassDate(results.getDate("first_class_date").toString()) //
+                    .create();
         } catch (SQLException e) {
             e.printStackTrace();
             enroll = null;
@@ -678,12 +692,14 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         ICourseExitBuilder builder = (ICourseExitBuilder) getServiceDetails(serviceId, new CourseExitBuilder());
         try {
             ResultSet results = DatabaseSelector.getCourseExit(connection, serviceId);
-            exit = builder.setCourseCode(results.getString("course_code"))
-                    .setExitDate(results.getDate("exit_date").toString()).setReason(results.getString("reason"))
-                    .setListeningLevel(results.getString("listening_level"))
-                    .setReadingLevel(results.getString("reading_level"))
-                    .setSpeakingLevel(results.getString("speaking_level"))
-                    .setWritingLevel(results.getString("writing_level")).create();
+            exit = builder.setCourseCode(results.getString("course_code")) //
+                    .setExitDate(results.getDate("exit_date").toString()) //
+                    .setReason(results.getString("reason")) //
+                    .setListeningLevel(results.getString("listening_level")) //
+                    .setReadingLevel(results.getString("reading_level")) //
+                    .setSpeakingLevel(results.getString("speaking_level")) //
+                    .setWritingLevel(results.getString("writing_level")) //
+                    .create();
         } catch (SQLException e) {
             e.printStackTrace();
             exit = null;
@@ -702,28 +718,35 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             ResultSet results = DatabaseSelector.getCourseContact(connection, courseCode);
-            CourseContact contact = new CourseContactBuilder().setContactName(results.getString("contact_name"))
-                    .setAddress(getAddress(results.getInt("address_id")))
-                    .setTelephoneNumber(results.getString("telephone_number"))
-                    .setTelephoneExt(results.getString("telephone_ext"))
-                    .setEmailAddress(results.getString("email_address")).create();
+            CourseContact contact = new CourseContactBuilder() //
+                    .setContactName(results.getString("contact_name")) //
+                    .setAddress(getAddress(results.getInt("address_id"))) //
+                    .setTelephoneNumber(results.getString("telephone_number")) //
+                    .setTelephoneExt(results.getString("telephone_ext")) //
+                    .setEmailAddress(results.getString("email_address")) //
+                    .create();
             ICourseBuilder builder = new CourseBuilder();
             results = DatabaseSelector.getCourse(connection, courseCode);
-            course = builder.setCourseCode(courseCode).setNotes(results.getString("notes"))
-                    .setOngoingBasis(results.getBoolean("ongoing_basis")).setLanguage(results.getString("language"))
-                    .setTrainingFormat(results.getString("training_format"))
-                    .setClassesHeldAt(results.getString("classes_held_at"))
-                    .setInpersonInstruct(results.getFloat("inperson_instruct"))
-                    .setOnlineInstruct(results.getFloat("online_instruct"))
-                    .setNumberOfSpots(results.getInt("number_of_spots"))
-                    .setNumberOfIRCC(results.getInt("number_of_ircc"))
-                    .setEnrollmentType(results.getString("enrollment_type"))
-                    .setStartDate(results.getDate("start_date").toString())
-                    .setEndDate(results.getDate("end_date").toString())
-                    .setInstructHours(results.getString("instruct_hours"))
-                    .setWeeklyHours(results.getInt("hours_per_week")).setNumWeeks(results.getInt("weeks"))
-                    .setNumWeeksPerYear(results.getInt("weeks_per_year"))
-                    .setDominantFocus(results.getString("dominant_focus")).setCourseContact(contact).create();
+            course = builder.setCourseCode(courseCode) //
+                    .setNotes(results.getString("notes")) //
+                    .setOngoingBasis(results.getBoolean("ongoing_basis")) //
+                    .setLanguage(results.getString("language")) //
+                    .setTrainingFormat(results.getString("training_format")) //
+                    .setClassesHeldAt(results.getString("classes_held_at")) //
+                    .setInpersonInstruct(results.getFloat("inperson_instruct")) //
+                    .setOnlineInstruct(results.getFloat("online_instruct")) //
+                    .setNumberOfSpots(results.getInt("number_of_spots")) //
+                    .setNumberOfIRCC(results.getInt("number_of_ircc")) //
+                    .setEnrollmentType(results.getString("enrollment_type")) //
+                    .setStartDate(results.getDate("start_date").toString()) //
+                    .setEndDate(results.getDate("end_date").toString()) //
+                    .setInstructHours(results.getString("instruct_hours")) //
+                    .setWeeklyHours(results.getInt("hours_per_week")) //
+                    .setNumWeeks(results.getInt("weeks")) //
+                    .setNumWeeksPerYear(results.getInt("weeks_per_year")) //
+                    .setDominantFocus(results.getString("dominant_focus")) //
+                    .setCourseContact(contact) //
+                    .create();
             results = DatabaseSelector.getCourseSchedule(connection, courseCode);
             while (results.next()) {
                 course.addSchedule(results.getString("description"));
@@ -758,9 +781,10 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             ResultSet results = DatabaseSelector.getCourseContact(connection, courseCode);
-            courseEnroll = new CourseEnrollBuilder().setCourseCode(results.getString("course_code"))
-                    .setFirstClassDate(results.getDate("first_class_date").toString()).create();
-
+            courseEnroll = new CourseEnrollBuilder() //
+                    .setCourseCode(results.getString("course_code")) //
+                    .setFirstClassDate(results.getDate("first_class_date").toString()) //
+                    .create();
         } catch (SQLException e) {
             courseEnroll = null;
         } finally {
@@ -787,13 +811,15 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         try {
             ResultSet results = DatabaseSelector.getCourseExit(connection, serviceId, courseCode);
-            courseExit = new CourseExitBuilder().setCourseCode(results.getString("course_code"))
-                    .setExitDate(results.getDate("exit_date").toString()).setReason(results.getString("reason"))
-                    .setListeningLevel(results.getString("listening_level"))
-                    .setReadingLevel(results.getString("reading_level"))
-                    .setSpeakingLevel(results.getString("speaking_level"))
-                    .setWritingLevel(results.getString("writing_level")).create();
-
+            courseExit = new CourseExitBuilder() //
+                    .setCourseCode(results.getString("course_code")) //
+                    .setExitDate(results.getDate("exit_date").toString()) //
+                    .setReason(results.getString("reason")) //
+                    .setListeningLevel(results.getString("listening_level")) //
+                    .setReadingLevel(results.getString("reading_level")) //
+                    .setSpeakingLevel(results.getString("speaking_level")) //
+                    .setWritingLevel(results.getString("writing_level")) //
+                    .create();
         } catch (SQLException e) {
             courseExit = null;
         } finally {
@@ -805,16 +831,16 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         }
         return courseExit;
     }
-    
+
     /**
      * Connects to the TEQ database and returns the clientID for a service
      * 
-     * @param serviceID 
+     * @param serviceID
      * @return clientID id of the client
      * @throws SQLException on failure of selection
      */
     public static int getClientID(int serviceID) throws SQLException {
-       
+
         int clientID = 0;
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
         String sql = "SELECT client_id FROM Service WHERE ID = ?";
@@ -822,15 +848,14 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, serviceID);
             ResultSet result = statement.executeQuery();
-            while(result.next()) {
-            	clientID = result.getInt(1);
+            while (result.next()) {
+                clientID = result.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-   
+
         return clientID;
     }
-    
 
 }

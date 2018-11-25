@@ -2,7 +2,6 @@ package com.devlopp.teq.databasepreset;
 
 import java.sql.Connection;
 
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +16,7 @@ import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 
 public class DatabasePresetQueryHelper {
-	
+
     /**
      * Connects to the TEQ database and gets the date of birth for a specific client
      * Returns the birth date of a client
@@ -40,10 +39,12 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         throw new SQLException();
     }
-    
+
     /**
      * Connects to the TEQ database and gets the age for a specific client Returns
      * the number of clients
@@ -73,34 +74,35 @@ public class DatabasePresetQueryHelper {
 
         return age;
     }
-    
-    
+
     /**
-     * Connects to the TEQ database and returns all the client id's with the given constraints
-     * Returns a list of client id's
+     * Connects to the TEQ database and returns all the client id's with the given
+     * constraints Returns a list of client id's
      * 
-     * @param attribute the column you want to put a constraint on
+     * @param attribute  the column you want to put a constraint on
      * @param constraint the value of the constraint
      * @return a list containing the client id's
      * @throws SQLException on failure of selection
      */
-    public static  List<Integer> getClientIDWithConstraint(String attribute, String constraint) throws SQLException {
-    	Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
-        List<Integer> clientIDList= new ArrayList<Integer>();
+    public static List<Integer> getClientIDWithConstraint(String attribute, String constraint) throws SQLException {
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        List<Integer> clientIDList = new ArrayList<Integer>();
         String sql = "SELECT id FROM Client WHERE " + attribute + " = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, constraint );
+            statement.setString(1, constraint);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-            	clientIDList.add(result.getInt(1));
+                clientIDList.add(result.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         return clientIDList;
     }
-    
+
     /**
      * Connects to the TEQ database and returns a list of the ages for a client
      * Returns the client ages
@@ -113,58 +115,64 @@ public class DatabasePresetQueryHelper {
         List<Integer> clientAgeList = new ArrayList<Integer>();
         int count = 0;
         while (count < clientID.size()) {
-            int tempAge = DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientID.get(count)));
+            int tempAge = DatabasePresetQueryHelper
+                    .getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientID.get(count)));
             clientAgeList.add(tempAge);
             count++;
         }
         return clientAgeList;
     }
-    
+
     /**
-     * Given a list of client ids, return a list of their ages
-     * Returns list of client ages
+     * Given a list of client ids, return a list of their ages Returns list of
+     * client ages
      * 
      * @param clientList list of client ids
      * @return a list containing the client's ages
      * @throws SQLException on failure of selection
      */
-    public static  List<Integer> getListOfAges(List<Integer> clientIDs) throws SQLException {
-        List<Integer> clientAgeList= new ArrayList<Integer>();
+    public static List<Integer> getListOfAges(List<Integer> clientIDs) throws SQLException {
+        List<Integer> clientAgeList = new ArrayList<Integer>();
         int count = 0;
         while (count < clientIDs.size()) {
-        	int tempAge = DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(count)));
-        	clientAgeList.add(tempAge);
-        	count ++;
+            int tempAge = DatabasePresetQueryHelper
+                    .getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(count)));
+            clientAgeList.add(tempAge);
+            count++;
         }
 
         return clientAgeList;
     }
 
     /**
-     * Connects to the TEQ database and returns the client ids for the user of a service
+     * Connects to the TEQ database and returns the client ids for the user of a
+     * service
      * 
      * @param serviceType type of service queried
      * @return clientIDList list of client ids of users that user a specific service
      * @throws SQLException on failure of selection
      */
     public static List<Integer> getClientIDsForService(String serviceType) throws SQLException {
-       
+
         List<Integer> clientIDList = new ArrayList<Integer>();
         Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
-        String sql = "SELECT client_id FROM Service," + serviceType + " WHERE Service.ID = " + serviceType + ".service_id";
+        String sql = "SELECT client_id FROM Service," + serviceType + " WHERE Service.ID = " + serviceType
+                + ".service_id";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-            	clientIDList.add(result.getInt(1));
+                clientIDList.add(result.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
-   
+
         return clientIDList;
     }
-    
+
     /**
      * Connects to the TEQ database and returns the start date and end date of a
      * service Returns the start date of service
@@ -188,6 +196,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         throw new SQLException();
     }
@@ -215,10 +225,12 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         throw new SQLException();
     }
-    
+
     /**
      * Connects to the TEQ database and returns a list of the start date for a
      * service
@@ -239,6 +251,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         return listStartDate;
     }
@@ -262,10 +276,12 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connection.close();
         }
         return listEndDate;
     }
-    
+
     /**
      * Connects to the TEQ database and gets the number of clients for a service
      * Returns the number of clients
@@ -288,6 +304,8 @@ public class DatabasePresetQueryHelper {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+        	connection.close();
         }
         throw new SQLException();
     }
