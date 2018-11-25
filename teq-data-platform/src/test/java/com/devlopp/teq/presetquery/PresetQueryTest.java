@@ -1,14 +1,11 @@
 package com.devlopp.teq.presetQuery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,9 +18,8 @@ import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 import com.devlopp.teq.databasepreset.DatabasePresetQuery;
 import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
-
 public class PresetQueryTest {
-    
+	
     @Test
     @DisplayName("test count number of clients for a service")
     void testClientCount() throws SQLException {
@@ -32,7 +28,7 @@ public class PresetQueryTest {
         int numClients = DatabasePresetQuery.getNumberOfClients(serviceId);
         assertEquals(numClients, 1);
     }
-    
+
     @Test
     @DisplayName("test get birth date of client")
     void testClientBirthdate() throws SQLException {
@@ -41,12 +37,11 @@ public class PresetQueryTest {
         Date birthDate = DatabasePresetQueryHelper.getBirthDate(clientId);
         assertEquals("1965-09-13", birthDate.toString());
     }
-    
+
     @Test
     @DisplayName("test get age of client from birthdate")
     void testClientAge() throws SQLException {
     	CreateObject.cleanDb();
-        
         // client object for testing else if statement of getAgeOfClient method
         IClientBuilder clientBuilder = new ClientBuilder();
         Client client = clientBuilder.setId(CreateObject.clientIdSt).setIdType(1)
@@ -55,7 +50,7 @@ public class PresetQueryTest {
                 .setConsent(ExcelDriver.parseYesNo("Yes")).create();
         CreateObject.clientIdSt++;
         int tempClientId = DatabaseInsertHelper.insertClient(client);
-        
+
         // client object for testing else statement of getAgeOfClient method
         IClientBuilder clientBuilder3 = new ClientBuilder();
         Client client3 = clientBuilder3.setId(CreateObject.clientIdSt).setIdType(1)
@@ -64,7 +59,6 @@ public class PresetQueryTest {
                 .setConsent(ExcelDriver.parseYesNo("Yes")).create();
         CreateObject.clientIdSt++;
         int tempClientId3 = DatabaseInsertHelper.insertClient(client3);
-        
         int clientId = CreateObject.createClient();
         Date birthDate = DatabasePresetQueryHelper.getBirthDate(clientId);
         int age = DatabasePresetQueryHelper.getAgeOfClient(birthDate);
@@ -77,7 +71,7 @@ public class PresetQueryTest {
         assertEquals(84, age3);
         
     }
-    
+
     @Test
     @DisplayName("test get all client ids")
     void testGetClientIDs() throws SQLException {
@@ -96,7 +90,7 @@ public class PresetQueryTest {
         assertEquals(54, DatabasePresetQueryHelper.getAgeOfClient(
         		DatabasePresetQueryHelper.getBirthDate(clientIDs.get(3))));
     }
-    
+
     @Test
     @DisplayName("test get list of client ages")
     void testGetClientAges() throws SQLException {
@@ -107,9 +101,9 @@ public class PresetQueryTest {
         assertEquals(Integer.valueOf(53), clientAgeList.get(0));
         assertEquals(Integer.valueOf(32), clientAgeList.get(1));
         assertEquals(Integer.valueOf(84), clientAgeList.get(2));
-        assertEquals(Integer.valueOf(54), clientAgeList.get(3));  
+        assertEquals(Integer.valueOf(54), clientAgeList.get(3));
     }
-    
+
     @Test
     @DisplayName("test get average client age")
     void testGetAverageClientAge() throws SQLException {
@@ -118,7 +112,7 @@ public class PresetQueryTest {
     	CreateObject.createManyClients();
         double averageClientAge = DatabasePresetQuery.getAverageClientAge();
         assertEquals(averageClientAge, 55.75);
-        
+
     }
 
     @Test
@@ -132,11 +126,9 @@ public class PresetQueryTest {
         String percentageWithinRange = DatabasePresetQuery
         		.getPercentageOfClientsWithinAgeRange(32, 53);
         assertEquals(percentageWithinRange, "50.0%");
-        String percentageWithinRange2 = DatabasePresetQuery
-        		.getPercentageOfClientsWithinAgeRange(32, 54);
+        String percentageWithinRange2 = DatabasePresetQuery.getPercentageOfClientsWithinAgeRange(32, 54);
         assertEquals(percentageWithinRange2, "75.0%");
     }
-    
 
     @Test
     @DisplayName("test get start date and end date of a service")
@@ -156,7 +148,7 @@ public class PresetQueryTest {
         assertEquals(startDateS2.toString() + " to " + endDateS2.toString(),
         		"2014-04-15 to 2018-07-24" );
     }
-    
+
     @Test
     @DisplayName("test gets a list of start dates for a service")
     void testListOfStartDates() throws SQLException {
@@ -171,7 +163,7 @@ public class PresetQueryTest {
         assertEquals("1980-03-27", list.get(0).toString());
         assertEquals("2014-04-15", list.get(1).toString());
     }
-    
+
     @Test
     @DisplayName("test gets a list of end dates for a service")
     void testListOfEndDates() throws SQLException {
@@ -186,7 +178,7 @@ public class PresetQueryTest {
         assertEquals("2017-05-24", list.get(0).toString());
         assertEquals("2018-07-24", list.get(1).toString());
     }
-    
+
     @Test
     @DisplayName("test gets the number of users that have used a service within the date")
     void testNumberOfUsersWithinDate() throws SQLException, ParseException {
@@ -198,16 +190,15 @@ public class PresetQueryTest {
     	CreateObject.createServiceObject("2012-04-15", "2013-03-12"); //not in range
     	CreateObject.createServiceObject("2019-04-15", "2020-02-05"); //not in range
 
-        //created Date objects for the range to be checked
+        // created Date objects for the range to be checked
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
         Date startDate = sdf.parse("2014-05-08");
         Date endDate = sdf.parse("2018-12-23");
-        
-        int numberOfUsers = DatabasePresetQuery.getNumOfUsersWithinRange("CommunityConnections", 
-        		startDate, endDate);
+
+        int numberOfUsers = DatabasePresetQuery.getNumOfUsersWithinRange("CommunityConnections", startDate, endDate);
         assertEquals(numberOfUsers, 2);
     }
-    
+
     @Test
     @DisplayName("test gets client ids with constraint")
     void testGetClientIDsWithConstraint() throws SQLException, ParseException {
@@ -223,8 +214,8 @@ public class PresetQueryTest {
         assertEquals(clientIDs.get(1).intValue(), clientID2);
         assertEquals(clientIDs.get(2).intValue(), clientID3);
         assertEquals(clientIDs.get(3).intValue(), clientID4);
-        }
-    
+    }
+
     @Test
     @DisplayName("test gets client ids for a specific service")
     void testGetNumUsersWithinAgeRange() throws SQLException, ParseException {
@@ -240,7 +231,6 @@ public class PresetQueryTest {
         assertEquals(clientID + 1, clientIDList.get(1).intValue());
         assertEquals(clientID + 2, clientIDList.get(2).intValue());
     }
-        
 
     @Test
     @DisplayName("test get number of users that have used a service within an age range")
@@ -281,6 +271,4 @@ public class PresetQueryTest {
         assertEquals(userCount,"Number of Users\nCommunityConnections:3\nAssessment:1\nOrientation:1\nCourse:0\nEmployment:1\nCourseEnroll:0\nCourseExit:0");
         }
     
-    
-
 }
