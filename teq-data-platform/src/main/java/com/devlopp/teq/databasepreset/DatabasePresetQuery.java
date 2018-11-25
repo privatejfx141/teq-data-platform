@@ -134,8 +134,7 @@ public class DatabasePresetQuery {
 
     /**
      * Connects to the TEQ database and returns a list of the ages for a client
-     * Returns the client ages ======= Connects to the TEQ database and a list of
-     * the ages for a client Returns the client ages >>>>>>> master
+     * and returns the client ages.
      * 
      * @return a list containing the client's ages
      * @throws SQLException on failure of selection
@@ -375,8 +374,6 @@ public class DatabasePresetQuery {
     }
 
     /**
-=======
->>>>>>> master
      * Connects to the TEQ database and returns the number of users within a certain
      * age range that are using a specific service
      * 
