@@ -47,7 +47,6 @@ public class DatabasePresetQuery {
         throw new SQLException();
     }
 
-
     /**
      * Connects to the TEQ database and returns the average age of all clients.
      * 
@@ -117,6 +116,36 @@ public class DatabasePresetQuery {
     }
 
     /**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+     * Connects to the TEQ database and returns the client ids for the user of a
+     * service
+     * 
+     * @param serviceType type of service queried
+     * @return clientIDList list of client ids of users that user a specific service
+     * @throws SQLException on failure of selection
+     */
+    public static List<Integer> getClientIDsForService(String serviceType) throws SQLException {
+        List<Integer> clientIDList = new ArrayList<Integer>();
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT client_id FROM Service," + serviceType + " WHERE Service.ID = " + serviceType
+                + ".service_id";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                clientIDList.add(result.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        connection.close();
+        return clientIDList;
+    }
+
+    /**
+>>>>>>> c201e47d1cc02b9ee0896ab3d933f737aa9bd894
      * Connects to the TEQ database and returns the number of users within a certain
      * age range that are using a specific service
      * 
