@@ -1,4 +1,4 @@
-package com.devlopp.teq.presetQuery;
+package com.devlopp.teq.presetQueries;
 
 import java.io.File;
 import java.util.ArrayList;
