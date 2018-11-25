@@ -2,8 +2,6 @@ package com.devlopp.teq.service;
 
 import java.util.List;
 
-import com.devlopp.teq.service.assessment.Assessment;
-
 public abstract class ServiceBuilder implements IServiceBuilder {
     protected Service service;
 

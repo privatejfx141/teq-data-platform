@@ -8,9 +8,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-
 import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.parser.TemplateParser;
 import com.devlopp.teq.parser.TemplateParserFactory;
