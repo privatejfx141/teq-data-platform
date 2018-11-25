@@ -36,12 +36,14 @@ import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 import com.devlopp.teq.databasehelper.DatabaseValidHelper;
 import com.devlopp.teq.databasepreset.DatabasePresetQuery;
 import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
+import com.devlopp.teq.excel.ExcelReader;
 import com.devlopp.teq.parser.TemplateParser;
 import com.devlopp.teq.parser.TemplateParserFactory;
 import com.devlopp.teq.reporting.GenerateReport;
 import com.devlopp.teq.security.PasswordHelper;
 import com.devlopp.teq.sql.SQLDriver;
 import com.sun.javafx.stage.ScreenHelper;
+import com.sun.media.sound.InvalidFormatException;
 
 public class Controller {
 
@@ -106,6 +108,25 @@ public class Controller {
 
     public void handleAddFileAction(ActionEvent actionEvent) {
         String templateType = templateTypes.getValue();
+        int templateTypeInt = 0;
+        if (templateType == "Client Profile") {
+        	templateTypeInt = 2;
+        } else if(templateType == "Needs Assessment and Referrals") {
+        	templateTypeInt = 3;
+        }else if(templateType == "Community Connections") {
+        	templateTypeInt = 4;
+        }else if(templateType == "Info and Orientation") {
+        	templateTypeInt = 5;
+        }else if(templateType == "Employment") {
+        	templateTypeInt = 6;
+        }else if(templateType == "LT Course Enrol") {
+        	templateTypeInt = 7;
+        }else if(templateType == "LT Course Setup") {
+        	templateTypeInt = 8;
+        }else if(templateType == "LT Course Exit") {
+        	templateTypeInt = 9;
+        }
+
         if (templateType != null) {
             FileChooser chooser = new FileChooser();
             File dataFile = chooser.showOpenDialog(new Stage());
@@ -114,8 +135,21 @@ public class Controller {
                 // if data file was of Excel
                 String ext = getFileExtension(dataFile);
                 if (ext.startsWith("xls")) {
-                    insertData(dataFile.getPath(), templateType);
-                    uploadNotice.setText("The information has been uploaded.");
+                	//Double doubleTemplateType = Double.valueOf(templateType);
+                	String output = "";
+                	try {
+						output = ExcelReader.errorChecking(0, dataFile.getPath(), templateTypeInt);
+						System.out.println(output);
+					} catch (org.apache.poi.openxml4j.exceptions.InvalidFormatException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+                	if (output.equals("")) {
+	                    insertData(dataFile.getPath(), templateType);
+	                    uploadNotice.setText("The information has been uploaded.");
+                	} else {
+                		uploadNotice.setText(output);
+                	}
                 } else {
                     uploadNotice.setText("File must be an Excel file!");
                 }
