@@ -137,7 +137,13 @@ public class ExcelReader {
         workbook.close();
         return output;
     }
-
+    /**
+     * Returns an array containing all the mandatory fields in templates
+     * 
+     * @return an array containing all the mandatory fields in templates
+     * @throws InvalidFormatException
+     * @throws IOException
+     */
     private static ArrayList<String> getMandatoryColumns() throws InvalidFormatException, IOException {
         ArrayList<String> mandatoryColumns = new ArrayList<>();
         mandatoryColumns.add("Unique Identifier");
@@ -219,7 +225,14 @@ public class ExcelReader {
         workbook.close();
         return allHeaders;
     }
-
+    
+    /**
+     * Creates allowed values for all templates
+     * 
+     * @return returns a HashMap with all allowed values for each column
+     * @throws InvalidFormatException
+     * @throws IOException
+     */
     @SuppressWarnings("resource")
     public static HashMap<String, ArrayList<String>> createAllowedValues() throws InvalidFormatException, IOException {
         Workbook workbook = null;
