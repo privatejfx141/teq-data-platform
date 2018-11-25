@@ -1,4 +1,4 @@
-package com.devlopp.teq.presetquery;
+package com.devlopp.teq.presetQuery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
