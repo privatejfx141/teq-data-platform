@@ -18,7 +18,7 @@ import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 import com.devlopp.teq.databasepreset.DatabasePresetQuery;
 import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
-public class PresetQueryTest2 {
+public class PresetQueryTest {
 	
     @Test
     @DisplayName("test count number of clients for a service")
