@@ -9,12 +9,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	
 
     public static void main(String[] args) {
         boolean dbExists = DatabaseDriverHelper.databaseExists();
         System.out.println("Database exists: " + dbExists);
         if (!dbExists) {
-            DatabaseDriverHelper.initializeDatabase();
+            DatabaseDriverHelper.initializeDatabase();   
+            DatabaseDriverHelper.initializeUserRoles();
         }
         launch(args);
     }
@@ -24,7 +26,9 @@ public class Main extends Application {
         Parent root = FXMLLoader
                 .load(getClass().getResource("/fxml/home.fxml"));
         primaryStage.setTitle("TEQ data platform");
-        primaryStage.setScene(new Scene(root, 360, 275));
-        primaryStage.show();
+        primaryStage.setScene(new Scene(root, 700, 800));
+        primaryStage.show();        
+
     }
+
 }

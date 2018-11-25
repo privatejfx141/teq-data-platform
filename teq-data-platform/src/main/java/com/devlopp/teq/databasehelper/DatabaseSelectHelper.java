@@ -1,14 +1,17 @@
 package com.devlopp.teq.databasehelper;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.devlopp.teq.address.*;
 import com.devlopp.teq.client.*;
 import com.devlopp.teq.course.*;
+import com.devlopp.teq.database.DatabaseInsertException;
 import com.devlopp.teq.database.DatabaseSelector;
 import com.devlopp.teq.service.*;
 import com.devlopp.teq.service.assessment.*;
@@ -797,6 +800,13 @@ public class DatabaseSelectHelper extends DatabaseSelector {
             }
         }
         return courseExit;
+    }
+    
+    public static ResultSet getSqlResult(String sqlCommand) throws SQLException{
+    	Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(sqlCommand);
+		return rs;
     }
 
 }
