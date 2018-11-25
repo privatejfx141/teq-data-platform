@@ -34,9 +34,11 @@ import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 import com.devlopp.teq.databasehelper.DatabaseValidHelper;
 import com.devlopp.teq.databasepreset.DatabasePresetQuery;
+import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
 import com.devlopp.teq.parser.TemplateParser;
 import com.devlopp.teq.parser.TemplateParserFactory;
 import com.devlopp.teq.security.PasswordHelper;
+import com.devlopp.teq.sql.SQLDriver;
 import com.sun.javafx.stage.ScreenHelper;
 
 public class Controller {
@@ -230,7 +232,11 @@ public class Controller {
     		p2.setText("startDate");
     		p3.setText("endDate");
     		
-    	} 	
+    	} else if (presetQuery.equals("getClientIds")) {
+    		p1.setText("attribute");
+    		p2.setText("constraint");
+    		
+    	} 
     	
     }
     
@@ -242,18 +248,20 @@ public class Controller {
 
     	if (presetQuery.equals("getNumberOfClients")) {
     		int serviceId = Integer.parseInt(p1value);
-			int result = DatabasePresetQuery.getNumberOfClients(serviceId);
+			int result = DatabasePresetQueryHelper.getNumberOfClients(serviceId);
 			reportResult.setText(Integer.toString(result));
 
     	} else if (presetQuery.equals("getBirthDate")) {
     		int clientId = Integer.parseInt(p1value);
-			Date result = DatabasePresetQuery.getBirthDate(clientId);
+			Date result = DatabasePresetQueryHelper.getBirthDate(clientId);
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 			String text = df.format(result);			 
 			reportResult.setText(text);
     		
     	} else if (presetQuery.equals("getClientIds")) {
-			List<Integer> result = DatabasePresetQuery.getClientIds();
+    		String attribute = p1value;
+    		String constraint = p2value;
+			List<Integer> result = DatabasePresetQueryHelper.getClientIDWithConstraint(attribute, constraint);
 			reportResult.setText(Arrays.toString(result.toArray()));
     		
     	} else if (presetQuery.equals("getAgeOfClient")) {
@@ -261,11 +269,11 @@ public class Controller {
     		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
     		java.util.Date date = sdf1.parse(input);
     		java.sql.Date birthDate = new java.sql.Date(date.getTime()); 
-    		int result = DatabasePresetQuery.getAgeOfClient(birthDate);
+    		int result = DatabasePresetQueryHelper.getAgeOfClient(birthDate);
     		reportResult.setText(Integer.toString(result));
     		
     	} else if (presetQuery.equals("getListOfAges")) {
-    		List<Integer> result = DatabasePresetQuery.getListOfAges();
+    		List<Integer> result = DatabasePresetQueryHelper.getListOfAges();
     		reportResult.setText(Arrays.toString(result.toArray()));
     		
     	} else if (presetQuery.equals("getAverageClientAge")) {
@@ -281,7 +289,7 @@ public class Controller {
     	} else if (presetQuery.equals("getServiceStartDate")) {
     		int serviceId = Integer.parseInt(p1value);
     		String serviceType = p2value;
-    		Date result = DatabasePresetQuery.getServiceStartDate(serviceId, serviceType);
+    		Date result = DatabasePresetQueryHelper.getServiceStartDate(serviceId, serviceType);
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 			String text = df.format(result);			 
 			reportResult.setText(text);
@@ -289,19 +297,19 @@ public class Controller {
     	} else if (presetQuery.equals("getServiceEndDate")) {
     		int serviceId = Integer.parseInt(p1value);
     		String serviceType = p2value;
-    		Date result = DatabasePresetQuery.getServiceEndDate(serviceId, serviceType);
+    		Date result = DatabasePresetQueryHelper.getServiceEndDate(serviceId, serviceType);
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 			String text = df.format(result);			 
 			reportResult.setText(text);
     		
     	} else if (presetQuery.equals("getListOfStartDates")) {
     		String serviceType = p1value;
-    		List<Date> result = DatabasePresetQuery.getListOfStartDates(serviceType);
+    		List<Date> result = DatabasePresetQueryHelper.getListOfStartDates(serviceType);
     		reportResult.setText(Arrays.toString(result.toArray()));
     		
     	} else if (presetQuery.equals("getListOfEndDates")) {
     		String serviceType = p1value;
-    		List<Date> result = DatabasePresetQuery.getListOfEndDates(serviceType);
+    		List<Date> result = DatabasePresetQueryHelper.getListOfEndDates(serviceType);
     		reportResult.setText(Arrays.toString(result.toArray()));
     		
     	} else if (presetQuery.equals("getNumOfUsersWithinRange")) {
@@ -328,18 +336,23 @@ public class Controller {
     
     public void generateOwn(ActionEvent actionEvent) throws SQLException {
     	String sqlCommand = sqlInput.getText();
-    	ResultSet rs = getSqlResult(sqlCommand);
-    	
-    	ResultSetMetaData rsmd = rs.getMetaData();
-    	int columnsNumber = rsmd.getColumnCount();
-    	while (rs.next()) {
-    	    for (int i = 1; i <= columnsNumber; i++) {
-    	        if (i > 1) reportResult.setText(",  ");
-    	        String columnValue = rs.getString(i);
-    	        reportResult.setText(columnValue + " " + rsmd.getColumnName(i));
-    	    }
-    	    reportResult.setText("");
-    	}  	
+    	if (SQLDriver.isSelectQuery(sqlCommand)) {
+        	ResultSet rs = getSqlResult(sqlCommand);
+        	
+        	ResultSetMetaData rsmd = rs.getMetaData();
+        	int columnsNumber = rsmd.getColumnCount();
+        	while (rs.next()) {
+        	    for (int i = 1; i <= columnsNumber; i++) {
+        	        if (i > 1) reportResult.setText(",  ");
+        	        String columnValue = rs.getString(i);
+        	        reportResult.setText(columnValue + " " + rsmd.getColumnName(i));
+        	    }
+        	    reportResult.setText("");
+        	}  
+    	} else {
+    		reportResult.setText("Your sql command is not a valid select query");
+    	}
+	
     }
     
     
