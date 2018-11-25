@@ -3,7 +3,7 @@ package com.devlopp.teq.app;
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.parser.CommunityConnectionsParser;
 import com.devlopp.teq.parser.TemplateParser;
-import com.devlopp.teq.reporting.generateReport;
+import com.devlopp.teq.reporting.GenerateReport;
 import com.devlopp.teq.service.commconn.CommunityConnections;
 
 public class App {
@@ -29,7 +29,7 @@ public class App {
         }*/
         // generateReport.generateTrendsInService("CommunityConnections", 110, 120);
         // generateReport.generateChartofAge();
-         generateReport.generateChartOfServicesUsed();
+         GenerateReport.generateChartOfServicesUsed();
     }
     
 }
