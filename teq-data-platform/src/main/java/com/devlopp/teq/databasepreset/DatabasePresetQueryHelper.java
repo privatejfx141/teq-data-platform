@@ -265,6 +265,5 @@ public class DatabasePresetQueryHelper {
         }
         return listEndDate;
     }
-    
 
 }
