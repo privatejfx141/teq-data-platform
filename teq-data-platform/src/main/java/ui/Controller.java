@@ -236,7 +236,12 @@ public class Controller {
     		p1.setText("attribute");
     		p2.setText("constraint");
     		
-    	} 
+    	} else if (presetQuery.equals("getAverageClientAge")) {
+    		p1.setText("");
+    		p2.setText("");
+    		p3.setText("");
+    		
+    	}
     	
     }
     

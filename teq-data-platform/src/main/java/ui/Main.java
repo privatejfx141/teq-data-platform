@@ -16,7 +16,6 @@ public class Main extends Application {
         System.out.println("Database exists: " + dbExists);
         if (!dbExists) {
             DatabaseDriverHelper.initializeDatabase();   
-            DatabaseDriverHelper.initializeUserRoles();
         }
         launch(args);
     }
