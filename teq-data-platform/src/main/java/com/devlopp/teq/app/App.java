@@ -16,9 +16,6 @@ public class App {
         if (!dbExists) {
             DatabaseDriverHelper.initializeDatabase();
         }
-        CreateObject.createManyClients();
-        CreateObject.createDifferentServices();
-        CreateObject.createServiceWithLanguage("English");
        
 
     }
