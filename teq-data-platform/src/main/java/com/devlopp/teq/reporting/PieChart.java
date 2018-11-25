@@ -1,4 +1,4 @@
-package com.devlopp.teq.app;
+package com.devlopp.teq.reporting;
 
 import javax.swing.JFrame;
 
@@ -24,18 +24,6 @@ public class PieChart extends JFrame {
     }
 
     /**
-     * Creates a sample dataset
-     */
-    public static  PieDataset createDataset() {
-        DefaultPieDataset result = new DefaultPieDataset();
-        result.setValue("cat1", 1);
-        result.setValue("cat2", 3);
-        result.setValue("cat4", 5);
-        return result;
-
-    }
-
-    /**
      * Creates a chart
      */
     private JFreeChart createChart(PieDataset dataset, String title) {
@@ -49,11 +37,4 @@ public class PieChart extends JFrame {
 
     }
     
-
-    public static void main(String[] args) {
-    	PieDataset dataset = createDataset();
-    	PieChart demo = new PieChart("App title", "Graph title", dataset);
-    	demo.pack();
-    	demo.setVisible(true);
-    }
 }
