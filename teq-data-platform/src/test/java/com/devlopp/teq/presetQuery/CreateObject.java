@@ -13,7 +13,6 @@ import com.devlopp.teq.app.ExcelDriver;
 import com.devlopp.teq.client.Client;
 import com.devlopp.teq.client.ClientBuilder;
 import com.devlopp.teq.client.IClientBuilder;
-import com.devlopp.teq.course.*;
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.service.NewcomerChildCare;
@@ -236,7 +235,6 @@ public class CreateObject {
     	// create an object for most of the services
         List<String> tempList = new ArrayList<String>();
         Map<String, Boolean> tempMap = new HashMap<String, Boolean>();
-        Float fl = (float) 3.24;
         IAssessmentBuilder assessmentBuilder = new AssessmentBuilder();
         Assessment assessment = (Assessment) assessmentBuilder.setStartDate("2018-4-05").setLanguageGoal("Goal").setOtherGoal("Other")
         		.setIntendsCitizenship(true).setReqSupportServices(true).setPlanComplete(false).setEndDate("2019-03-28")
