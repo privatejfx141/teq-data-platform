@@ -237,9 +237,6 @@ public class DatabasePresetQuery {
     }
 
     /**
-<<<<<<< HEAD
-     * Connects to the TEQ database and returns the number of users within a certain age range that are using a specific service
-=======
      * Connects to the TEQ database and returns the client ids for the user of a
      * service
      * 

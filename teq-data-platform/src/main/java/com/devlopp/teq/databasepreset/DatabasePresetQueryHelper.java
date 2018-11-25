@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
+import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 
 public class DatabasePresetQueryHelper {
 	
@@ -73,28 +74,6 @@ public class DatabasePresetQueryHelper {
         return age;
     }
     
-    /**
-     * Connects to the TEQ database and returns all the client id's in the db
-     * Returns the client id's
-     * 
-     * @return a list containing the client id's
-     * @throws SQLException on failure of selection
-     */
-    public static List<Integer> getClientIds() throws SQLException {
-        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
-        List<Integer> clientIDList = new ArrayList<Integer>();
-        String sql = "SELECT id FROM Client";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                clientIDList.add(result.getInt(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return clientIDList;
-    }
     
     /**
      * Connects to the TEQ database and returns all the client id's with the given constraints
@@ -113,7 +92,7 @@ public class DatabasePresetQueryHelper {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, constraint );
             ResultSet result = statement.executeQuery();
-            while(result.next()) {
+            while (result.next()) {
             	clientIDList.add(result.getInt(1));
             }
         } catch (SQLException e) {
@@ -130,7 +109,7 @@ public class DatabasePresetQueryHelper {
      * @throws SQLException on failure of selection
      */
     public static List<Integer> getListOfAges() throws SQLException {
-        List<Integer> clientID = DatabasePresetQueryHelper.getClientIds();
+        List<Integer> clientID = DatabaseSelectHelper.getAllClientIds();
         List<Integer> clientAgeList = new ArrayList<Integer>();
         int count = 0;
         while (count < clientID.size()) {
@@ -152,7 +131,7 @@ public class DatabasePresetQueryHelper {
     public static  List<Integer> getListOfAges(List<Integer> clientIDs) throws SQLException {
         List<Integer> clientAgeList= new ArrayList<Integer>();
         int count = 0;
-        while(count < clientIDs.size()) {
+        while (count < clientIDs.size()) {
         	int tempAge = DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(count)));
         	clientAgeList.add(tempAge);
         	count ++;
@@ -176,7 +155,7 @@ public class DatabasePresetQueryHelper {
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ResultSet result = statement.executeQuery();
-            while(result.next()) {
+            while (result.next()) {
             	clientIDList.add(result.getInt(1));
             }
         } catch (SQLException e) {
