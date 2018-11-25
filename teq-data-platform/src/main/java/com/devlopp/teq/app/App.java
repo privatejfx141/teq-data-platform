@@ -3,7 +3,7 @@ package com.devlopp.teq.app;
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.parser.CommunityConnectionsParser;
 import com.devlopp.teq.parser.TemplateParser;
-import com.devlopp.teq.reporting.generateReport;
+import com.devlopp.teq.reporting.GenerateReport;
 import com.devlopp.teq.service.commconn.CommunityConnections;
 
 public class App {
@@ -27,7 +27,7 @@ public class App {
             System.out.println(comm.getEssentialSkills());
             System.out.println(comm.getTargetGroups());
         }*/
-        generateReport.generateTrendsInService("CommunityConnections", 110, 120);
+        GenerateReport.generateTrendsInService("CommunityConnections", 110, 120);
     }
     
 }

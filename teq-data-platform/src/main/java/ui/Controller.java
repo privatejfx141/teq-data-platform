@@ -63,7 +63,7 @@ public class Controller {
     @FXML
     private TextField SignName;
     @FXML
-    private TextField SignRole;
+    private ComboBox<String> SignRole;
     @FXML
     private TextField SignPwd;
     @FXML
@@ -146,7 +146,7 @@ public class Controller {
     		SignUpNotice.setText("The user name already exist");
     	} else {
      	    String pwd = SignPwd.getText();
-    	    String roleName = SignRole.getText();
+    	    String roleName = ""; //SignRole.getText();
     	    int roleId = DatabaseSelectHelper.getPlatformRoleId(roleName);
     	    if (roleId == -1 ) {
     	    	SignUpNotice.setText("No such role exists");
