@@ -833,6 +833,5 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return clientID;
     }
     
->>>>>>> master
 
 }
