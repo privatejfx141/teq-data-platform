@@ -27,7 +27,9 @@ public class App {
             System.out.println(comm.getEssentialSkills());
             System.out.println(comm.getTargetGroups());
         }*/
-        generateReport.generateTrendsInService("CommunityConnections", 110, 120);
+        // generateReport.generateTrendsInService("CommunityConnections", 110, 120);
+        // generateReport.generateChartofAge();
+         generateReport.generateChartOfServicesUsed();
     }
     
 }

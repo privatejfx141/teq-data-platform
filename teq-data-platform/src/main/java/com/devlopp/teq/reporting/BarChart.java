@@ -11,7 +11,7 @@ import org.jfree.ui.RefineryUtilities;
 
 public class BarChart extends ApplicationFrame {
    
-   public BarChart( String applicationTitle , String chartTitle, CategoryDataset dataSet, String Xtitle, String Ytitle, CategoryDataset dataset ) {
+   public BarChart( String applicationTitle , String chartTitle, String Xtitle, String Ytitle, CategoryDataset dataset ) {
       super( applicationTitle );        
       JFreeChart barChart = ChartFactory.createBarChart(chartTitle, Xtitle, Ytitle, dataset,          
          PlotOrientation.VERTICAL, true, true, false);
