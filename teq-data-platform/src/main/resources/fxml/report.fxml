@@ -59,6 +59,7 @@
                            <String fx:value="generateTrendsInService" />
                            <String fx:value="generateChartofAge" />
                            <String fx:value="generateChartOfServicesUsed" />
+                           <String fx:value="getAllServiceIds" />
                         </FXCollections>
                      </items>
                   </ComboBox>

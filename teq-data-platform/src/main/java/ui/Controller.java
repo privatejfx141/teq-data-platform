@@ -38,7 +38,7 @@ import com.devlopp.teq.databasepreset.DatabasePresetQuery;
 import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
 import com.devlopp.teq.parser.TemplateParser;
 import com.devlopp.teq.parser.TemplateParserFactory;
-import com.devlopp.teq.reporting.generateReport;
+import com.devlopp.teq.reporting.GenerateReport;
 import com.devlopp.teq.security.PasswordHelper;
 import com.devlopp.teq.sql.SQLDriver;
 import com.sun.javafx.stage.ScreenHelper;
@@ -276,6 +276,11 @@ public class Controller {
             p2.setText("");
             p3.setText("");
 
+        } else if (presetQuery.equals("getAllServiceIds")) {
+            p1.setText("");
+            p2.setText("");
+            p3.setText("");
+
         }
 
     }
@@ -358,13 +363,17 @@ public class Controller {
             String serviceType = p1value;
             Integer startYear = Integer.parseInt(p2value);
             Integer endYear = Integer.parseInt(p3value);
-        	generateReport.generateTrendsInService(serviceType, startYear, endYear);
+        	GenerateReport.generateTrendsInService(serviceType, startYear, endYear);
 
         } else if (presetQuery.equals("generateChartofAge")) {
-        	generateReport.generateChartofAge();
+        	GenerateReport.generateChartofAge();
 
         } else if (presetQuery.equals("generateChartOfServicesUsed")) {
-        	generateReport.generateChartOfServicesUsed();
+        	GenerateReport.generateChartOfServicesUsed();
+
+        } else if (presetQuery.equals("getAllServiceIds")) {
+        	List<Integer> result = DatabaseSelectHelper.getAllServiceIds();
+        	reportResult.setText(Arrays.toString(result.toArray()));
 
         }
     }
