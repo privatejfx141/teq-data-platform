@@ -38,6 +38,7 @@ import com.devlopp.teq.databasepreset.DatabasePresetQuery;
 import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
 import com.devlopp.teq.parser.TemplateParser;
 import com.devlopp.teq.parser.TemplateParserFactory;
+import com.devlopp.teq.reporting.generateReport;
 import com.devlopp.teq.security.PasswordHelper;
 import com.devlopp.teq.sql.SQLDriver;
 import com.sun.javafx.stage.ScreenHelper;
@@ -260,6 +261,21 @@ public class Controller {
             p2.setText("startDate");
             p3.setText("endDate");
 
+        } else if (presetQuery.equals("generateTrendsInService")) {
+            p1.setText("serviceType");
+            p2.setText("startYear");
+            p3.setText("endYear");
+
+        } else if (presetQuery.equals("generateChartofAge")) {
+            p1.setText("");
+            p2.setText("");
+            p3.setText("");
+
+        } else if (presetQuery.equals("generateChartOfServicesUsed")) {
+            p1.setText("");
+            p2.setText("");
+            p3.setText("");
+
         }
 
     }
@@ -337,6 +353,18 @@ public class Controller {
             java.sql.Date endDate = new java.sql.Date(date2.getTime());
             int result = DatabasePresetQuery.getNumOfUsersWithinRange(serviceType, startDate, endDate);
             reportResult.setText(Integer.toString(result));
+
+        } else if (presetQuery.equals("generateTrendsInService")) {
+            String serviceType = p1value;
+            Integer startYear = Integer.parseInt(p2value);
+            Integer endYear = Integer.parseInt(p3value);
+        	generateReport.generateTrendsInService(serviceType, startYear, endYear);
+
+        } else if (presetQuery.equals("generateChartofAge")) {
+        	generateReport.generateChartofAge();
+
+        } else if (presetQuery.equals("generateChartOfServicesUsed")) {
+        	generateReport.generateChartOfServicesUsed();
 
         }
     }

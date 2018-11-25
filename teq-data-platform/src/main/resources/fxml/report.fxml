@@ -56,6 +56,9 @@
                            <String fx:value="getAllCourseStudents" />
                            <String fx:value="getCoursesTaken" />
                            <String fx:value="getNumOfUsersWithinRange" />
+                           <String fx:value="generateTrendsInService" />
+                           <String fx:value="generateChartofAge" />
+                           <String fx:value="generateChartOfServicesUsed" />
                         </FXCollections>
                      </items>
                   </ComboBox>

@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="800.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="700.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
    <children>
-      <AnchorPane layoutX="110.0" layoutY="271.0" prefHeight="160.0" prefWidth="480.0" style="-fx-background-color: pink;" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="110.0">
+      <AnchorPane layoutX="110.0" layoutY="271.0" prefHeight="160.0" prefWidth="480.0" style="-fx-background-color: pink;">
          <children>
             <AnchorPane layoutX="76.0" layoutY="24.0" prefHeight="37.0" prefWidth="328.0">
                <children>
