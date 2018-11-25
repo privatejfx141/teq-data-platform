@@ -109,21 +109,21 @@ public class Controller {
     public void handleAddFileAction(ActionEvent actionEvent) {
         String templateType = templateTypes.getValue();
         int templateTypeInt = 0;
-        if (templateType == "Client Profile") {
+        if (templateType.equals("Client Profile")) {
         	templateTypeInt = 2;
-        } else if(templateType == "Needs Assessment and Referrals") {
+        } else if(templateType.equals("Needs Assessment and Referrals")) {
         	templateTypeInt = 3;
-        }else if(templateType == "Community Connections") {
+        }else if(templateType.equals("Community Connections")) {
         	templateTypeInt = 4;
-        }else if(templateType == "Info and Orientation") {
+        }else if(templateType.equals("Info and Orientation")) {
         	templateTypeInt = 5;
-        }else if(templateType == "Employment") {
+        }else if(templateType.equals("Employment")) {
         	templateTypeInt = 6;
-        }else if(templateType == "LT Course Enrol") {
+        }else if(templateType.equals("LT Course Enrol")) {
         	templateTypeInt = 7;
-        }else if(templateType == "LT Course Setup") {
+        }else if(templateType.equals("LT Course Setup")) {
         	templateTypeInt = 8;
-        }else if(templateType == "LT Course Exit") {
+        }else if(templateType.equals("LT Course Exit")) {
         	templateTypeInt = 9;
         }
 
