@@ -366,12 +366,17 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         try {
             ResultSet results = DatabaseSelector.getAddress(connection, addressId);
             while (results.next()) {
-                IAddressBuilder builder = new AddressBuilder();
-                address = builder.setId(results.getInt("id")).setPostalCode(results.getString("postal_code"))
-                        .setUnitNumber(results.getInt("unit_number")).setStreetNumber(results.getInt("street_number"))
-                        .setStreetName(results.getString("street_name")).setStreetType(results.getString("street_type"))
-                        .setStreetDirection(results.getString("street_direction")).setCity(results.getString("city"))
-                        .setProvince(results.getString("province")).create();
+                IAddressBuilder builder = new AddressBuilder(); //
+                address = builder.setId(results.getInt("id")) //
+                        .setPostalCode(results.getString("postal_code")) //
+                        .setUnitNumber(results.getInt("unit_number")) //
+                        .setStreetNumber(results.getInt("street_number")) //
+                        .setStreetName(results.getString("street_name")) //
+                        .setStreetType(results.getString("street_type")) //
+                        .setStreetDirection(results.getString("street_direction")) //
+                        .setCity(results.getString("city")) //
+                        .setProvince(results.getString("province")) //
+                        .create(); //
             }
         } catch (SQLException e) {
             address = null;
@@ -802,11 +807,32 @@ public class DatabaseSelectHelper extends DatabaseSelector {
         return courseExit;
     }
     
-    public static ResultSet getSqlResult(String sqlCommand) throws SQLException{
-    	Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
-        Statement st = connection.createStatement();
-        ResultSet rs = st.executeQuery(sqlCommand);
-		return rs;
+    /**
+     * Connects to the TEQ database and returns the clientID for a service
+     * 
+     * @param serviceID 
+     * @return clientID id of the client
+     * @throws SQLException on failure of selection
+     */
+    public static int getClientID(int serviceID) throws SQLException {
+       
+        int clientID = 0;
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT client_id FROM Service WHERE ID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceID);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+            	clientID = result.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+   
+        return clientID;
     }
+    
+>>>>>>> master
 
 }

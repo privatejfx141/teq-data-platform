@@ -16,10 +16,12 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 import com.devlopp.teq.databasehelper.DatabaseValidHelper;
@@ -316,9 +319,17 @@ public class Controller {
     	} 	
     }
     
+    public static ResultSet getSqlResult(String sqlCommand) throws SQLException{
+    	Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(sqlCommand);
+		return rs;
+    }
+    
     public void generateOwn(ActionEvent actionEvent) throws SQLException {
     	String sqlCommand = sqlInput.getText();
-    	ResultSet rs = DatabaseSelectHelper.getSqlResult(sqlCommand);
+    	ResultSet rs = getSqlResult(sqlCommand);
+    	
     	ResultSetMetaData rsmd = rs.getMetaData();
     	int columnsNumber = rsmd.getColumnCount();
     	while (rs.next()) {

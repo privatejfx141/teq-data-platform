@@ -12,7 +12,7 @@ CREATE TABLE Course (
     enrollment_type     VARCHAR(32) NOT NULL,
     start_date          DATE NOT NULL,
     end_date            DATE NOT NULL,
-    instruct_hours      INTEGER NOT NULL,
+    instruct_hours      VARCHAR(32) NOT NULL,
     hours_per_week      INTEGER NOT NULL,
     weeks               INTEGER,
     weeks_per_year      INTEGER,
