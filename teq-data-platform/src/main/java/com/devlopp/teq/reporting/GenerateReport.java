@@ -100,7 +100,7 @@ public class GenerateReport {
                 String templateType = arrayNumUsers[i].substring(0, arrayNumUsers[i].indexOf(":"));
                 String strNumUsers = arrayNumUsers[i].substring(lastIndex - 1, lastIndex);
                 Double doubleNumUsers = Double.parseDouble(strNumUsers);
-                dataset.addValue(doubleNumUsers, templateType, "a");
+                dataset.addValue(doubleNumUsers, templateType, "");
             }
         }
         BarChart chart = new BarChart("Number of People Using Services", "Number of People Using Services",
