@@ -8,6 +8,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.RefineryUtilities;
 
 import com.devlopp.teq.databasepreset.DatabasePresetQuery;
+import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 
 
@@ -16,7 +17,7 @@ public class generateReport {
 	public static void generateTrendsInService(String serviceType, Integer yearStart, Integer yearEnd) {
 		List<Date> dates = null;
 		try {
-			dates = DatabasePresetQuery.getListOfStartDates(serviceType);
+			dates = DatabasePresetQueryHelper.getListOfStartDates(serviceType);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
