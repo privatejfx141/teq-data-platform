@@ -1,13 +1,16 @@
 package com.devlopp.teq.reporting;
 
 import org.jfree.chart.ChartPanel;
+
+import javax.swing.JFrame;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-public class LineChart extends ApplicationFrame {
+public class LineChart extends JFrame {
 
     /**
      * Generated serial version UID.
