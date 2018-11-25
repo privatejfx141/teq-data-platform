@@ -1,4 +1,4 @@
-package com.devlopp.teq.presetQuery;
+package com.devlopp.teq.presetquery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.sql.SQLException;
