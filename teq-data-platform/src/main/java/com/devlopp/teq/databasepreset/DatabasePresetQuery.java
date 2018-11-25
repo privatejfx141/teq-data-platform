@@ -17,34 +17,7 @@ import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 public class DatabasePresetQuery {
 
     /**
-     * Connects to the TEQ database and gets the number of clients for a service
-     * Returns the number of clients
-     * 
-     * @param serviceId id of the service
-     * @return the number of clients in a service
-     * @throws SQLException on failure of selection
-     */
-    public static int getNumberOfClients(int serviceId) throws SQLException {
-        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
-        String sql = "SELECT count(*) FROM Service WHERE id = ?";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, serviceId);
-            ResultSet result = statement.executeQuery();
-            int count;
-            while (result.next()) {
-                count = result.getInt(1);
-                return count;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new SQLException();
-    }
-
-    /**
-     * Connects to the TEQ database and returns the average age of a client Returns
-     * the average client age
+     * Connects to the TEQ database and returns the average age of all client.
      * 
      * @return a double representing the average client age
      * @throws SQLException on failure of selection
@@ -63,7 +36,7 @@ public class DatabasePresetQuery {
 
     /**
      * Connects to the TEQ database and returns the percentage of clients within an
-     * age range Returns the average client age
+     * age range for all clients
      * 
      * @param minAge minimum range searched for
      * @param maxAge maximum age searched for

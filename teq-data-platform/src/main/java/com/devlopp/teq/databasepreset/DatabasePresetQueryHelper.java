@@ -265,5 +265,31 @@ public class DatabasePresetQueryHelper {
         }
         return listEndDate;
     }
+    
+    /**
+     * Connects to the TEQ database and gets the number of clients for a service
+     * Returns the number of clients
+     * 
+     * @param serviceId id of the service
+     * @return the number of clients in a service
+     * @throws SQLException on failure of selection
+     */
+    public static int getNumberOfClients(int serviceId) throws SQLException {
+        Connection connection = DatabaseDriverHelper.connectOrCreateDatabase();
+        String sql = "SELECT count(*) FROM Service WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, serviceId);
+            ResultSet result = statement.executeQuery();
+            int count;
+            while (result.next()) {
+                count = result.getInt(1);
+                return count;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new SQLException();
+    }
 
 }
