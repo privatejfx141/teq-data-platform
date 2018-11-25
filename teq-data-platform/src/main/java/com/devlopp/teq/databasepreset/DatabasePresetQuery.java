@@ -8,16 +8,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
+import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 
 public class DatabasePresetQuery {
 
     /**
-<<<<<<< HEAD
      * Connects to the TEQ database and gets the number of clients for a service
      * Returns the number of clients
      * 
@@ -171,11 +173,7 @@ public class DatabasePresetQuery {
     }
 
     /**
-     * Connects to the TEQ database and returns the average age of a client Returns
-     * the average client age
-=======
-     * Connects to the TEQ database and returns the average age of all client.
->>>>>>> master
+     * Connects to the TEQ database and returns the average age of all clients.
      * 
      * @return a double representing the average client age
      * @throws SQLException on failure of selection
@@ -216,7 +214,6 @@ public class DatabasePresetQuery {
         return percentageOfClients;
     }
 
-<<<<<<< HEAD
     /**
      * Connects to the TEQ database and returns the start date and end date of a
      * service Returns the start date of service
@@ -323,8 +320,6 @@ public class DatabasePresetQuery {
         connection.close();
         return listEndDate;
     }
-=======
->>>>>>> master
 
     /**
      * Connects to the TEQ database and returns the number of users that have used a
