@@ -1,4 +1,4 @@
-package com.devlopp.teq.presetQuery;
+package com.devlopp.teq.presetquery;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -310,10 +310,14 @@ public class TestPresetQuery {
         List<Integer> clientIDs = DatabaseSelectHelper.getAllClientIds();
 
         // test if client ids and ages are correct
-        assertEquals(53, DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(0))));
-        assertEquals(32, DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(1))));
-        assertEquals(84, DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(2))));
-        assertEquals(54, DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(3))));
+        assertEquals(53,
+                DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(0))));
+        assertEquals(32,
+                DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(1))));
+        assertEquals(84,
+                DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(2))));
+        assertEquals(54,
+                DatabasePresetQueryHelper.getAgeOfClient(DatabasePresetQueryHelper.getBirthDate(clientIDs.get(3))));
     }
 
     @Test
@@ -467,5 +471,5 @@ public class TestPresetQuery {
         int numUsers = DatabasePresetQuery.getNumUsersOfServiceWithinAgeRange("CommunityConnections", "30-45,20-24");
         assertEquals(2, numUsers);
     }
-    
+
 }
