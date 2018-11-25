@@ -151,7 +151,7 @@ public class Controller {
     	    if (roleId == -1 ) {
     	    	SignUpNotice.setText("No such role exists");
     	    } else if ( !(DatabaseValidHelper.validPassword(pwd))|| !(DatabaseValidHelper.validUsername(userName))) {
-    	    	SignUpNotice.setText("Username or password is not valid.");
+    	    	SignUpNotice.setText("Username or password is not valid (should be between 4 and 64 chars).");
     	    } else {
     		    DatabaseInsertHelper.insertPlatformUser(userName, pwd, roleId);
     		    SignUpNotice.setText("Successfully signed up!");
@@ -202,44 +202,63 @@ public class Controller {
     	
     	if (presetQuery.equals("getNumberOfClients")) {
     		p1.setText("serviceId");
+    		p2.setText("");
+    		p3.setText("");
 
-    	} else if (presetQuery.equals("getBirthDate")) {
-    		p1.setText("clientId");
+    	} else if (presetQuery.equals("getNumUsersOfServiceWithinAgeRange")) {
+    		p1.setText("serviceType");
+    		p2.setText("ageRange");
+    		p3.setText("");
     		
-    	} else if (presetQuery.equals("getAgeOfClient")) {
-    		p1.setText("birthDate");
+    	} else if (presetQuery.equals("getClientIDsForService")) {
+    		p1.setText("serviceType");
+    		p2.setText("");
+    		p3.setText("");
+    		
+    	} else if (presetQuery.equals("getLanguagesSpoken")) {
+    		p1.setText("serviceType");
+    		p2.setText("");
+    		p3.setText("");
+    		
+    	} else if (presetQuery.equals("getNumberUsersServices")) {
+    		p1.setText("");
+    		p2.setText("");
+    		p3.setText("");
+	
+    	} else if (presetQuery.equals("getAverageClientAge")) {
+    		p1.setText("");
+    		p2.setText("");
+    		p3.setText("");
     		
     	} else if (presetQuery.equals("getPercentageOfClientsWithinAgeRange")) {
     		p1.setText("minAge");
     		p2.setText("maxAge");
+    		p3.setText("");
     		
-    	} else if (presetQuery.equals("getServiceStartDate")) {
-    		p1.setText("serviceId");
-    		p2.setText("serviceType");
-	
-    	} else if (presetQuery.equals("getServiceEndDate")) {
-    		p1.setText("serviceId");
-    		p2.setText("serviceType");
+    	} else if (presetQuery.equals("getClientIDsAtAddressByPostalCode")) {
+    		p1.setText("postalCode");
+    		p2.setText("");
+    		p3.setText("");
     		
-    	} else if (presetQuery.equals("getListOfStartDates")) {
-    		p1.setText("serviceType");
+    	} else if (presetQuery.equals("getClientIDsAtAddressByCity")) {
+    		p1.setText("city");
+    		p2.setText("province");
+    		p3.setText("");
     		
-    	} else if (presetQuery.equals("getListOfEndDates")) {
-    		p1.setText("serviceType");
+    	} else if (presetQuery.equals("getAllCourseStudents")) {
+    		p1.setText("courseCode");
+    		p2.setText("");
+    		p3.setText("");
+    		
+    	} else if (presetQuery.equals("getCoursesTaken")) {
+    		p1.setText("clientId");
+    		p2.setText("");
+    		p3.setText("");
     		
     	} else if (presetQuery.equals("getNumOfUsersWithinRange")) {
     		p1.setText("serviceType");
     		p2.setText("startDate");
     		p3.setText("endDate");
-    		
-    	} else if (presetQuery.equals("getClientIds")) {
-    		p1.setText("attribute");
-    		p2.setText("constraint");
-    		
-    	} else if (presetQuery.equals("getAverageClientAge")) {
-    		p1.setText("");
-    		p2.setText("");
-    		p3.setText("");
     		
     	}
     	
@@ -253,33 +272,28 @@ public class Controller {
 
     	if (presetQuery.equals("getNumberOfClients")) {
     		int serviceId = Integer.parseInt(p1value);
-			int result = DatabasePresetQueryHelper.getNumberOfClients(serviceId);
+			int result = DatabasePresetQuery.getNumberOfClients(serviceId);
 			reportResult.setText(Integer.toString(result));
 
-    	} else if (presetQuery.equals("getBirthDate")) {
-    		int clientId = Integer.parseInt(p1value);
-			Date result = DatabasePresetQueryHelper.getBirthDate(clientId);
-			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			String text = df.format(result);			 
-			reportResult.setText(text);
+    	} else if (presetQuery.equals("getNumUsersOfServiceWithinAgeRange")) {
+    		String serviceType = p1value;
+    		String ageRange = p2value;
+			int result = DatabasePresetQuery.getNumUsersOfServiceWithinAgeRange(serviceType, ageRange);			 
+			reportResult.setText(Integer.toString(result));
     		
-    	} else if (presetQuery.equals("getClientIds")) {
-    		String attribute = p1value;
-    		String constraint = p2value;
-			List<Integer> result = DatabasePresetQueryHelper.getClientIDWithConstraint(attribute, constraint);
+    	} else if (presetQuery.equals("getClientIDsForService")) {
+    		String serviceType = p1value;
+			List<Integer> result = DatabasePresetQuery.getClientIDsForService(serviceType);
 			reportResult.setText(Arrays.toString(result.toArray()));
     		
-    	} else if (presetQuery.equals("getAgeOfClient")) {
-    		String input = p1value;
-    		SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-    		java.util.Date date = sdf1.parse(input);
-    		java.sql.Date birthDate = new java.sql.Date(date.getTime()); 
-    		int result = DatabasePresetQueryHelper.getAgeOfClient(birthDate);
-    		reportResult.setText(Integer.toString(result));
+    	} else if (presetQuery.equals("getLanguagesSpoken")) {
+    		String serviceType = p1value;
+    		String result = DatabasePresetQuery.getLanguagesSpoken(serviceType);
+    		reportResult.setText(result);
     		
-    	} else if (presetQuery.equals("getListOfAges")) {
-    		List<Integer> result = DatabasePresetQueryHelper.getListOfAges();
-    		reportResult.setText(Arrays.toString(result.toArray()));
+    	} else if (presetQuery.equals("getNumberUsersServices")) {
+    		String result = DatabasePresetQuery.getNumberUsersServices();
+    		reportResult.setText(result);
     		
     	} else if (presetQuery.equals("getAverageClientAge")) {
     		double result = DatabasePresetQuery.getAverageClientAge();
@@ -291,30 +305,25 @@ public class Controller {
     		String result = DatabasePresetQuery.getPercentageOfClientsWithinAgeRange(minAge, maxAge);
     		reportResult.setText(result);
     		
-    	} else if (presetQuery.equals("getServiceStartDate")) {
-    		int serviceId = Integer.parseInt(p1value);
-    		String serviceType = p2value;
-    		Date result = DatabasePresetQueryHelper.getServiceStartDate(serviceId, serviceType);
-			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			String text = df.format(result);			 
-			reportResult.setText(text);
+    	} else if (presetQuery.equals("getClientIDsAtAddressByPostalCode")) {
+    		String postalCode = p1value;
+    		List<Integer> result = DatabasePresetQuery.getClientIDsAtAddress(postalCode);
+			reportResult.setText(Arrays.toString(result.toArray()));
     		
-    	} else if (presetQuery.equals("getServiceEndDate")) {
-    		int serviceId = Integer.parseInt(p1value);
-    		String serviceType = p2value;
-    		Date result = DatabasePresetQueryHelper.getServiceEndDate(serviceId, serviceType);
-			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			String text = df.format(result);			 
-			reportResult.setText(text);
+    	} else if (presetQuery.equals("getClientIDsAtAddressByCity")) {
+    		String city = p1value;
+    		String province = p2value;
+    		List<Integer> result = DatabasePresetQuery.getClientIDsAtAddress(city, province);		 
+			reportResult.setText(Arrays.toString(result.toArray()));
     		
-    	} else if (presetQuery.equals("getListOfStartDates")) {
-    		String serviceType = p1value;
-    		List<Date> result = DatabasePresetQueryHelper.getListOfStartDates(serviceType);
+    	} else if (presetQuery.equals("getAllCourseStudents")) {
+    		String courseCode = p1value;
+    		List<Integer> result = DatabasePresetQuery.getAllCourseStudents(courseCode);
     		reportResult.setText(Arrays.toString(result.toArray()));
     		
-    	} else if (presetQuery.equals("getListOfEndDates")) {
-    		String serviceType = p1value;
-    		List<Date> result = DatabasePresetQueryHelper.getListOfEndDates(serviceType);
+    	} else if (presetQuery.equals("getCoursesTaken")) {
+    		int clientId = Integer.parseInt(p1value);
+    		List<String> result = DatabasePresetQuery.getCoursesTaken(clientId);
     		reportResult.setText(Arrays.toString(result.toArray()));
     		
     	} else if (presetQuery.equals("getNumOfUsersWithinRange")) {

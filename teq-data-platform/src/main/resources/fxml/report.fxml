@@ -45,16 +45,16 @@
                      <items>
                         <FXCollections fx:factory="observableArrayList">
                            <String fx:value="getNumberOfClients" />
-                           <String fx:value="getBirthDate" />
-                           <String fx:value="getAgeOfClient" />
-                           <String fx:value="getClientIds" />
-                           <String fx:value="getListOfAges" />
+                           <String fx:value="getNumUsersOfServiceWithinAgeRange" />
+                           <String fx:value="getClientIDsForService" />
+                           <String fx:value="getLanguagesSpoken" />
+                           <String fx:value="getNumberUsersServices" />
                            <String fx:value="getAverageClientAge" />
                            <String fx:value="getPercentageOfClientsWithinAgeRange" />
-                           <String fx:value="getServiceStartDate" />
-                           <String fx:value="getServiceEndDate" />
-                           <String fx:value="getListOfStartDates" />
-                           <String fx:value="getListOfEndDates" />
+                           <String fx:value="getClientIDsAtAddressByPostalCode" />
+                           <String fx:value="getClientIDsAtAddressByCity" />
+                           <String fx:value="getAllCourseStudents" />
+                           <String fx:value="getCoursesTaken" />
                            <String fx:value="getNumOfUsersWithinRange" />
                         </FXCollections>
                      </items>
