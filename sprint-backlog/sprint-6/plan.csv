@@ -1,0 +1,9 @@
+User Story,Task,Dependency,Story Points,1: November 21,2,3,4,5: November 25
+U4,T29,,6,,,J:3,J:3,
+U4,T31,T29 T30,5,Z:2,Z:2,Z:1,,
+U5,T32,,2,C:2,,,,
+U5,T33,T32,5,,,Z:2,Z:2,Z:1
+U5,T34,,5,,,K:2,K:3,
+U5,T35,,7,,C:2,,C:4,C:1
+U6,T36,,3,J:1,J:2,,,
+U6,T37,T34,5,,,,Z:1,Z:4
