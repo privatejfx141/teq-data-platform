@@ -22,7 +22,6 @@ public class PieChart extends JFrame {
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
         setContentPane(chartPanel);
-
     }
 
     /**
@@ -36,7 +35,6 @@ public class PieChart extends JFrame {
         plot.setDirection(Rotation.CLOCKWISE);
         plot.setForegroundAlpha(0.5f);
         return chart;
-
     }
 
 }

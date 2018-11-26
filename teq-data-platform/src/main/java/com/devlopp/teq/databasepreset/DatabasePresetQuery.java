@@ -8,14 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
-import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 
 public class DatabasePresetQuery {
 

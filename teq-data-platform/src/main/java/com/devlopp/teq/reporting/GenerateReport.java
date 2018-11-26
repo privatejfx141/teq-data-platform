@@ -32,7 +32,8 @@ public class GenerateReport {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         int count = 0;
         Integer currYear = yearStart;
-        for (int i = 1; currYear <= yearEnd; i++) {
+        for (@SuppressWarnings("unused")
+        int i = 1; currYear <= yearEnd; i++) {
             count = 0;
             for (Date date : dates) {
                 if (date.getYear() == currYear) {
@@ -55,13 +56,10 @@ public class GenerateReport {
     public static void generateChartofAge() {
         String interval = "";
         int AGE_INTERVALS = 10;
-        int minAge;
-        int maxAge;
         DefaultPieDataset dataset = new DefaultPieDataset();
-        int i;
-        for (i = 1; i <= AGE_INTERVALS; i++) {
-            minAge = 1 + (10 * (i - 1));
-            maxAge = 10 * i;
+        for (int i = 1; i <= AGE_INTERVALS; i++) {
+            int minAge = 1 + (10 * (i - 1));
+            int maxAge = 10 * i;
             try {
                 interval = DatabasePresetQuery.getPercentageOfClientsWithinAgeRange(minAge, maxAge);
 
@@ -70,9 +68,8 @@ public class GenerateReport {
                 e.printStackTrace();
             }
             double percent = Double.parseDouble(interval.substring(0, interval.length() - 1));
-            dataset.setValue("Age " + minAge + " to " + maxAge +": " + percent + "%", percent);
+            dataset.setValue("Age " + minAge + " to " + maxAge + ": " + percent + "%", percent);
         }
-
         PieChart chart = new PieChart("Percentage of Age Ranges", "Percentage of Age Ranges", dataset);
         chart.setSize(560, 367);
         RefineryUtilities.centerFrameOnScreen(chart);
@@ -85,7 +82,6 @@ public class GenerateReport {
     public static void generateChartOfServicesUsed() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String numUsers = "";
-        int i;
         try {
             numUsers = DatabasePresetQuery.getNumberUsersServices();
         } catch (SQLException e) {
@@ -93,10 +89,8 @@ public class GenerateReport {
             e.printStackTrace();
         }
         String[] arrayNumUsers = numUsers.split("\n");
-        for (i = 0; i < arrayNumUsers.length; i++) {
-            if (i == 0) {
-                // pass
-            } else {
+        for (int i = 0; i < arrayNumUsers.length; i++) {
+            if (i != 0) {
                 int lastIndex = arrayNumUsers[i].length();
                 String templateType = arrayNumUsers[i].substring(0, arrayNumUsers[i].indexOf(":"));
                 String strNumUsers = arrayNumUsers[i].substring(lastIndex - 1, lastIndex);

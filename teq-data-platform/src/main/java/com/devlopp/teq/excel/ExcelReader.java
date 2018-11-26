@@ -32,7 +32,6 @@ public class ExcelReader {
         workbook = new XSSFWorkbook(new File(filePath));
         Sheet sheet = workbook.getSheetAt(sheetNumber);
         DataFormatter dataFormatter = new DataFormatter();
-        int lastRow = sheet.getLastRowNum();
         ArrayList<ArrayList<String>> output = new ArrayList<ArrayList<String>>();
         for (Row row : sheet) {
             if (row.getRowNum() == 0 || row.getRowNum() == 1) {
@@ -88,6 +87,7 @@ public class ExcelReader {
         workbook = new XSSFWorkbook(new File(filePath));
         Sheet sheet = workbook.getSheetAt(sheetNumber);
         DataFormatter dataFormatter = new DataFormatter();
+        @SuppressWarnings("unused")
         Boolean noErrors = true;
         ArrayList<String> mandatoryColumns = getMandatoryColumns();
         ArrayList<String> headerArray = new ArrayList<String>();
@@ -137,6 +137,7 @@ public class ExcelReader {
         workbook.close();
         return output;
     }
+
     /**
      * Returns an array containing all the mandatory fields in templates
      * 
@@ -199,6 +200,7 @@ public class ExcelReader {
         workbook = new XSSFWorkbook(new File(INFO_FILEPATH));
         Sheet sheet = workbook.getSheetAt(template);
         DataFormatter dataFormatter = new DataFormatter();
+        @SuppressWarnings("unused")
         Boolean noErrors = true;
         // for each row,
         for (Row row : sheet) {
@@ -209,6 +211,7 @@ public class ExcelReader {
             if (isRowEmpty(row)) {
                 break;
             }
+            @SuppressWarnings("unused")
             ArrayList<String> cells = new ArrayList<String>();
             int lastColumn = 309;// getNumColumn(template);
             for (int cellNum = 0; cellNum < lastColumn; cellNum++) {
@@ -225,7 +228,7 @@ public class ExcelReader {
         workbook.close();
         return allHeaders;
     }
-    
+
     /**
      * Creates allowed values for all templates
      * 

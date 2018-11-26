@@ -9,18 +9,18 @@ import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 
-public class U1acceptance {
-    
-    public void u1_acceptance_test() {
+public class TestAcceptanceU1 {
+
+    public static void testAcceptanceU1() {
         String filePath = "client_profile.xlsx";
         System.out.println("TEQ LIP data platform");
         boolean dbExists = DatabaseDriverHelper.databaseExists();
         System.out.println("Database exists: " + dbExists);
-        
+        // check if DB already exists
         if (!dbExists) {
             DatabaseDriverHelper.initializeDatabase();
         }
-        
+        // read client profile
         List<Client> clients = ExcelDriver.readClientProfile(filePath, 0);
         for (Client client : clients) {
             // insert address first
@@ -37,5 +37,5 @@ public class U1acceptance {
             System.out.println(client.getAddress());
         }
     }
-    
+
 }

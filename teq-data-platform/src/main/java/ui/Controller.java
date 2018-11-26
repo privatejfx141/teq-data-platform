@@ -18,15 +18,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,15 +32,12 @@ import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 import com.devlopp.teq.databasehelper.DatabaseValidHelper;
 import com.devlopp.teq.databasepreset.DatabasePresetQuery;
-import com.devlopp.teq.databasepreset.DatabasePresetQueryHelper;
 import com.devlopp.teq.excel.ExcelReader;
 import com.devlopp.teq.parser.TemplateParser;
 import com.devlopp.teq.parser.TemplateParserFactory;
 import com.devlopp.teq.reporting.GenerateReport;
 import com.devlopp.teq.security.PasswordHelper;
 import com.devlopp.teq.sql.SQLDriver;
-import com.sun.javafx.stage.ScreenHelper;
-import com.sun.media.sound.InvalidFormatException;
 
 public class Controller {
 

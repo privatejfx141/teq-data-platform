@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +18,7 @@ import com.devlopp.teq.databasehelper.DatabaseDriverHelper;
 import com.devlopp.teq.databasehelper.DatabaseInsertHelper;
 import com.devlopp.teq.databasehelper.DatabaseSelectHelper;
 
-public class U1DatabaseUnitTest {
+public class TestDatabaseU1 {
 
     static void cleanDb() {
         String DB_NAME = "teq.db";
@@ -45,7 +44,7 @@ public class U1DatabaseUnitTest {
                 .setStreetDirection(ExcelDriver.fixDirection("East")).setCity("Toronto").setProvince("Ontario")
                 .create();
         // insert address first
-        int addressId = DatabaseInsertHelper.insertAddress(address);
+        DatabaseInsertHelper.insertAddress(address);
         // System.out.println("New address ID at: " + addressId);
         // build the client object
         IClientBuilder clientBuilder = new ClientBuilder();
