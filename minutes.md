@@ -39,8 +39,11 @@
 * Think about reallocating tasks and roles since Anton dropped out
 * Assign tasks and make plan for sprint 5
 
-# Meeting 9 `2018-11-21`
+# Meeting 8 `2018-11-21`
 * Assigned code review tasks
 * Discussed how we want to create the reports
 * Assign tasks and make plan for sprint 6
 
+# Meeting 9 `2018-11-25`
+* Finalized code base for application: connected back-end code to GUI
+* Recorded application demostration video for deliverable 5
