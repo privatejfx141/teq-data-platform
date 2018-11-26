@@ -23,74 +23,74 @@ import com.devlopp.teq.service.employment.Employment;
 import com.devlopp.teq.service.orientation.Orientation;
 
 public class App2 {
-   
+
     public static void main(String[] args) {
         System.out.println("TEQ LIP data platform");
-        
+
         boolean dbExists = DatabaseDriverHelper.databaseExists();
         System.out.println("Database exists: " + dbExists);
         if (!dbExists) {
             DatabaseDriverHelper.initializeDatabase();
         }
-        
+
         String filePath = "src/main/java/com/devlopp/teq/excel/iCARE_Templates.xlsx";
         TemplateParser parser;
-        /*parser = new ClientProfileParser();
+        parser = new ClientProfileParser();
         parser.read(filePath, 2);
         for (Object record : parser.parse()) {
-        	Client comm = (Client) record;
+            Client comm = (Client) record;
             DatabaseInsertHelper.insertClient((Client) record);
         }
-        
+
         parser = new AssessmentParser();
         parser.read(filePath, 3);
         for (Object record : parser.parse()) {
-        	Assessment comm = (Assessment) record;
-            DatabaseInsertHelper.insertAssessment((Assessment) record);
+            Assessment comm = (Assessment) record;
+            // DatabaseInsertHelper.insertAssessment((Assessment) record);
         }
-        
+
         parser = new CommunityConnectionsParser();
         parser.read(filePath, 4);
         for (Object record : parser.parse()) {
-        	CommunityConnections comm = (CommunityConnections) record;
+            CommunityConnections comm = (CommunityConnections) record;
             DatabaseInsertHelper.insertCommunityConnections((CommunityConnections) record);
         }
-        
+
         parser = new OrientationParser();
         parser.read(filePath, 5);
         for (Object record : parser.parse()) {
-        	Orientation comm = (Orientation) record;
+            Orientation comm = (Orientation) record;
             DatabaseInsertHelper.insertOrientation((Orientation) record);
         }
-        
+
         parser = new EmploymentParser();
         parser.read(filePath, 6);
         for (Object record : parser.parse()) {
-        	Employment comm = (Employment) record;
+            Employment comm = (Employment) record;
             DatabaseInsertHelper.insertEmployment((Employment) record);
         }
-        
+
         parser = new CourseEnrollParser();
         parser.read(filePath, 7);
         for (Object record : parser.parse()) {
-        	CourseEnroll comm = (CourseEnroll) record;
+            CourseEnroll comm = (CourseEnroll) record;
             DatabaseInsertHelper.insertCourseEnroll((CourseEnroll) record);
         }
-        
-       parser = new CourseSetupParser();
+
+        parser = new CourseSetupParser();
         parser.read(filePath, 8);
         for (Object record : parser.parse()) {
-        	Course comm = (Course) record;
+            Course comm = (Course) record;
             DatabaseInsertHelper.insertCourse((Course) record);
         }
-        
+
         parser = new CourseExitParser();
         parser.read(filePath, 9);
         for (Object record : parser.parse()) {
-        	CourseExit comm = (CourseExit) record;
+            CourseExit comm = (CourseExit) record;
             DatabaseInsertHelper.insertCourseExit((CourseExit) record);
-        }*/
+        }
 
     }
-    
+
 }

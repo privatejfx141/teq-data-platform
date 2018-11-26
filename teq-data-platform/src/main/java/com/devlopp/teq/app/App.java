@@ -13,6 +13,15 @@ public class App {
             DatabaseDriverHelper.initializeDatabase();
         }
 
+        
+        CreateObject.createManyClients();
+        CreateObject.createDifferentServices();
+        CreateObject.createServiceWithLanguage("Spanish");
+        CreateObject.createServiceWithLanguage("Arabic");
+        CreateObject.createServiceWithLanguage("English");
+        CreateObject.createServiceWithLanguage("Spanish");
+        CreateObject.createServiceObject("2018-01-01", "2018-01-30");
+        
     }
 
 }

@@ -110,21 +110,21 @@ public class Controller {
         String templateType = templateTypes.getValue();
         int templateTypeInt = 0;
         if (templateType.equals("Client Profile")) {
-        	templateTypeInt = 2;
-        } else if(templateType.equals("Needs Assessment and Referrals")) {
-        	templateTypeInt = 3;
-        }else if(templateType.equals("Community Connections")) {
-        	templateTypeInt = 4;
-        }else if(templateType.equals("Info and Orientation")) {
-        	templateTypeInt = 5;
-        }else if(templateType.equals("Employment")) {
-        	templateTypeInt = 6;
-        }else if(templateType.equals("LT Course Enrol")) {
-        	templateTypeInt = 7;
-        }else if(templateType.equals("LT Course Setup")) {
-        	templateTypeInt = 8;
-        }else if(templateType.equals("LT Course Exit")) {
-        	templateTypeInt = 9;
+            templateTypeInt = 2;
+        } else if (templateType.equals("Needs Assessment and Referrals")) {
+            templateTypeInt = 3;
+        } else if (templateType.equals("Community Connections")) {
+            templateTypeInt = 4;
+        } else if (templateType.equals("Info and Orientation")) {
+            templateTypeInt = 5;
+        } else if (templateType.equals("Employment")) {
+            templateTypeInt = 6;
+        } else if (templateType.equals("LT Course Enrol")) {
+            templateTypeInt = 7;
+        } else if (templateType.equals("LT Course Setup")) {
+            templateTypeInt = 8;
+        } else if (templateType.equals("LT Course Exit")) {
+            templateTypeInt = 9;
         }
 
         if (templateType != null) {
@@ -135,21 +135,21 @@ public class Controller {
                 // if data file was of Excel
                 String ext = getFileExtension(dataFile);
                 if (ext.startsWith("xls")) {
-                	//Double doubleTemplateType = Double.valueOf(templateType);
-                	String output = "";
-                	try {
-						output = ExcelReader.errorChecking(0, dataFile.getPath(), templateTypeInt);
-						System.out.println(output);
-					} catch (org.apache.poi.openxml4j.exceptions.InvalidFormatException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-                	if (output.equals("")) {
-	                    insertData(dataFile.getPath(), templateType);
-	                    uploadNotice.setText("The information has been uploaded.");
-                	} else {
-                		uploadNotice.setText(output);
-                	}
+                    // Double doubleTemplateType = Double.valueOf(templateType);
+                    String output = "";
+                    try {
+                        output = ExcelReader.errorChecking(0, dataFile.getPath(), templateTypeInt);
+                        System.out.println(output);
+                    } catch (org.apache.poi.openxml4j.exceptions.InvalidFormatException | IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    if (output.equals("")) {
+                        insertData(dataFile.getPath(), templateType);
+                        uploadNotice.setText("The information has been uploaded.");
+                    } else {
+                        uploadNotice.setText(output);
+                    }
                 } else {
                     uploadNotice.setText("File must be an Excel file!");
                 }
@@ -175,25 +175,25 @@ public class Controller {
     }
 
     public void handleSignUp(ActionEvent actionEvent) {
-    	String userName = SignName.getText();
-    	int checkUserId = DatabaseSelectHelper.getPlatformUserId(userName);
-    	if (checkUserId != -1) {
-    		SignUpNotice.setText("The user name already exist");
-    	} else {
-     	    String pwd = SignPwd.getText();
-    	    String roleName = SignRole.getValue(); 
-    	    
-    	    int roleId = DatabaseSelectHelper.getPlatformRoleId(roleName);
-    	    if (roleId == -1 ) {
-    	    	SignUpNotice.setText("No such role exists");
-    	    } else if ( !(DatabaseValidHelper.validPassword(pwd))|| !(DatabaseValidHelper.validUsername(userName))) {
-    	    	SignUpNotice.setText("Username or password is not valid (should be between 4 and 64 chars).");
-    	    } else {
-    		    DatabaseInsertHelper.insertPlatformUser(userName, pwd, roleId);
-    		    SignUpNotice.setText("Successfully signed up!");
-    	    }
-    	}
-  	
+        String userName = SignName.getText();
+        int checkUserId = DatabaseSelectHelper.getPlatformUserId(userName);
+        if (checkUserId != -1) {
+            SignUpNotice.setText("The user name already exist");
+        } else {
+            String pwd = SignPwd.getText();
+            String roleName = SignRole.getValue();
+
+            int roleId = DatabaseSelectHelper.getPlatformRoleId(roleName);
+            if (roleId == -1) {
+                SignUpNotice.setText("No such role exists");
+            } else if (!(DatabaseValidHelper.validPassword(pwd)) || !(DatabaseValidHelper.validUsername(userName))) {
+                SignUpNotice.setText("Username or password is not valid (should be between 4 and 64 chars).");
+            } else {
+                DatabaseInsertHelper.insertPlatformUser(userName, pwd, roleId);
+                SignUpNotice.setText("Successfully signed up!");
+            }
+        }
+
     }
 
     public void handleLogIn(ActionEvent actionEvent) {
@@ -398,17 +398,17 @@ public class Controller {
             String serviceType = p1value;
             Integer startYear = Integer.parseInt(p2value);
             Integer endYear = Integer.parseInt(p3value);
-        	GenerateReport.generateTrendsInService(serviceType, startYear, endYear);
+            GenerateReport.generateTrendsInService(serviceType, startYear, endYear);
 
         } else if (presetQuery.equals("generateChartofAge")) {
-        	GenerateReport.generateChartofAge();
+            GenerateReport.generateChartofAge();
 
         } else if (presetQuery.equals("generateChartOfServicesUsed")) {
-        	GenerateReport.generateChartOfServicesUsed();
+            GenerateReport.generateChartOfServicesUsed();
 
         } else if (presetQuery.equals("getAllServiceIds")) {
-        	List<Integer> result = DatabaseSelectHelper.getAllServiceIds();
-        	reportResult.setText(Arrays.toString(result.toArray()));
+            List<Integer> result = DatabaseSelectHelper.getAllServiceIds();
+            reportResult.setText(Arrays.toString(result.toArray()));
 
         }
     }
@@ -441,7 +441,7 @@ public class Controller {
                         reportText += ", ";
                     reportText += rs.getString(i);
                 }
-                reportText += "";
+                reportText += "\n";
             }
             reportResult.setText(reportText);
         } else {

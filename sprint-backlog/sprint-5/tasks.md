@@ -1,4 +1,3 @@
-
 # U2
 As Marge (cousellor), I want to select a template type and upload the Excel
 file to the TEQ data platform, so that I can upload data for the different
@@ -26,12 +25,12 @@ Create a variety of pre-set queries that can be chosen from, for the entire data
 ## T31 | Dependency: T29 T30 | assigned: Zifan
 Connect UI with the preset queries to allow users to to select a preset query.
 
-## U5
+# U5
 As Carlos (coordinator), I want to generate basic reports from ISANS data
 using pre-set queries so that ISANS and TEQ can view trends and improve their services.
 
 ## T32 | assigned: Christian
 Transform ResultSet from queries into reports with graphs and tables.
 
-## T33 | Dependency: T32 | assigned:Zifan
+## T33 | Dependency: T32 | assigned: Zifan
 Create UI to display the reports from the selected queries.
