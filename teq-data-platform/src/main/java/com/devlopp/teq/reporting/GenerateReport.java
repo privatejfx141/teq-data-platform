@@ -64,13 +64,13 @@ public class GenerateReport {
             maxAge = 10 * i;
             try {
                 interval = DatabasePresetQuery.getPercentageOfClientsWithinAgeRange(minAge, maxAge);
-                interval = "20.0%";
+
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             double percent = Double.parseDouble(interval.substring(0, interval.length() - 1));
-            dataset.setValue("Age " + minAge + " to " + maxAge, percent);
+            dataset.setValue("Age " + minAge + " to " + maxAge +": " + percent + "%", percent);
         }
 
         PieChart chart = new PieChart("Percentage of Age Ranges", "Percentage of Age Ranges", dataset);
