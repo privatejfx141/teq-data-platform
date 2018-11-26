@@ -15,7 +15,7 @@ The file `questions.md` contains questions we asked the clients, and their
 answers.
 
 ## TEQ source code
-In the `teq` folder you can find all source code for the TEQ system.
+In the `teq` folder you can find all the source code for the TEQ data reporting platform system.
 
 ## Deliverable 1
 In the folder `d1` you can find the work we did for deliverable 1. You will find
@@ -38,3 +38,6 @@ for this project.
 
 ## Deliverable 4
 Our code review video for deliverable 4 is uploaded here: [CSCC01 Fall 2018 - Team 14 Code Review](https://www.youtube.com/watch?v=Iw1jfMi9qr8). Our code review strategy and summary for deliverable 4 is in the folder `d4`.
+
+## Deliverable 5
+Our application demostration video for deliverable 5 is uploaded here: [CSCC01 Fall 2018 - TEQ Data Reporting Platform Demo](https://www.youtube.com/watch?v=7H3w58cBiDs). Our code review strategies and summaries for deliverable 5 is in the folder `d5`.
