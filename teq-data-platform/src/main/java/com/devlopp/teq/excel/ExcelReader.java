@@ -103,7 +103,7 @@ public class ExcelReader {
                 break;
             }
             ArrayList<String> cells = new ArrayList<String>();
-            int lastColumn = 309;// getNumColumn(template);
+            int lastColumn = 309; // getNumColumn(template);
             for (int cellNum = 0; cellNum < lastColumn; cellNum++) {
                 Cell cell = row.getCell(cellNum, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL);
                 String input = dataFormatter.formatCellValue(cell);
@@ -111,24 +111,22 @@ public class ExcelReader {
                 if (row.getRowNum() == 2) {
                     headerArray.add(input);
                 } else {
-                    if (map.get(headerArray.get(cellNum)) == null || map.get(headerArray.get(cellNum)).equals(newArray)
-                            || map.get(headerArray.get(cellNum)).contains(input)) {
-
-                        if (mandatoryColumns.contains(headerArray.get(cellNum)) && input.isEmpty()) {
+                    String columnName = headerArray.get(cellNum);
+                    ArrayList<String> allowedValues = map.get(columnName);
+                    if (allowedValues == null || allowedValues.equals(newArray) || allowedValues.contains(input)) {
+                        if (mandatoryColumns.contains(columnName) && input.isEmpty()) {
                             noErrors = false;
-                            output = output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                            output += "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
                                     + " is mandatory, but is not filled in \n";
-                        } else if (allHeaders.contains(headerArray.get(cellNum)) == false
-                                && !(headerArray.get(cellNum).equals(""))) {
-                            System.out.println(
-                                    "Error, " + headerArray.get(cellNum) + " is not a column in the selected template");
+                        } else if (allHeaders.contains(columnName) == false && columnName.isEmpty()) {
+                            System.out.println("Error, " + columnName + " is not a column in the selected template");
                         } else {
                             cells.add(input);
                         }
                     } else {
-                        output = output + "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
+                        output += "Error, Column " + cellNum + " Row" + " " + row.getRowNum()
                                 + " does not contain an allowed value: " + input + " and expected: "
-                                + map.get(headerArray.get(cellNum)) + "\n";
+                                + allowedValues + "\n";
                         noErrors = false;
                     }
                 }
