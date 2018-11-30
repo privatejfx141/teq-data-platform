@@ -1,6 +1,5 @@
 # Created by https://www.gitignore.io/api/java,macos,linux,maven,eclipse,windows,intellij
 /bin/
-*.db
 
 ### Eclipse ###
 
