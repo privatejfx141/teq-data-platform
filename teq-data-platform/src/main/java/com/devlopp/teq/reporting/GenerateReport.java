@@ -19,36 +19,36 @@ public class GenerateReport {
      * @param serviceType name of the service type
      * @param yearStart   year to start tracking use of the service
      * @param yearEnd     year to stop tracking use of the service
+     * @throws SQLException 
      */
-    @SuppressWarnings("deprecation")
-    public static void generateTrendsInService(String serviceType, Integer yearStart, Integer yearEnd) {
-        List<Date> dates = null;
-        try {
-            dates = DatabasePresetQueryHelper.getListOfStartDates(serviceType);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        int count = 0;
-        Integer currYear = yearStart;
-        for (@SuppressWarnings("unused")
-        int i = 1; currYear <= yearEnd; i++) {
-            count = 0;
-            for (Date date : dates) {
-                if (date.getYear() == currYear) {
-                    count++;
-                }
-            }
-            dataset.addValue(count, "Number of People Using " + serviceType, currYear.toString());
-            currYear++;
-        }
-        LineChart chart = new LineChart("Chart", "Year: # People using " + serviceType, "Year", "Number of People",
-                dataset);
-        chart.pack();
-        RefineryUtilities.centerFrameOnScreen(chart);
-        chart.setVisible(true);
-    }
+	 @SuppressWarnings("deprecation")
+	    public static void generateTrendsInService(String serviceType, Integer yearStart, Integer yearEnd) {
+	        List<Date> dates = null;
+	        try {
+	            dates = DatabasePresetQueryHelper.getListOfStartDates(serviceType);
+	        } catch (SQLException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+	        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	        int count = 0;
+	        Integer currYear = yearStart;
+	        for (int i = 1; currYear <= yearEnd; i++) {
+	            count = 0;
+	            for (Date date : dates) {
+	                if (date.getYear() + 1900 == currYear) {
+	                    count++;
+	                }
+	            }
+	            dataset.addValue(count, "Number of People Using " + serviceType, currYear.toString());
+	            currYear++;
+	        }
+	        LineChart chart = new LineChart("Chart", "Year: # People using " + serviceType, "Year", "Number of People",
+	                dataset);
+	        chart.pack();
+	        RefineryUtilities.centerFrameOnScreen(chart);
+	        chart.setVisible(true);
+	}
 
     /**
      * Create a visual pie chart to show percentage of ages in the database
